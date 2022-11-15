@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_fields" model="ir.ui.view">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"></field>
+        <field name="arch" type="xml">
+
+         <!-- payment feilds display  -->
+           <xpath expr="//div[@name='amount_div']" position="after">
+
+             <field name="branch_name" attrs="{'invisible':[('partner_type','=','supplier')]}" ></field> 
+             <field name="branch_reference"  attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             <field name="order_reference" attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             <field name="tendered" attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             <field name="tip" attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             <field name="business_date" attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             <field name="order_business_date" attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             <field name="paid_at" attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             <field name="employee_name" attrs="{'invisible':[('partner_type','=','supplier')]}"></field>
+             
+             
+         
+        </xpath>
+
+    </field>
+</record>
+</odoo>

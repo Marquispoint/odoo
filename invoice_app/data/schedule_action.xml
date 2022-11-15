@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="scheduler_action" model="ir.cron">
+            <field name="name">Change_bill_state</field>
+            <field name="model_id" ref="model_account_move"/>
+            <field name="state">Name of your Scheduler Action</field>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.state_change()</field>
+            <field name="active" eval="True" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+            
+        </record>
+
+        <record id="scheduler_action_payment" model="ir.cron">
+            <field name="name">Change_payment_state</field>
+            <field name="model_id" ref="model_account_payment"/>
+            <field name="state">Name of Action</field>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.state_posted()</field>
+            <field name="active" eval="True" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+        
+        </record>
+
+          <record id="scheduler_action_outpay" model="ir.cron">
+            <field name="name">outstanding_pay_inv</field>
+            <field name="model_id" ref="model_account_move"/>
+            <field name="state">outstanding pay</field>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.outstanding_pay()</field>
+            <field name="active" eval="True" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+          </record>
+
+<!-- 
+          <menuitem id="account.menu_finance_payables" active='True' >
+          </menuitem> -->
+
+
+
+   </data>
+</openerp>
