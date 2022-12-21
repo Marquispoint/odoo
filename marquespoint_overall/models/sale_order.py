@@ -107,6 +107,13 @@ class SaleOrder(models.Model):
             amount = sum(line.amount for line in records)
             rec.ins_amount = amount
 
+    def action_cancel(self):
+        res = super(SaleOrder, self).action_cancel()
+        product_template = self.env['product.template'].search([('name', '=', self.partner_id.name)])
+        if product_template:
+            product_template.status = 'available'
+        return res
+
 
 class PaymentPlanLines(models.Model):
     _name = 'payment.plan.line'

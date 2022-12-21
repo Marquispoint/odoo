@@ -8,7 +8,7 @@
                 <xpath expr="//header" position="inside">
                     <button
                             name="%(action_view_account_voucher_wizard)d"
-                            string="Pay advanced"
+                            string="Token Money"
                             type="action"
                             attrs="{'invisible': ['|',('state', 'in', ['done','cancel']),('amount_residual', '=', 0)]}"
                     />
@@ -26,7 +26,7 @@
                     />
                 </field>
                 <notebook position="inside">
-                    <page string="Payment advances">
+                    <page string="Token Money">
                         <field
                                 name="account_payment_ids"
                                 nolabel="1"

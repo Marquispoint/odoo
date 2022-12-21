@@ -35,13 +35,23 @@ class InstallmentWizard(models.TransientModel):
             if self.order_id.amount_untaxed:
                 self.amount = self.order_id.amount_untaxed * (self.percentage / 100.0)
                 if self.is_token_money:
-                    self.amount -= sum(
+                    temp = sum(
                         payment.amount for payment in self.order_id.account_payment_ids if payment.state == 'post')
+                    if temp:
+                        self.amount -= temp
+                        product_template = self.env['product.template'].search(
+                            [('name', '=', self.order_id.partner_id.name)])
+                        product_template.status = 'reserved'
             elif self.milestone_id.amount:
                 self.amount = self.milestone_id.amount * (self.percentage / 100.0)
                 if self.is_token_money:
-                    self.amount -= sum(
+                    temp = sum(
                         payment.amount for payment in self.order_id.account_payment_ids if payment.state == 'post')
+                    if temp:
+                        self.amount -= temp
+                        product_template = self.env['product.template'].search(
+                            [('name', '=', self.order_id.partner_id.name)])
+                        product_template.status = 'reserved'
             else:
                 self.amount = 0
         else:
@@ -113,3 +123,11 @@ class InstallmentWizard(models.TransientModel):
             self.env['installment.line'].create(vals)
             dt = dt + relativedelta(months=1)
         print('installment created')
+
+    @api.constrains('is_token_money')
+    def _is_token_money(self):
+        if self.is_token_money:
+            temp = sum(
+                payment.amount for payment in self.order_id.account_payment_ids if payment.state == 'post')
+            if not temp:
+                raise UserError('Please Create a Token Money for Adjustment')

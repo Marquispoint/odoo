@@ -1,0 +1,198 @@
+<odoo>
+    <data>
+        <template id="sale_order_marquis_report_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <h3 class="text-center">Sale Quote Report</h3>
+                            <br/>
+                            <span>Dear Customer,
+                                <br/>
+                                Considering the points we discussed, I believe the below listed projects will cater to
+                                your requirements.
+                            </span>
+                            <br/>
+                            <table class="table table-sm"
+                                   style="width: 100%; border:1px solid black; border-collapse: collapse;">
+                                <tr>
+                                    <th colspan="2" style='border:1px solid black; text-align:center;'>
+                                        <i>Project</i>
+                                    </th>
+                                    <th colspan="2" style='border:1px solid black; text-align:center;'>
+                                        <i>Unit Number</i>
+                                    </th>
+                                    <th colspan="3" style='border:1px solid black; text-align:center;'>
+                                        <i>Estimated Completion Date</i>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style='border:1px solid black; text-align:center;'>
+                                        <span t-field="o.project.name"/>
+                                    </td>
+                                    <td colspan="2" style='border:1px solid black; text-align:center;'>
+                                        <span t-field="o.unit.name"/>
+                                    </td>
+                                    <td colspan="3" style='border:1px solid black; text-align:center;'>
+                                        <span t-field="o.validity_date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style='border:1px solid black; text-align:center;'>Type</th>
+                                    <th style='border:1px solid black; text-align:center;'>Unit Model</th>
+                                    <th style='border:1px solid black; text-align:center;'>Bed Rooms</th>
+                                    <th style='border:1px solid black; text-align:center;'>Property Status</th>
+                                    <th style='border:1px solid black; text-align:center;'>Total Area (SQ. FT)</th>
+                                    <th style='border:1px solid black; text-align:center;'>Selling Price (AED)</th>
+                                </tr>
+                                <tr>
+                                    <td style='border:1px solid black; text-align:center;'>
+                                        <span t-field="o.unit.unit_type"/>
+                                    </td>
+                                    <td style='border:1px solid black; text-align:center;'/>
+                                    <td style='border:1px solid black; text-align:center;'/>
+                                    <td style='border:1px solid black; text-align:center;'/>
+                                    <td style='border:1px solid black; text-align:center;'/>
+                                    <td style='border:1px solid black; text-align:center;'/>
+                                </tr>
+                            </table>
+                            <ul style="font-size: 12px">
+                                <li>Applicable fees to Dubai Land Department are : 4% of the property net price + AED
+                                    4,500 admin fee
+                                </li>
+                                <li>Prices and availability are subject to change without notice</li>
+                                <li>The Estimated Completion Dates is a mere estimate and subject ti change from time to
+                                    time
+                                </li>
+                            </ul>
+                            <hr/>
+                            <h3 class="text-center">SCHEDULE OF INSTALLMENT PAYMENTS</h3>
+                            <t t-set="grand_total" t-value="0"/>
+                            <table class="table table-sm"
+                                   style="width: 100%; border:1px solid black; border-collapse: collapse; page-break-inside:avoid;">
+                                <t t-set="sr_no" t-value="0"/>
+                                <t t-foreach="o.plan_ids" t-as="plan">
+                                    <tr>
+                                        <th style='border:1px solid black; text-align:center;'>Installment</th>
+                                        <th style='border:1px solid black; text-align:center;'>Milestone</th>
+                                        <th style='border:1px solid black; text-align:center;'>Percentage (%)</th>
+                                        <th style='border:1px solid black; text-align:center;'>Start Date</th>
+                                        <th style='border:1px solid black; text-align:center;'>End Date</th>
+                                        <th style='border:1px solid black; text-align:center;'>Vat Rate (%)</th>
+                                        <th style='border:1px solid black; text-align:center;'>Vat Amount (AED)</th>
+                                        <th style='border:1px solid black; text-align:center;'>Amount (AED)</th>
+                                    </tr>
+
+                                    <tr>
+                                        <t t-set="sr_no" t-value="sr_no + 1"/>
+                                        <td style='border:1px solid black; text-align:center;'>
+                                            <span t-esc="sr_no"/>
+                                        </td>
+                                        <td style='border:1px solid black; text-align:center;'>
+                                            <span t-esc="plan.milestone_id.name"/>
+                                        </td>
+                                        <td style='border:1px solid black; text-align:center;'>
+                                            <span t-esc="plan.percentage"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            %
+                                        </td>
+                                        <td style='border:1px solid black; text-align:center;'>
+                                            <span t-esc="plan.start_date"/>
+                                        </td>
+                                        <td style='border:1px solid black; text-align:center;'>
+                                            <span t-esc="plan.end_date"/>
+                                        </td>
+                                        <td style='border:1px solid black; text-align:center;'/>
+                                        <td style='border:1px solid black; text-align:center;'/>
+                                        <td style='border:1px solid black; text-align:right;'>
+                                            <span t-esc="plan.amount"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style='border:1px solid black;'>
+                                            <table class="table table-sm"
+                                                   style="width: 100%; border-collapse: collapse;">
+                                                <tr>
+                                                    <th style='text-align:center;' colspan="7">
+                                                        Installments
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Installment No</th>
+                                                    <th>Invoice</th>
+                                                    <th>Inv Date</th>
+                                                    <th>Payment Due Date</th>
+                                                    <th>Inv Status</th>
+                                                    <th>Payment Status</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                                <t t-set="ins_no" t-value="0"/>
+                                                <t t-set="ins_total" t-value="0"/>
+                                                <t t-foreach="o.installment_ids" t-as="ins_line">
+                                                    <t t-if="ins_line.milestone_id == plan.milestone_id">
+                                                        <tr>
+                                                            <t t-set="ins_no" t-value="ins_no + 1"/>
+                                                            <t t-set="grand_total"
+                                                               t-value="grand_total + ins_line.amount"/>
+                                                            <t t-set="ins_total" t-value="ins_total + ins_line.amount"/>
+                                                            <td>Installment
+                                                                <span t-esc="ins_no"/>
+                                                            </td>
+
+                                                            <td>
+                                                                <span t-esc="ins_line.move_id.name"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-esc="ins_line.invoice_date"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-esc="ins_line.invoice_payment_date"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-esc="ins_line.invoice_status"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-esc="ins_line.payment_status"/>
+                                                            </td>
+                                                            <td style="text-align:right;">
+                                                                <span t-esc="ins_line.amount"
+                                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <tr>
+                                                    <td colspan="5"/>
+                                                    <th>Subtotal</th>
+                                                    <td style="text-align:right;">
+                                                        <span t-esc="ins_total"
+                                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <div style="float:right; width:30%">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>
+                                            <strong>Total</strong>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <span t-esc="grand_total"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
