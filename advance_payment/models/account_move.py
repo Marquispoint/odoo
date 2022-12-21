@@ -183,43 +183,50 @@ class AccountMove(models.Model):
     def get_contract_per_amount(self):
         total = 0
         for rec in self.invoice_line_ids:
-            total += float(rec.contract_per_amount.replace('%', ''))
+            if rec.contract_per_amount:
+                total += float(rec.contract_per_amount.replace('%', ''))
         return f'{round(float(total), 2)}%'
 
     def get_contract_amount(self):
         total = 0
         for rec in self.invoice_line_ids:
-            total += rec.contract_amount
+            if rec.contract_amount:
+                total += rec.contract_amount
         return total
 
     def get_previous_percentage(self):
         total = 0
         for rec in self.invoice_line_ids:
-            total += float(rec.previous_percentage.replace('%', ''))
+            if rec.previous_percentage:
+                total += float(rec.previous_percentage.replace('%', ''))
         return f'{round(float(total), 2)}%'
 
     def get_this_month_percentage(self):
         total = 0
         for rec in self.invoice_line_ids:
-            total += float(rec.this_month_percentage.replace('%', ''))
+            if rec.this_month_percentage:
+                total += float(rec.this_month_percentage.replace('%', ''))
         return f'{round(float(total), 2)}%'
 
     def get_total_percentage(self):
         total = 0
         for rec in self.invoice_line_ids:
-            total += float(rec.total_percentage.replace('%', ''))
+            if rec.total_percentage:
+                total += float(rec.total_percentage.replace('%', ''))
         return f'{round(float(total), 2)}%'
 
     def get_percentage_total_amount(self):
         total = 0
         for rec in self.invoice_line_ids:
-            total += float(rec.percentage_total_amount.replace('%', ''))
+            if rec.percentage_total_amount:
+                total += float(rec.percentage_total_amount.replace('%', ''))
         return f'{round(float(total), 2)}%'
 
     def get_total_bill_amount(self):
         total = 0
         for rec in self.invoice_line_ids:
-            total += rec.total_bill_amount
+            if rec.total_bill_amount:
+                total += rec.total_bill_amount
         return total
 
 
