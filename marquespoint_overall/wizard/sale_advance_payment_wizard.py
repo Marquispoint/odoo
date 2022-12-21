@@ -33,6 +33,7 @@ class AccountVoucherWizardPurchase(models.TransientModel):
         store=True,
     )
     payment_ref = fields.Char("Ref.")
+    due_date = fields.Date('Due Date')
 
     @api.depends("journal_id")
     def _compute_get_journal_currency(self):
@@ -91,6 +92,7 @@ class AccountVoucherWizardPurchase(models.TransientModel):
         partner_id = sale.partner_id.id
         return {
             "date": self.date,
+            "due_date": self.due_date,
             "amount": self.amount_advance,
             "payment_type": "inbound",
             "partner_type": "customer",
@@ -117,6 +119,11 @@ class AccountVoucherWizardPurchase(models.TransientModel):
             payment = payment_obj.create(payment_vals)
             sale.account_payment_ids |= payment
             # payment.action_post()
+            product_name = self.order_id.partner_id.name
+            print(f'product_name: {product_name}')
+            product_template = self.env['product.template'].search([('name', '=', self.order_id.partner_id.name)])
+            print(product_template)
+            product_template.status = 'reserved'
 
         return {
             "type": "ir.actions.act_window_close",
