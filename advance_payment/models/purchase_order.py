@@ -29,7 +29,6 @@ class PurchaseOrder(models.Model):
             'project_code': self.project_code,
             'po_no': self.id,
             'po_type': self.po_type,
-
             'confirmation_date': self.date_approve,
             'sub_contractor': self.sub_contractor.id,
             'contract_order': self.contract_order,
@@ -51,21 +50,26 @@ class PurchaseOrderLines(models.Model):
     _inherit = 'purchase.order.line'
 
     contract_per_amount = fields.Char('% Contract Amount', compute='_compute_contract_per_amount')
+
     # previous_percentage = fields.Char('Previous')
     # this_month_percentage = fields.Char('This Month')
     # total_percentage = fields.Char('Total')
     # percentage_total_amount = fields.Char('% Total Amount')
 
-    @api.depends('price_unit', 'product_qty')
+    @api.depends('price_unit', 'product_qty', 'price_subtotal', 'order_id.amount_untaxed')
     def _compute_contract_per_amount(self):
         for rec in self:
             # print(rec.invoice_lines)
             # temp = [float(line.contract_per_amount.replace('%', '')) for line in rec.invoice_lines]
             # temp = sum(temp)
             # print(temp)
-            if rec.price_unit or rec.product_qty or rec.order_id.amount_untaxed:
+            if rec.price_unit or rec.product_qty or rec.price_subtotal or rec.order_id.amount_untaxed:
                 try:
-                    rec.contract_per_amount = f'{round((rec.price_unit / rec.order_id.amount_untaxed) * 100, 2)}%'
+                    rec.contract_per_amount = f'{round((rec.price_subtotal / rec.order_id.amount_untaxed) * 100, 2)}%'
+                    print('----------------')
+                    print(rec.price_subtotal)
+                    print(rec.order_id.amount_untaxed)
+                    print(rec.price_subtotal / rec.order_id.amount_untaxed)
                     # rec.contract_per_amount = f'{round((rec.product_qty / rec.order_id.amount_untaxed) * 100, 2)}%'
                 except:
                     rec.contract_per_amount = f'0.00%'
