@@ -45,6 +45,8 @@ class PurchaseOrder(models.Model):
                 temp += ','
             order.po_no = temp.rstrip(',')
 
+    def grand_total_in_words(self, grand_total):
+        return self.currency_id.amount_to_text(grand_total)
 
 class PurchaseOrderLines(models.Model):
     _inherit = 'purchase.order.line'

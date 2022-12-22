@@ -28,6 +28,7 @@
         'views/purchase_order_view.xml',
         'views/account_move_view.xml',
         'report/advance_payment_report_temp.xml',
+        'report/local_po_report_temp.xml',
         'report/report.xml',
     ],
     # only loaded in demonstration mode
