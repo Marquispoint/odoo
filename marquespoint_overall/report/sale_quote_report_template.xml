@@ -137,7 +137,8 @@
                                                             <t t-set="grand_total"
                                                                t-value="grand_total + ins_line.amount"/>
                                                             <t t-set="ins_total" t-value="ins_total + ins_line.amount"/>
-                                                            <td>Installment
+                                                            <td>
+                                                                <span t-esc="plan.milestone_id.name"/>
                                                                 <span t-esc="ins_no"/>
                                                             </td>
 
