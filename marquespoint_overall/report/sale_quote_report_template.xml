@@ -70,7 +70,7 @@
                             <h3 class="text-center">SCHEDULE OF INSTALLMENT PAYMENTS</h3>
                             <t t-set="grand_total" t-value="0"/>
                             <table class="table table-sm"
-                                   style="width: 100%; border:1px solid black; border-collapse: collapse; page-break-inside:avoid;">
+                                   style="width: 100%; border:1px solid black; border-collapse: collapse;">
                                 <t t-set="sr_no" t-value="0"/>
                                 <t t-foreach="o.plan_ids" t-as="plan">
                                     <tr>
