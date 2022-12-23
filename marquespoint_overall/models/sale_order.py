@@ -124,7 +124,13 @@ class SaleOrder(models.Model):
 
     def token_money_scheduler(self):
         today_date = date.today()
-        for rec in self:
+        print(today_date)
+        print('outside')
+        print(self.account_payment_ids)
+        print(self.id)
+        sale_orders = self.env['sale.order'].search([])
+        print(sale_orders)
+        for rec in sale_orders:
             print('token money scheduler')
             if rec.account_payment_ids:
                 print(rec.account_payment_ids)
@@ -135,10 +141,10 @@ class SaleOrder(models.Model):
                         print(payment.due_date)
                         print(today_date)
                         print(self.env['product.template'].search(
-                            [('name', '=', self.partner_id.name)]))
+                            [('name', '=', rec.partner_id.name)]))
                         if payment.due_date == today_date:
                             product_template = self.env['product.template'].search(
-                                [('name', '=', self.partner_id.name)])
+                                [('name', '=', rec.partner_id.name)])
                             if product_template:
                                 product_template.status = 'available'
                                 payment.state = 'cancel'
@@ -178,6 +184,7 @@ class PaymentPlanLines(models.Model):
             'context': {
                 'default_milestone_id': self.milestone_id.id,
                 'default_is_booked': self.milestone_id.is_booked,
+                'default_is_admin': self.milestone_id.is_admin_fee,
                 'default_order_id': self.order_id.id,
                 'default_percentage': self.milestone_id.percentage,
                 # 'default_amount': self.order_id.amount_untaxed if self.order_id.amount_untaxed else self.milestone_id.amount,

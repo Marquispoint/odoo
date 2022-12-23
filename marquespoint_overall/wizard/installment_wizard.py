@@ -21,7 +21,10 @@ class InstallmentWizard(models.TransientModel):
     ], 'Installment Period')
     installment_no = fields.Integer('Installment No', compute='_compute_installment_no')
     order_id = fields.Many2one('sale.order')
-    is_token_money = fields.Boolean('Is Token Money')
+    is_token_money = fields.Boolean('Token Money Included')
+    is_admin = fields.Boolean()
+    is_admin_fee = fields.Boolean('PLD+Admin Fee')
+    admin_fee = fields.Float('Amount')
 
     # @api.onchange('is_token_money')
     # def _onchange_token(self):
@@ -29,10 +32,13 @@ class InstallmentWizard(models.TransientModel):
     #     print(self.order_id)
     #     print(self.order_id.account_payment_ids)
 
-    @api.depends('percentage', 'order_id.amount_untaxed', 'milestone_id.amount', 'is_token_money')
+    @api.depends('percentage', 'order_id.amount_untaxed', 'milestone_id.amount', 'is_token_money', 'is_admin_fee',
+                 'admin_fee')
     def _compute_amount(self):
         if self.percentage:
-            if self.order_id.amount_untaxed:
+            if self.is_admin_fee:
+                self.amount = self.admin_fee
+            elif self.order_id.amount_untaxed:
                 self.amount = self.order_id.amount_untaxed * (self.percentage / 100.0)
                 if self.is_token_money:
                     temp = sum(

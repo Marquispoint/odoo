@@ -15,3 +15,5 @@ class AccountPayment(models.Model):
         states={"draft": [("readonly", False)]},
     )
     due_date = fields.Date('Due Date')
+
+

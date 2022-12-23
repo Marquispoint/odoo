@@ -24,6 +24,7 @@
 
     # always loaded
     'data': [
+        'wizard/installment_wizard_view.xml',
         "wizard/sale_advance_payment_wizard_view.xml",
         'security/ir.model.access.csv',
         'data/server.xml',
@@ -31,7 +32,6 @@
         'views/payment_plan_view.xml',
         'views/sale_order_view.xml',
         'views/payment_view.xml',
-        'wizard/installment_wizard_view.xml',
         'report/sale_quote_report_template.xml',
         'report/report.xml',
     ],
