@@ -37,10 +37,13 @@ class ProductProduct(models.Model):
         if res.product_tmpl_id:
             res.product_tmpl_id.project = res.project.id
             res.product_tmpl_id.unit_id = res.id
+            res.product_tmpl_id.is_unit = True
         return res
+
     def _prepare_variant_values(self, combination):
         print('_prepare_variant_values')
         variant_dict = super()._prepare_variant_values(combination)
         variant_dict['project'] = self.project.id
         variant_dict['unit_id'] = self.id
+        variant_dict['is_unit'] = True
         return variant_dict

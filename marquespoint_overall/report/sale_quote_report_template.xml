@@ -190,6 +190,30 @@
                                     </tr>
                                 </table>
                             </div>
+                            <p style="page-break-before:always;"/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="image text-center">
+                                <h3>Unit Image</h3>
+                                <img t-if="not o.unit.image_1920"
+                                     t-att-src="'/web/static/src/img/placeholder.png'"
+                                />
+                                <img t-if="o.unit.image_1920"
+                                     t-att-src="'data:image/png;base64,%s' % to_text(o.unit.image_1920)"/>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="image text-center">
+                                <h3>Project Image</h3>
+                                <img t-if="not o.unit.image_1920"
+                                     t-att-src="'/web/static/src/img/placeholder.png'"
+                                />
+                                <img t-if="o.building.image_1920"
+                                     t-att-src="'data:image/png;base64,%s' % to_text(o.building.image_1920)"
+                                />
+                            </div>
                         </div>
                     </t>
                 </t>

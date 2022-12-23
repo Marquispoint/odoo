@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 from odoo.tools import float_compare
+from datetime import datetime, date
 
 
 class SaleOrder(models.Model):
@@ -113,6 +114,34 @@ class SaleOrder(models.Model):
         if product_template:
             product_template.status = 'available'
         return res
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        product_template = self.env['product.template'].search([('name', '=', self.partner_id.name)])
+        if product_template:
+            product_template.status = 'sold'
+        return res
+
+    def token_money_scheduler(self):
+        today_date = date.today()
+        for rec in self:
+            print('token money scheduler')
+            if rec.account_payment_ids:
+                print(rec.account_payment_ids)
+                for payment in rec.account_payment_ids:
+                    print(payment)
+                    if payment.state == 'draft':
+                        print('Draft')
+                        print(payment.due_date)
+                        print(today_date)
+                        print(self.env['product.template'].search(
+                            [('name', '=', self.partner_id.name)]))
+                        if payment.due_date == today_date:
+                            product_template = self.env['product.template'].search(
+                                [('name', '=', self.partner_id.name)])
+                            if product_template:
+                                product_template.status = 'available'
+                                payment.state = 'cancel'
 
 
 class PaymentPlanLines(models.Model):
