@@ -7,9 +7,10 @@
                     <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
                     <t style="background-color: blue" t-call="web.basic_layout">
                         <t t-set="o" t-value="o.with_context(lang=lang)"/>
-                        <div class="page" style="padding-top:290px; margin:8px !important;">
+                        <div class="page" style="padding-top:270px; margin:8px !important;">
                             <div class="oe_structure"/>
-                            <table class="table table-sm table-borderless" style="width:100%; border:1px solid black;">
+                            <table class="table table-sm table-borderless"
+                                   style="width:100%; border:1px solid black; font-size:14px;">
                                 <tr style="border-top:1px solid black; background-color:gray;">
                                     <th style="border:1px solid black;">No</th>
                                     <th style="border-top:1px solid black;">Description</th>
@@ -18,18 +19,18 @@
                                     <th style="border:1px solid black;">Rate</th>
                                     <th style="border:1px solid black;">Amount in AED</th>
                                 </tr>
-                                <tr>
-                                    <td style="border-right:1px solid black;"/>
-                                    <td style="border-right:1px solid black;">M/s Quote ref:
-                                        <span t-field="o.name"/>
-                                        dated
-                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %S %Y')"/>
-                                    </td>
-                                    <td style="border-right:1px solid black;"/>
-                                    <td style="border-right:1px solid black;"/>
-                                    <td style="border-right:1px solid black;"/>
-                                    <td/>
-                                </tr>
+                                <t t-if="o.partner_ref">
+                                    <tr>
+                                        <td style="border-right:1px solid black;"/>
+                                        <td style="border-right:1px solid black;">
+                                            <span t-field="o.partner_ref"/>
+                                        </td>
+                                        <td style="border-right:1px solid black;"/>
+                                        <td style="border-right:1px solid black;"/>
+                                        <td style="border-right:1px solid black;"/>
+                                        <td/>
+                                    </tr>
+                                </t>
                                 <tr>
                                     <td style="border-right:1px solid black;"/>
                                     <td style="border-right:1px solid black;">Civil Work of the following works as per
@@ -74,17 +75,14 @@
                                     <td style="border-right:1px solid black;">
                                         <u>
                                             <strong>Delivery Schedule:</strong>
+                                            <span t-field="o.date_planned"/>
                                         </u>
                                         <br/>
                                         <u>
                                             <strong>Payment Terms:</strong>
                                         </u>
                                         <br/>
-                                        30% Advance
-                                        <br/>
-                                        60% Progressive Payment
-                                        <br/>
-                                        10% Upon Completion
+                                        <span t-field="o.payment_term_id.note"/>
                                         <br/>
                                         <strong>
                                             Location:
@@ -99,14 +97,11 @@
                                             </t>
                                         </strong>
                                         <br/>
-                                        <br/>
                                         <strong>
                                             <u>Terms &amp; Conditions</u>
                                         </strong>
                                         <br/>
-                                        <br/>
-                                        <br/>
-                                        <br/>
+                                        <span t-field="o.notes"/>
                                         <br/>
                                     </td>
                                     <td style="border-right:1px solid black;"/>
@@ -136,20 +131,27 @@
                                     <th style="border:1px solid black; text-align:right;" colspan="3">Price Before Tax
                                     </th>
                                     <td style="border:1px solid black; text-align:right;">
+                                        <span t-esc="amount_untaxed"
+                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border-right:1px solid black;"/>
                                     <td style="border-right:1px solid black;"/>
-                                    <th style="border:1px solid black; text-align:right;" colspan="3">Vat (%)</th>
+                                    <th style="border:1px solid black; text-align:right;" colspan="3">Vat (5%)</th>
                                     <td style="border:1px solid black; text-align:right;">
+                                        <span t-esc="o.get_vat_amount()"
+                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                     </td>
                                 </tr>
-                                <t t-set="grand_total" t-value="amount_untaxed"/>
+                                <t t-set="grand_total" t-value="amount_untaxed + o.get_vat_amount()"/>
                                 <tr>
                                     <td style="border:1px solid black;"/>
-                                    <th style="border:1px solid black;">
-                                        <span t-esc="res_company.currency_id.name"/> (<span t-esc="o.grand_total_in_words(grand_total)"/> )
+                                    <th style="border:1px solid black; font-size:12px;">
+                                        <span t-esc="res_company.currency_id.name"/>
+                                        (
+                                        <span t-esc="o.grand_total_in_words(grand_total)"/>
+                                        )
                                     </th>
                                     <th style="border:1px solid black; text-align:right;" colspan="3">Grand Total</th>
                                     <th style="border:1px solid black; text-align:right;">
@@ -168,7 +170,7 @@
             <t t-set="company" t-value="user.company_id"/>
             <t t-foreach="docs" t-as="o">
                 <div class="header first-page row" style=" border: 1px solid black; margin:8px !important;">
-                    <table class="table table-sm table-borderless" style="width:100%;">
+                    <table class="table table-sm table-borderless" style="width:100%;  font-size:14px;">
                         <tr>
                             <td colspan="4">
                                 <img src="/advance_payment/static/description/header.png"
@@ -183,7 +185,9 @@
                         <tr>
                             <td colspan="3"/>
                             <td style="text-align:center; font-size:22px;">
-                                <strong>LPO No:</strong>
+                                <strong>LPO No:
+                                    <span t-field="o.name"/>
+                                </strong>
                             </td>
                         </tr>
                         <tr>
@@ -204,13 +208,19 @@
                         </tr>
                         <tr>
                             <th style="text-align:left; border:1px solid black;" width="10%">P.O Box:</th>
-                            <th style="text-align:left; border:1px solid black;" width="35%">-</th>
+                            <th style="text-align:left; border:1px solid black;" width="35%">
+                                <span t-esc="res_company.zip"/>
+                            </th>
                             <th style="text-align:left; border:1px solid black;" width="10%">P.O Box:</th>
-                            <th style="text-align:left; border:1px solid black;" width="35%">-</th>
+                            <th style="text-align:left; border:1px solid black;" width="35%">
+                                <span t-field="o.partner_id.zip"/>
+                            </th>
                         </tr>
                         <tr>
                             <th style="text-align:left; border:1px solid black;" width="10%">Tel:</th>
-                            <td style="text-align:left; border:1px solid black;" width="35%">-</td>
+                            <td style="text-align:left; border:1px solid black;" width="35%">
+                                <span t-esc="res_company.phone"/>
+                            </td>
                             <th style="text-align:left; border:1px solid black;" width="10%">Attn:</th>
                             <td style="text-align:left; border:1px solid black;" width="35%">
                                 <t t-if="o.attendant">
@@ -223,9 +233,13 @@
                         </tr>
                         <tr>
                             <th style="text-align:left; border:1px solid black;" width="10%">Fax:</th>
-                            <td style="text-align:left; border:1px solid black;" width="35%">-</td>
+                            <td style="text-align:left; border:1px solid black;" width="35%">
+                                <span t-esc="res_company.fax_eng"/>
+                            </td>
                             <th style="text-align:left; border:1px solid black;" width="10%">Tel:</th>
-                            <td style="text-align:left; border:1px solid black;" width="35%">-</td>
+                            <td style="text-align:left; border:1px solid black;" width="35%">
+                                <span t-field="o.partner_id.phone"/>
+                            </td>
                         </tr>
                         <tr>
                             <th style="text-align:left; border:1px solid black;" width="10%">Date:</th>
@@ -269,7 +283,7 @@
                     <!--                    <h4 class="text-center">LOCAL PURCHASE ORDER</h4>-->
                 </div>
                 <div class="footer">
-                    <table class="table table-sm table-borderless">
+                    <table class="table table-sm table-borderless" style="font-size:14px;">
                         <tr>
                             <th>
                                 <u>Prepared By</u>
