@@ -262,6 +262,7 @@
                             <group>
                                 <field name="unit_type"/>
                                 <field name="property_type"/>
+                                <field name="view_type" attrs="{'invisible': [('unit_type', '!=', 'appartment')]}"/>
                                 <field name="property_price"/>
                                 <field name="allow_discount"/>
                             </group>

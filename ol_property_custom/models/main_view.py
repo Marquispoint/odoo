@@ -98,6 +98,13 @@ class ProductInh(models.Model):
     code = fields.Char(string='Code', default="New")
     building = fields.Many2one(comodel_name='property.building', string='Building')
     unit_type = fields.Selection(string='Unit Type', selection=[('parking', 'Parking'), ('appartment', 'Appartment'), ])
+    view_type = fields.Selection(string='View Type', selection=[
+        ('front', 'Front View'),
+        ('rear', 'Rear View'),
+        ('road', 'Road View'),
+        ('park', 'Park View'),
+        ('golf', 'Golf View'),
+    ])
     property_name = fields.Char(string='Name')
     property_type = fields.Selection(string='Property Type', selection=[('rent', 'Rent'), ('sale', 'Sale'), ])
     property_price = fields.Float(string='Property Price')
@@ -156,6 +163,7 @@ class CrmLeadInherited(models.Model):
     floor_id = fields.Many2one("property.floor", string="Floor")
     unit_id = fields.Many2one("product.product", string="Units", domain=[("product_tmpl_id.status", "=", "available")])
     broker_id = fields.Many2one('res.partner', string="Broker", domain=[("agent", "=", True)])
+
     def action_sale_quotations_new(self):
         print('action_sale_quotations_new called')
         if not self.partner_id:
