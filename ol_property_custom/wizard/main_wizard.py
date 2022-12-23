@@ -129,8 +129,8 @@ class CreatUnits(models.TransientModel):
                 sid = self.env['product.product'].create({
                     'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}',
                     'floor_id': active_id,
-                    # 'building':active_id,
-                    # 'project':active_id,
+                    'building':obj_project.building_id.id,
+                    'project':obj_project.project_name.id,
                     'units_analytic_account': idd.id
                 })
                 sidd = self.env['res.partner'].create({
