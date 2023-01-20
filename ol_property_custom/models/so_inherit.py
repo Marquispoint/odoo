@@ -13,7 +13,7 @@ import datetime
 from datetime import timedelta
 
 
-class purchaser(models.Model):
+class PurchaserCompany(models.Model):
     _name = 'purchaser.company'
     purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual')
     purchase_company = fields.Many2one(comodel_name='res.company', string='Company')
@@ -25,7 +25,7 @@ class purchaser(models.Model):
 #     installment = fields.Many2one(comodel_name='account.payment', string='Individual')
 #     payment_id = fields.Many2one(comodel_name = 'account.payment')
 
-class payment(models.Model):
+class AccountPayment(models.Model):
     _inherit = 'account.move'
     so_ids = fields.Many2one(comodel_name='sale.order')
     # per_invoices = fields.Integer(string='% of installment')
@@ -37,44 +37,48 @@ class payment(models.Model):
     #     self.per_invoices = self.invoice_line_ids.percentage_of_invoice
     #     print(self.per_invoices)
 
-
-
     # payment_id = fields.Many2one(comodel_name='sale.order',relation='payment_terms_ids', string="Sale Order")
 
-class subtotal(models.Model):
+
+class AccountMoveLines(models.Model):
     _inherit = 'account.move.line'
 
     subtotal_so = fields.Integer(string='Subtotal of SO')
     percentage_of_invoice = fields.Integer(String='% of installment', compute='substraction')
 
-
     def substraction(self):
-        self.percentage_of_invoice = (self.price_subtotal / float(self.subtotal_so))*100
-        print(self.percentage_of_invoice)
+        try:
+            self.percentage_of_invoice = (self.price_subtotal / float(self.subtotal_so)) * 100
+        except:
+            self.percentage_of_invoice = 0
 
 
-
-
-class saleorderline(models.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     @api.onchange('partner_id')
-    def onchangeionid(self):
-
-        var = self.env["product.product"].search([('name', '=' , self.partner_id.name)])
-        product_ids=[]
+    def on_partner_id_change(self):
+        var = self.env["product.product"].search([('name', '=', self.partner_id.name)])
+        self.write({
+            'project': var.project[0].id if var.project else None,
+            'building': var.building[0].id if var.building else None,
+            'floor': var.floor_id[0].id if var.floor_id else None,
+            'unit': var[0].id if var else None,
+            'branch_id': var.branch_id[0].id if var.branch_id else None,
+        })
+        product_ids = []
         for p in var:
-            product_ids.append((0,0,{
-                'product_id':p.id,
+            product_ids.append((0, 0, {
+                'product_id': p.id,
                 'name': p.name,
                 'product_uom_qty': 1,
                 'price_unit': p.list_price,
                 'order_id': self.id,
-                'product_uom_qty':p.uom_id.id if p.uom_id else False,
-                'tax_id':False
+                'product_uom_qty': p.uom_id.id if p.uom_id else False,
+                'tax_id': False
             }))
         self.write({
-            'order_line':product_ids
+            'order_line': product_ids
         })
 
 
@@ -101,7 +105,7 @@ class OLStartDate(models.Model):
     down_payment = fields.Selection([('amount', 'Amount'), ('percentage', 'Percentage')],
                                     string='Down Payment',
                                     default='amount')
-    down_payment_amount = fields.Integer(String= "Down Payment Amount", compute='downpaymentamount')
+    down_payment_amount = fields.Integer(String="Down Payment Amount", compute='downpaymentamount')
     amount = fields.Char(String='Amount')
     payment = fields.Selection(
         [('monthly', 'Monthly'), ('quarterly', 'Quarterly'), ('byannual', 'By Annual'), ('annual', 'Annual')],
@@ -130,12 +134,11 @@ class OLStartDate(models.Model):
     def downpaymentamount(self):
         self.down_payment_amount = self.amount_total - self.installment_payable_amount
 
-
     def create_invoice_installment(self):
         # raise  UserError("check")
         invoice_lines = []
-        order=self
-        so_line=self.order_line[0]
+        order = self
+        so_line = self.order_line[0]
 
         invoice_vals = {
             'ref': order.client_order_ref,
@@ -182,8 +185,6 @@ class OLStartDate(models.Model):
 
             #     trigger = self.start_date + relativedelta(months=i+0)
 
-
-
             #     invoice_vals = {
             #         'ref': order.client_order_ref,
             #         'move_type': 'out_invoice',
@@ -217,8 +218,6 @@ class OLStartDate(models.Model):
             #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
             #             'analytic_account_id': order.analytic_account_id.id or False,
             #             'subtotal_so': so_line.price_subtotal,
-
-
 
             #         })],
             #     }
@@ -267,7 +266,6 @@ class OLStartDate(models.Model):
             #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
             #             'analytic_account_id': order.analytic_account_id.id or False,
 
-
             #         })],
             #     }
             #     invoice = self.env['account.move'].with_company(order.company_id) \
@@ -309,7 +307,6 @@ class OLStartDate(models.Model):
             #             'sale_line_ids': [(6, 0, [so_line.id])],
             #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
             #             'analytic_account_id': order.analytic_account_id.id or False,
-
 
             #         })],
             #     }
@@ -353,7 +350,6 @@ class OLStartDate(models.Model):
             #             'sale_line_ids': [(6, 0, [so_line.id])],
             #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
             #             'analytic_account_id': order.analytic_account_id.id or False,
-
 
             #         })],
             #     }

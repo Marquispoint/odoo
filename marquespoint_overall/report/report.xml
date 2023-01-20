@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="paper_format_sale_order_marquis" model="report.paperformat">
+            <field name="name">Sale Quote Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="sale_order_marquis_report_pdf"
+                string="Sale Quote Report"
+                model="sale.order"
+                report_type="qweb-pdf"
+                name="marquespoint_overall.sale_order_marquis_report_temp"
+                file="marquespoint_overall.sale_order_marquis_report_temp"
+                paperformat="paper_format_sale_order_marquis"
+        />
+    </data>
+</odoo>

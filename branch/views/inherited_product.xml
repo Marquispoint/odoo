@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<odoo>
+<!--       Product Template Form View          -->
+    <record id="product_template_form_view_branch" model="ir.ui.view">
+        <field name="name">product_extended.product.form.branch</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <field name="detailed_type" position="before">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!--       Product Template Tree View          -->
+    <record id="product_template_tree_view_branch" model="ir.ui.view">
+        <field name="name">product.template.tree.branch</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!--       Product Template Search View          -->
+    <record id="product_template_search_form_view_stock_branch" model="ir.ui.view">
+        <field name="name">product.template.search.branch</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.product_template_search_form_view_stock"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                    <field name="branch_id"/>
+                    <filter string="Branch" name="branch_id" context="{'group_by':'branch_id'}"/>
+                    <separator/>
+                    <filter name="branch_id" string="Branch" domain="[('branch_id','!=',False)]"/>
+                </xpath>
+        </field>
+    </record>
+
+    <!--      Product Form View          -->
+    <record id="product_product_view_form_branch" model="ir.ui.view">
+        <field name="name">product.product.view.form.branch</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="detailed_type" position="before">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+    <!--       Product Tree View          -->
+    <record id="product_product_tree_view_branch" model="ir.ui.view">
+        <field name="name">product.product.tree.branch</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!--       Product Search View          -->
+    <record id="product_search_form_view_branch" model="ir.ui.view">
+        <field name="name">product.product.search.branch</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                    <field name="branch_id"/>
+                    <filter string="Branch" name="branch_id" context="{'group_by':'branch_id'}"/>
+                    <separator/>
+                    <filter name="branch_id" string="Branch" domain="[('branch_id','!=',False)]"/>
+                </xpath>
+        </field>
+    </record>
+
+
+    <!--      Product Category Form View          -->
+    <record id="product_category_form_view_branch" model="ir.ui.view">
+        <field name="name">product.category.view.form.branch</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <field name="property_valuation" position="after">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+    <!--       Product Category Tree View          -->
+    <record id="product_category_list_view_branch" model="ir.ui.view">
+        <field name="name">product.category.tree.branch</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_list_view"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!--       Product Category Search View          -->
+    <record id="product_category_search_view_branch" model="ir.ui.view">
+        <field name="name">product.category.search.branch</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                    <field name="branch_id"/>
+                    <filter string="Branch" name="branch_id" context="{'group_by':'branch_id'}"/>
+                    <separator/>
+                    <filter name="branch_id" string="Branch" domain="[('branch_id','!=',False)]"/>
+                </xpath>
+        </field>
+    </record>
+</odoo>

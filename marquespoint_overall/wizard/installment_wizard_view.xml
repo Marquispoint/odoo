@@ -1,0 +1,29 @@
+<odoo>
+
+    <record id="view_installment_wizard_form" model="ir.ui.view">
+        <field name="name">installment Wizard</field>
+        <field name="model">installment.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="percentage" attrs="{'invisible': [('is_admin_fee', '=', True)]}"/>
+                    <field name="amount"/>
+                    <field name="start_date" required="1"/>
+                    <field name="end_date" required="1"/>
+                    <field name="installment_period" required="1"/>
+                    <field name="installment_no"/>
+                    <field name="is_token_money" attrs="{'invisible': [('is_booked', '=', False)]}"/>
+                    <field name="is_admin_fee" attrs="{'invisible': [('is_admin', '=', False)]}"/>
+                    <field name="admin_fee" attrs="{'invisible': [('is_admin_fee', '=', False)]}"/>
+                    <field name="is_booked" invisible="1"/>
+                    <field name="is_admin" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="create_installments" string="Create Installments" type="object" class="btn-primary"/>
+                    <button string="Cancel" type="object" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

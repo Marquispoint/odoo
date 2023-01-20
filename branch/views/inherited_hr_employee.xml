@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <!--        Hr Employee Tree View-->
+        <record id="view_employee_tree_inherited_branch" model="ir.ui.view">
+            <field name="name">hr.employee.tree.branch</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="branch_id"/>
+                </field>
+            </field>
+        </record>
+        <!--        Hr Employee Form View-->
+        <record id="view_employee_form_inherited_branch" model="ir.ui.view">
+            <field name="name">hr.employee.form.branch</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+            </field>
+        </record>
+        <!--        Hr Employee Search View-->
+        <record id="view_employee_filter_inherited_branch" model="ir.ui.view">
+            <field name="name">hr.employee.search.inherited.branch</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="branch_id"/>
+                    <filter string="Branch" name="branch_id" context="{'group_by':'branch_id'}"/>
+                    <separator/>
+                    <filter name="branch_id" string="Branch" domain="[('branch_id','!=',False)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
