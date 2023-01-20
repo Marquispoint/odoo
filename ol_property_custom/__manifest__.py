@@ -10,7 +10,7 @@
 
     "depends": [
         'project', 'sale_management', 'contacts', 'product', 'crm', 'sale_crm', 'ol_sales_agreement_report', 'account',
-    ],
+        'stock'],
 
     "data": [
         'security/ir.model.access.csv',
@@ -22,7 +22,7 @@
 
     ],
 
-    "images": [],
+    "images": [['static/description/icon.png']],
     "auto_install": False,
     "application": True,
     "installable": True,

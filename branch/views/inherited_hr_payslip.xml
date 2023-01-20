@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <!--        Hr Payslip Tree View-->
+        <record id="view_hr_payslip_tree_inherited_branch" model="ir.ui.view">
+            <field name="name">hr.payslip.tree.branch</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+            </field>
+        </record>
+        <!--        Hr Payslip Form View-->
+        <record id="view_hr_payslip_form_inherited_branch" model="ir.ui.view">
+            <field name="name">hr.payslip.form.branch</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <field name="struct_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+            </field>
+        </record>
+        <!--        Hr Payslip Search View-->
+        <record id="view_hr_payslip_filter_inherited_branch" model="ir.ui.view">
+            <field name="name">hr.payslip.search.inherited.branch</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="branch_id"/>
+                    <filter string="Branch" name="branch_id" context="{'group_by':'branch_id'}"/>
+                    <separator/>
+                    <filter name="branch_id" string="Branch" domain="[('branch_id','!=',False)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

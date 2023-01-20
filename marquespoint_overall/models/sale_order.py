@@ -179,7 +179,7 @@ class PaymentPlanLines(models.Model):
     def open_payment_plan_wizard(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Create Insurance Bills',
+            'name': 'Create Installment Lines',
             'view_id': self.env.ref('marquespoint_overall.view_installment_wizard_form', False).id,
             'context': {
                 'default_milestone_id': self.milestone_id.id,

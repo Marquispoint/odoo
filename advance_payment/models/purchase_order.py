@@ -32,6 +32,7 @@ class PurchaseOrder(models.Model):
             'confirmation_date': self.date_approve,
             'sub_contractor': self.sub_contractor.id,
             'contract_order': self.contract_order,
+            'branch_id': self.branch_id.id,
         })
         return invoice_vals
 

@@ -183,6 +183,7 @@ class CrmLeadInherited(models.Model):
             'default_project': self.project_id.id,
             'default_building': self.building_id.id,
             'default_floor': self.floor_id.id,
+            'default_branch_id': self.branch_id.id,
             'default_purchaser_ids': [(0, 0, {
                 'purchase_individual': self.partner_id.id,
                 'purchase_company': self.company_id.id or self.env.company.id,

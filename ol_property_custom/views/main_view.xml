@@ -356,7 +356,7 @@
         <menuitem id="property_menu_act"
                   name="Property"
                   action="action_building"
-                  web_icon="ol_property_custom,static/icon.png"/>
+                  web_icon="ol_property_custom,static/description/icon.png"/>
 
         <menuitem id="property_project_menu_act"
                   name="Projects"
