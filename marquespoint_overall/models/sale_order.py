@@ -124,10 +124,6 @@ class SaleOrder(models.Model):
 
     def token_money_scheduler(self):
         today_date = date.today()
-        print(today_date)
-        print('outside')
-        print(self.account_payment_ids)
-        print(self.id)
         sale_orders = self.env['sale.order'].search([])
         print(sale_orders)
         for rec in sale_orders:
@@ -148,6 +144,12 @@ class SaleOrder(models.Model):
                             if product_template:
                                 product_template.status = 'available'
                                 payment.state = 'cancel'
+
+    def unlink(self):
+        for rec in self:
+            if rec.plan_ids:
+                rec.plan_ids.unlink()
+        return super(SaleOrder, self).unlink()
 
 
 class PaymentPlanLines(models.Model):
