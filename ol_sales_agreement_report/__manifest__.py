@@ -15,15 +15,15 @@
     ],
 
     "data": [
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'views/main_view.xml',
         # 'reports/sale_agrement.xml',
         # 'reports/sale_agrement_template.xml',
+        'reports/final_sale_agreement.xml',
         'reports/report.xml',
         # 'reports/ali_sale_agreement.xml',
-        'reports/final_sale_agreement.xml',
     ],
-    "images": [ ],
+    "images": [],
     "auto_install": False,
     "application": True,
     "installable": True,
