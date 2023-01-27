@@ -21,7 +21,10 @@ class InstallmentWizard(models.TransientModel):
     ], 'Installment Period')
     installment_no = fields.Integer('Installment No', compute='_compute_installment_no')
     order_id = fields.Many2one('sale.order')
-    is_token_money = fields.Boolean('Is Token Money')
+    is_token_money = fields.Boolean('Token Money Included')
+    is_admin = fields.Boolean()
+    is_admin_fee = fields.Boolean('PLD+Admin Fee')
+    admin_fee = fields.Float('Amount')
 
     # @api.onchange('is_token_money')
     # def _onchange_token(self):
@@ -29,31 +32,35 @@ class InstallmentWizard(models.TransientModel):
     #     print(self.order_id)
     #     print(self.order_id.account_payment_ids)
 
-    @api.depends('percentage', 'order_id.amount_untaxed', 'milestone_id.amount', 'is_token_money')
+    @api.depends('percentage', 'order_id.amount_untaxed', 'milestone_id.amount', 'is_token_money', 'is_admin_fee',
+                 'admin_fee')
     def _compute_amount(self):
-        if self.percentage:
-            if self.order_id.amount_untaxed:
-                self.amount = self.order_id.amount_untaxed * (self.percentage / 100.0)
-                if self.is_token_money:
-                    temp = sum(
-                        payment.amount for payment in self.order_id.account_payment_ids if payment.state == 'post')
-                    if temp:
-                        self.amount -= temp
-                        product_template = self.env['product.template'].search(
-                            [('name', '=', self.order_id.partner_id.name)])
-                        product_template.status = 'reserved'
-            elif self.milestone_id.amount:
-                self.amount = self.milestone_id.amount * (self.percentage / 100.0)
-                if self.is_token_money:
-                    temp = sum(
-                        payment.amount for payment in self.order_id.account_payment_ids if payment.state == 'post')
-                    if temp:
-                        self.amount -= temp
-                        product_template = self.env['product.template'].search(
-                            [('name', '=', self.order_id.partner_id.name)])
-                        product_template.status = 'reserved'
-            else:
-                self.amount = 0
+        if self.percentage and self.is_admin_fee:
+            self.amount = self.admin_fee
+        elif self.percentage and self.order_id.amount_untaxed:
+            self.amount = self.order_id.amount_untaxed * (self.percentage / 100.0)
+            if self.is_token_money:
+                if temp := sum(
+                    payment.amount
+                    for payment in self.order_id.account_payment_ids
+                    if payment.state == 'post'
+                ):
+                    self.amount -= temp
+                    product_template = self.env['product.template'].search(
+                        [('name', '=', self.order_id.partner_id.name)])
+                    product_template.status = 'reserved'
+        elif self.percentage and self.milestone_id.amount:
+            self.amount = self.milestone_id.amount * (self.percentage / 100.0)
+            if self.is_token_money:
+                if temp := sum(
+                    payment.amount
+                    for payment in self.order_id.account_payment_ids
+                    if payment.state == 'post'
+                ):
+                    self.amount -= temp
+                    product_template = self.env['product.template'].search(
+                        [('name', '=', self.order_id.partner_id.name)])
+                    product_template.status = 'reserved'
         else:
             self.amount = 0
 
@@ -64,11 +71,11 @@ class InstallmentWizard(models.TransientModel):
         res_quarters = res_months // 3
         res_years = delta.years
         if self.installment_period == 'annual':
-            self.installment_no = res_years
+            self.installment_no = res_years + 1
         elif self.installment_period == 'quarterly':
-            self.installment_no = res_quarters
+            self.installment_no = res_quarters + 1
         elif self.installment_period == 'month':
-            self.installment_no = res_months
+            self.installment_no = res_months + 1
         else:
             self.installment_no = 0
 
@@ -86,24 +93,36 @@ class InstallmentWizard(models.TransientModel):
             'installment_no': self.installment_no,
             'installment_period': self.installment_period,
         })
-        dt = self.start_date
         amount = self.amount / self.installment_no
-        for rec in range(self.installment_no):
+        for _ in range(self.installment_no):
+            inv_date = self.start_date
             invoice = False
             if self.order_id.order_line:
-                inv_lines = []
-                for line in self.order_id.order_line:
-                    inv_lines.append((0, 0, {
-                        'product_id': line.product_id.id,
-                        'name': line.name,
-                        'quantity': line.product_uom_qty,
-                        'product_uom_id': line.product_uom.id,
-                        'price_unit': amount,
-                        'tax_ids': line.tax_id,
-                    }))
+                inv_lines = [
+                    (
+                        0,
+                        0,
+                        {
+                            'product_id': line.product_id.id,
+                            'name': line.name,
+                            'quantity': line.product_uom_qty,
+                            'product_uom_id': line.product_uom.id,
+                            'price_unit': amount,
+                            'tax_ids': line.tax_id,
+                        },
+                    )
+                    for line in self.order_id.order_line
+                ]
+                if self.installment_period == 'month':
+                    inv_date += relativedelta(months=_)
+                    print(f'inv date: {inv_date}')
+                elif self.installment_period == 'quarterly':
+                    inv_date += relativedelta(months=_*3)
+                elif self.installment_period == 'annual':
+                    inv_date += relativedelta(months=_*12)
                 inv_vals = {
                     'partner_id': self.order_id.partner_id.id,
-                    'invoice_date': date.today(),
+                    'invoice_date': inv_date,
                     'invoice_line_ids': inv_lines,
                     'move_type': 'out_invoice',
                     'so_ids': self.order_id.id,
@@ -121,7 +140,6 @@ class InstallmentWizard(models.TransientModel):
                 'move_id': invoice.id
             }
             self.env['installment.line'].create(vals)
-            dt = dt + relativedelta(months=1)
         print('installment created')
 
     @api.constrains('is_token_money')

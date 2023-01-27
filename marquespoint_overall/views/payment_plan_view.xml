@@ -12,6 +12,7 @@
                             <field name='percentage'/>
                             <field name='amount'/>
                             <field name='is_booked'/>
+                            <field name='is_admin_fee'/>
                         </group>
                     </sheet>
                 </form>

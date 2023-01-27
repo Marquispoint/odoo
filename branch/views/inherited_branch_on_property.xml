@@ -1,0 +1,91 @@
+<odoo>
+    <data>
+        <!--        Property Building Form View-->
+        <record id="view_building_form_inherited_branch" model="ir.ui.view">
+            <field name="name">property.building.form.inherited.branch</field>
+            <field name="model">property.building</field>
+            <field name="inherit_id" ref="ol_property_custom.view_building_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number_of_floors']" position="after">
+                    <field name="branch_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        Building Tree View-->
+        <record id="view_building_tree_inherited_branch" model="ir.ui.view">
+            <field name="name">property.building.tree.inherited.branch</field>
+            <field name="model">property.building</field>
+            <field name="inherit_id" ref="ol_property_custom.view_building_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="branch_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        Building Search View-->
+        <record id="view_building_search_id" model="ir.ui.view">
+            <field name="model">property.building</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name"/>
+                    <field name="short_name" string="Short Name"/>
+                    <field name="code" string="Code"/>
+                    <field name="branch_id" string="Branch"/>
+                    <filter name="group_by_field"
+                            context="{'group_by':'branch_id'}"
+                            string="Branch"/>
+                    <filter name="group_by_field"
+                            context="{'group_by':'project_id'}"
+                            string="Project"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!--    Floor    -->
+        <!--        Property Building Form View-->
+        <record id="view_floor_form_inherited_branch" model="ir.ui.view">
+            <field name="name">property.floor.form.inherited.branch</field>
+            <field name="model">property.floor</field>
+            <field name="inherit_id" ref="ol_property_custom.view_floor_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='building_id']" position="after">
+                    <field name="branch_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        Building Tree View-->
+        <record id="view_floor_tree_inherited_branch" model="ir.ui.view">
+            <field name="name">property.floor.tree.inherited.branch</field>
+            <field name="model">property.floor</field>
+            <field name="inherit_id" ref="ol_property_custom.view_floor_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="branch_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        Building Search View-->
+        <record id="view_floor_search_id" model="ir.ui.view">
+            <field name="model">property.floor</field>
+            <field name="arch" type="xml">
+                <search >
+                    <field name="name" string="Name"/>
+                    <field name="short_name" string="Short Name"/>
+                    <field name="code" string="Code"/>
+                    <field name="branch_id" string="Branch"/>
+                    <filter name="group_by_field"
+                            context="{'group_by':'branch_id'}"
+                            string="Branch"/>
+                    <filter name="group_by_field"
+                            context="{'group_by':'building_id'}"
+                            string="Building"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

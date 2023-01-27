@@ -10,7 +10,7 @@
         Long description of module's purpose
     """,
 
-    'author': "My Company",
+    'author': "M.Rizwan",
     'website': "https://www.yourcompany.com",
 
     # Categories can be used to filter modules in modules listing
@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'purchase', 'project'],
+    'depends': ['base', 'account', 'purchase', 'project', 'branch'],
 
     # always loaded
     'data': [
@@ -28,6 +28,7 @@
         'views/purchase_order_view.xml',
         'views/account_move_view.xml',
         'report/advance_payment_report_temp.xml',
+        'report/local_po_report_temp.xml',
         'report/report.xml',
     ],
     # only loaded in demonstration mode

@@ -32,6 +32,7 @@ class PurchaseOrder(models.Model):
             'confirmation_date': self.date_approve,
             'sub_contractor': self.sub_contractor.id,
             'contract_order': self.contract_order,
+            'branch_id': self.branch_id.id,
         })
         return invoice_vals
 
@@ -44,6 +45,18 @@ class PurchaseOrder(models.Model):
                 temp += inv.name
                 temp += ','
             order.po_no = temp.rstrip(',')
+
+    def grand_total_in_words(self, grand_total):
+        return self.currency_id.amount_to_text(grand_total)
+
+    def get_vat_amount(self):
+        vat = 0
+        subtotal = 0
+        for rec in self.order_line:
+            vat += rec.taxes_id.amount
+            subtotal += rec.price_subtotal
+        avg_vat = vat / len(self.order_line)
+        return subtotal * (avg_vat / 100)
 
 
 class PurchaseOrderLines(models.Model):

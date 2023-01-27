@@ -20,17 +20,18 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product', 'sale', 'ol_property_custom', 'project'],
+    'depends': ['base', 'product', 'sale', 'ol_property_custom', 'project', 'crm'],
 
     # always loaded
     'data': [
+        'wizard/installment_wizard_view.xml',
         "wizard/sale_advance_payment_wizard_view.xml",
         'security/ir.model.access.csv',
+        'data/server.xml',
         'views/product_template_view.xml',
         'views/payment_plan_view.xml',
         'views/sale_order_view.xml',
         'views/payment_view.xml',
-        'wizard/installment_wizard_view.xml',
         'report/sale_quote_report_template.xml',
         'report/report.xml',
     ],

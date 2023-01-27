@@ -48,55 +48,84 @@
                                         <td style="border:1px solid black;">
                                             <span t-esc="line.product_id.name"/>
                                         </td>
+
                                         <td style="border:1px solid black; text-align:center;">
-                                            <span t-esc="line.contract_per_amount"/>
+                                            <t t-if="line.contract_per_amount">
+                                                <span t-esc="line.contract_per_amount"/>
+                                            </t>
                                         </td>
                                         <td style="border:1px solid black; text-align:right;">
-                                            <span t-esc="line.contract_amount"
-                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <t t-if="line.contract_amount">
+                                                <span t-esc="line.contract_amount"
+                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            </t>
                                         </td>
                                         <td style="border:1px solid black; text-align:center;">
-                                            <span t-esc="line.previous_percentage"/>
+                                            <t t-if="line.previous_percentage">
+                                                <span t-esc="line.previous_percentage"/>
+                                            </t>
                                         </td>
                                         <td style="border:1px solid black; text-align:center;">
-                                            <span t-esc="line.this_month_percentage"/>
+                                            <t t-if="line.this_month_percentage">
+                                                <span t-esc="line.this_month_percentage"/>
+                                            </t>
                                         </td>
                                         <td style="border:1px solid black; text-align:center;">
-                                            <span t-esc="line.total_percentage"/>
+                                            <t t-if="line.total_percentage">
+                                                <span t-esc="line.total_percentage"/>
+                                            </t>
                                         </td>
                                         <td style="border:1px solid black; text-align:center;">
-                                            <span t-esc="line.percentage_total_amount"/>
+                                            <t t-if="line.percentage_total_amount">
+                                                <span t-esc="line.percentage_total_amount"/>
+                                            </t>
                                         </td>
                                         <td style="border:1px solid black; text-align:right;">
-                                            <span t-esc="line.total_bill_amount"
-                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <t t-if="line.total_bill_amount">
+                                                <span t-esc="line.total_bill_amount"
+                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            </t>
                                         </td>
                                     </tr>
                                 </t>
                                 <tr>
                                     <th style="border:1px solid black; text-align:center;" colspan="2">Total</th>
                                     <td style="border:1px solid black; text-align:center;">
-                                        <span t-esc="o.get_contract_per_amount()"/>
+                                        <t t-if="o.get_contract_per_amount()">
+                                            <span t-esc="o.get_contract_per_amount()"/>
+                                        </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:right;">
-                                        <span t-esc="o.get_contract_amount()"
-                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        <t t-if="o.get_contract_amount()">
+                                            <span t-esc="o.get_contract_amount()"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
-                                        <span t-esc="o.get_previous_percentage()"/>
+                                        <t t-if="o.get_previous_percentage()">
+                                            <span t-esc="o.get_previous_percentage()"/>
+                                        </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
-                                        <span t-esc="o.get_this_month_percentage()"/>
+                                        <t t-if="o.get_this_month_percentage()">
+                                            <span t-esc="o.get_this_month_percentage()"/>
+                                        </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
-                                        <span t-esc="o.get_total_percentage()"/>
+                                        <t t-if="o.get_total_percentage()">
+                                            <span t-esc="o.get_total_percentage()"/>
+                                        </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
-                                        <span t-esc="o.get_percentage_total_amount()"/>
+                                        <t t-if="o.get_percentage_total_amount()">
+                                            <span t-esc="o.get_percentage_total_amount()"/>
+                                        </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:right;">
-                                        <span t-esc="o.get_total_bill_amount()"
-                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        <t t-if="o.get_total_bill_amount()">
+                                            <span t-esc="o.get_total_bill_amount()"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        </t>
                                     </td>
                                 </tr>
                                 <tr>

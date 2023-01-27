@@ -60,10 +60,11 @@ class SaleOrder(models.Model):
     def on_partner_id_change(self):
         var = self.env["product.product"].search([('name', '=', self.partner_id.name)])
         self.write({
-            'project': var.project.id,
-            'building': var.building.id,
-            'floor': var.floor_id.id,
-            'unit': var.id
+            'project': var.project[0].id if var.project else None,
+            'building': var.building[0].id if var.building else None,
+            'floor': var.floor_id[0].id if var.floor_id else None,
+            'unit': var[0].id if var else None,
+            'branch_id': var.branch_id[0].id if var.branch_id else None,
         })
         product_ids = []
         for p in var:

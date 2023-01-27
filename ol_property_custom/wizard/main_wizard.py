@@ -19,9 +19,7 @@ class CreateBuildingWizard(models.TransientModel):
         obj = self.env['property.building'].search([('project_id', '=', active_id)])
         obj_project = self.env['project.project'].search([('id', '=', active_id)])
         for i in range(no):
-
             if obj:
-
                 idd = self.env['account.analytic.account'].create({
                     'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}'
 
@@ -38,7 +36,6 @@ class CreateBuildingWizard(models.TransientModel):
                 })
 
             else:
-
                 idd = self.env['account.analytic.account'].create({
                     'name': obj_project.code + "-" + f'{i + 1:02}'
 
@@ -76,7 +73,8 @@ class CreatFloor(models.TransientModel):
                 sid = self.env['property.floor'].create({
                     'building_id': active_id,
                     'code': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}',
-                    'floor_analytic_account': idd.id
+                    'floor_analytic_account': idd.id,
+                    'branch_id': obj_project.branch_id.id,
                 })
                 s = self.env['account.analytic.account'].search(
                     [('name', '=', obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}')])
@@ -92,7 +90,8 @@ class CreatFloor(models.TransientModel):
                 sid = self.env['property.floor'].create({
                     'building_id': active_id,
                     'code': obj_project.code + "-" + f'{i + 1:02}',
-                    'floor_analytic_account': idd.id
+                    'floor_analytic_account': idd.id,
+                    'branch_id': obj_project.branch_id.id,
                 })
                 s = self.env['account.analytic.account'].search([('name', '=', obj_project.code + "-" + f'{i + 1:02}')])
                 s.write({
@@ -123,16 +122,17 @@ class CreatUnits(models.TransientModel):
         for i in range(no):
             if obj:
                 idd = self.env['account.analytic.account'].create({
-                    'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}'
-
+                    'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}',
                 })
                 sid = self.env['product.product'].create({
                     'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}',
                     'floor_id': active_id,
-                    # 'building':active_id,
-                    # 'project':active_id,
-                    'units_analytic_account': idd.id
+                    'building':obj_project.building_id.id,
+                    'project':obj_project.project_name.id,
+                    'units_analytic_account': idd.id,
+                    'branch_id': obj_project.branch_id.id,
                 })
+                print(f'sid: {sid}')
                 sidd = self.env['res.partner'].create({
                     'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}',
                 })
@@ -141,8 +141,6 @@ class CreatUnits(models.TransientModel):
                 s.write({
                     'unit_id': sid.id
                 })
-
-
             else:
                 idd = self.env['account.analytic.account'].create({
                     'name': obj_project.code + "-" + f'{i + 1:02}'
@@ -151,7 +149,10 @@ class CreatUnits(models.TransientModel):
                 sid = self.env['product.product'].create({
                     'name': obj_project.code + "-" + f'{i + 1:02}',
                     'floor_id': active_id,
-                    'units_analytic_account': idd.id
+                    'units_analytic_account': idd.id,
+                    'building': obj_project.building_id.id,
+                    'project': obj_project.project_name.id,
+                    'branch_id': obj_project.branch_id.id,
                 })
                 sidd = self.env['res.partner'].create({
                     'name': obj_project.code + "-" + f'{i + 1:02}',
@@ -160,7 +161,6 @@ class CreatUnits(models.TransientModel):
                 s.write({
                     'unit_id': sid.id
                 })
-
 # # create customer
 # class Creatcustomer(models.TransientModel):
 #     _name = "create.customer.wizard"

@@ -70,7 +70,7 @@
                             <h3 class="text-center">SCHEDULE OF INSTALLMENT PAYMENTS</h3>
                             <t t-set="grand_total" t-value="0"/>
                             <table class="table table-sm"
-                                   style="width: 100%; border:1px solid black; border-collapse: collapse; page-break-inside:avoid;">
+                                   style="width: 100%; border:1px solid black; border-collapse: collapse;">
                                 <t t-set="sr_no" t-value="0"/>
                                 <t t-foreach="o.plan_ids" t-as="plan">
                                     <tr>
@@ -137,7 +137,8 @@
                                                             <t t-set="grand_total"
                                                                t-value="grand_total + ins_line.amount"/>
                                                             <t t-set="ins_total" t-value="ins_total + ins_line.amount"/>
-                                                            <td>Installment
+                                                            <td>
+                                                                <span t-esc="plan.milestone_id.name"/>
                                                                 <span t-esc="ins_no"/>
                                                             </td>
 
@@ -188,6 +189,30 @@
                                         </td>
                                     </tr>
                                 </table>
+                            </div>
+                            <p style="page-break-before:always;"/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="image text-center">
+                                <h3>Unit Image</h3>
+                                <img t-if="not o.unit.image_1920"
+                                     t-att-src="'/web/static/src/img/placeholder.png'"
+                                />
+                                <img t-if="o.unit.image_1920"
+                                     t-att-src="'data:image/png;base64,%s' % to_text(o.unit.image_1920)"/>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="image text-center">
+                                <h3>Project Image</h3>
+                                <img t-if="not o.unit.image_1920"
+                                     t-att-src="'/web/static/src/img/placeholder.png'"
+                                />
+                                <img t-if="o.building.image_1920"
+                                     t-att-src="'data:image/png;base64,%s' % to_text(o.building.image_1920)"
+                                />
                             </div>
                         </div>
                     </t>

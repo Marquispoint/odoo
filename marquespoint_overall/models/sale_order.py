@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 from odoo.tools import float_compare
+from datetime import datetime, date
 
 
 class SaleOrder(models.Model):
@@ -114,6 +115,42 @@ class SaleOrder(models.Model):
             product_template.status = 'available'
         return res
 
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        product_template = self.env['product.template'].search([('name', '=', self.partner_id.name)])
+        if product_template:
+            product_template.status = 'sold'
+        return res
+
+    def token_money_scheduler(self):
+        today_date = date.today()
+        sale_orders = self.env['sale.order'].search([])
+        print(sale_orders)
+        for rec in sale_orders:
+            print('token money scheduler')
+            if rec.account_payment_ids:
+                print(rec.account_payment_ids)
+                for payment in rec.account_payment_ids:
+                    print(payment)
+                    if payment.state == 'draft':
+                        print('Draft')
+                        print(payment.due_date)
+                        print(today_date)
+                        print(self.env['product.template'].search(
+                            [('name', '=', rec.partner_id.name)]))
+                        if payment.due_date == today_date:
+                            product_template = self.env['product.template'].search(
+                                [('name', '=', rec.partner_id.name)])
+                            if product_template:
+                                product_template.status = 'available'
+                                payment.state = 'cancel'
+
+    def unlink(self):
+        for rec in self:
+            if rec.plan_ids:
+                rec.plan_ids.unlink()
+        return super(SaleOrder, self).unlink()
+
 
 class PaymentPlanLines(models.Model):
     _name = 'payment.plan.line'
@@ -144,11 +181,12 @@ class PaymentPlanLines(models.Model):
     def open_payment_plan_wizard(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Create Insurance Bills',
+            'name': 'Create Installment Lines',
             'view_id': self.env.ref('marquespoint_overall.view_installment_wizard_form', False).id,
             'context': {
                 'default_milestone_id': self.milestone_id.id,
                 'default_is_booked': self.milestone_id.is_booked,
+                'default_is_admin': self.milestone_id.is_admin_fee,
                 'default_order_id': self.order_id.id,
                 'default_percentage': self.milestone_id.percentage,
                 # 'default_amount': self.order_id.amount_untaxed if self.order_id.amount_untaxed else self.milestone_id.amount,
