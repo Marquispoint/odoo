@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <template id="ol_sales_agreement_report.final_sale_order_template">
+    <template id="final_sale_order_template">
         <t t-call="web.html_container">
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="s">
@@ -63,6 +62,7 @@
                                 </td>
                                 <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;  font-size: 13px;padding-left:4px;">
                                     <strong>Developer: MARQUIS CIRCLE REAL ESTATE DEVELOPER LLC,</strong>
+                                    <br/>
                                     a limited company operating under commercial licence number 818744, whose address is
                                     P.O. Box [<span style="font-size:12px;padding-left:4px;"
                                                     t-field="s.partner_id.zip"/>], Dubai, UAE.
@@ -911,7 +911,8 @@
                                 </td>
                                 <td style="width: 50%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
                                     وقع الطرفان هذه الاتفاقية بالتواريخ المبينة أدناه وتكون الاتفاقية نافذة اعتباراً من
-                                    تاريخ النفاذ.<strong>إشهاداً على ذلك</strong>
+                                    تاريخ النفاذ.
+                                    <strong>إشهاداً على ذلك</strong>
                                 </td>
                             </tr>
                         </tbody>
@@ -1116,21 +1117,30 @@
                                 <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
                                     1
                                 </td>
-                                <t t-foreach="s.invoice_ids[0].invoice_line_ids" t-as="d">
-<!--                                <t t-foreach="d.invoice_line_ids" t-as="z">-->
+                                <t t-if="s.invoice_ids">
+                                    <t t-foreach="s.invoice_ids[0].invoice_line_ids" t-as="d">
+                                        <!--                                <t t-foreach="d.invoice_line_ids" t-as="z">-->
 
 
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong> <span style="font-size:12px;padding-left:4px;" /><t t-esc="d.price_subtotal"/> </strong>
-                                </td>
+                                        <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                            <strong>
+                                                <span style="font-size:12px;padding-left:4px;"/>
+                                                <t t-esc="d.price_subtotal"/>
+                                            </strong>
+                                        </td>
 
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong> <span style="font-size:12px;padding-left:4px;" /><t t-esc="d.percentage_of_invoice"/></strong>
-                                </td>
-
-
+                                        <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                            <strong>
+                                                <span style="font-size:12px;padding-left:4px;"/>
+                                                <t t-esc="d.percentage_of_invoice"/>
+                                            </strong>
+                                        </td>
+                                    </t>
                                 </t>
-<!--                                </t>-->
+                                <t t-else="">
+                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
+                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
+                                </t>
 
                                 <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
                                     On or before the effective date of the Reservation Form
@@ -3495,9 +3505,12 @@
                                         set out in full in the body of this Agreement and any reference to this
                                         Agreement includes the Schedules
                                     </p>
-                                    <p>Schedule A: Payment Schedule;<br/>Schedule B: Terms &amp; Conditions;<br/>
-                                        Schedule C: Relevant Unit Plan (Draft) and Relevant Unit Specifications;<br/>
-                                        Schedule D: Jointly Owned Property Declaration; (Acknowledgment); and<br/>
+                                    <p>Schedule A: Payment Schedule;<br/>Schedule B: Terms &amp; Conditions;
+                                        <br/>
+                                        Schedule C: Relevant Unit Plan (Draft) and Relevant Unit Specifications;
+                                        <br/>
+                                        Schedule D: Jointly Owned Property Declaration; (Acknowledgment); and
+                                        <br/>
                                         Schedule E: Deed of Adherence.
                                     </p>
                                 </td>
@@ -7226,7 +7239,8 @@
                                     <![CDATA[&nbsp;]]>
                                     <strong>SCHEDULE E</strong>
                                 </td>
-                                <td style="width: 40%; text-align: right; font-size: 13px;"><strong>الجدول هـ</strong>
+                                <td style="width: 40%; text-align: right; font-size: 13px;">
+                                    <strong>الجدول هـ</strong>
                                     <![CDATA[&nbsp;]]>;
                                 </td>
                                 <td style="width: 5%; font-size: 13px; padding-left: 4px;"><![CDATA[&nbsp;]]></td>

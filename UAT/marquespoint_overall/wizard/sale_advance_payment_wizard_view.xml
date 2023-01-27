@@ -20,7 +20,7 @@
                         <field name="payment_ref" />
                         <field name="date" />
                         <field name="amount_total" string="Order Due Amount" />
-                        <field name="due_date"/>
+                        <field name="due_date" required="1"/>
                     </group>
                     <separator string="Operation" colspan="4" />
                     <group colspan="4" col="4">
