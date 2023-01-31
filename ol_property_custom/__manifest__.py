@@ -1,7 +1,8 @@
 {
     "name": "Property",
 
-    "author": "Huzaifa",
+    "author": "Cognitive",
+    'Maintainer': "M.Rizwan",
     "category": "sale",
 
     "license": "OPL-1",

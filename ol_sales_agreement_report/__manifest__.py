@@ -3,7 +3,8 @@
 {
     "name": "Sale Purchase Agrement",
 
-    "author": "Cognative",
+    "author": "Cognitive",
+    'Maintainer': "M.Rizwan",
     "category": "CRM",
 
     "license": "OPL-1",

@@ -121,9 +121,9 @@ class AccountVoucherWizardPurchase(models.TransientModel):
             # payment.action_post()
             product_name = self.order_id.partner_id.name
             print(f'product_name: {product_name}')
-            product_template = self.env['product.template'].search([('name', '=', self.order_id.partner_id.name)])
-            print(product_template)
-            product_template.status = 'reserved'
+            product_unit = self.env['product.product'].search([('name', '=', self.order_id.partner_id.name)])
+            print(product_unit)
+            product_unit.state = 'reserved'
 
         return {
             "type": "ir.actions.act_window_close",

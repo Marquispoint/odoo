@@ -6,12 +6,12 @@
         <field name="arch" type="xml">
             <form string="PDC Payment">
                 <header>
-                    <!--                    <button name="button_register"-->
-                    <!--                            string="Register"-->
-                    <!--                            type="object"-->
-                    <!--                            class="oe_highlight"-->
-                    <!--                            states="draft"-->
-                    <!--                            groups="pdc_payments.group_register"/>-->
+<!--                    <button name="button_register"-->
+<!--                            string="Register"-->
+<!--                            type="object"-->
+<!--                            class="oe_highlight"-->
+<!--                            states="draft"-->
+<!--                            groups="pdc_payments.group_register"/>-->
 
                     <button name="button_cancel"
                             string="Cancel"
@@ -64,22 +64,20 @@
                         <group>
                             <field name="partner_id" required="1"/>
                             <field name="payment_amount" required="1"/>
-                            <field name="commercial_bank_id"/>
+                            <field name="cheque_ref"/>
                             <field name="memo"/>
-                            <field name="journal_id" required="1"/>
                             <field name="destination_account_id" required="1"/>
-
+                            <field name="journal_id" required="1"/>
                             <field name="currency_id" required="1"/>
                             <field name="pdc_type" required="1"/>
                         </group>
                         <group>
-                            <field name="date_payment" required="1" string="Registered Date"/>
-                            <field name="date_registered" required="1" string="Due Date"/>
+                            <field name="date_payment" required="1" string="Due Date"/>
+                            <field name="date_registered"/>
                             <field name="date_bounced"/>
                             <field name="date_cleared"/>
                             <field name="cheque_no" required="1"/>
-<!--                            <field name="move_id"/>-->
-                            <field name="move_ids" widget="many2many_tags"/>
+                            <field name="move_id"/>
                         </group>
                     </group>
                 </sheet>
@@ -100,11 +98,7 @@
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="payment_amount" sum="Total"/>
-                <field name="commercial_bank_id"/>
-                <field name="date_payment" string="Registered Date"/>
-                <field name="cheque_no"/>
-                <field name="date_registered" string="Due Date"/>
-                <field name="pdc_type"/>
+                <field name="cheque_ref"/>
                 <field name="memo"/>
                 <field name="destination_account_id"/>
                 <field name="journal_id"/>
@@ -120,7 +114,7 @@
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="payment_amount"/>
-                <field name="commercial_bank_id"/>
+                <field name="cheque_ref"/>
                 <field name="memo"/>
                 <field name="destination_account_id"/>
                 <field name="journal_id"/>
@@ -172,53 +166,5 @@
             </xpath>
         </field>
     </record>
-
-    <record id="view_pdc_commercial_bank_form" model="ir.ui.view">
-        <field name="name">pdc.commercial.bank.form</field>
-        <field name="model">pdc.commercial.bank</field>
-        <field name="arch" type="xml">
-            <form string="PDC Payment">
-                <sheet>
-                    <group col="4">
-                        <field name="name"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="view_pdc_commercial_bank_search" model="ir.ui.view">
-        <field name="name">pdc.commercial.bank.tree</field>
-        <field name="model">pdc.commercial.bank</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
-
-
-    <record id="action_pdc_commercial_view" model="ir.actions.act_window">
-        <field name="name">Commercial Bank</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">pdc.commercial.bank</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_pdc_commercial_bank_search"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                No Record Found. Let's Create..........
-            </p>
-        </field>
-    </record>
-    <menuitem id="menu_pdc_conf"
-              name="Configuration"
-              parent="menu_pdc_payment_root"/>
-
-    <menuitem id="menu_pdc_commercial_bank"
-              name="Commercial Bank"
-              parent="menu_pdc_conf"
-              action="action_pdc_commercial_view"
-    />
-
 
 </odoo>
