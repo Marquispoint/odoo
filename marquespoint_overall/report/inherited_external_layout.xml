@@ -1,0 +1,57 @@
+<odoo>
+    <data>
+        <template id="web.external_layout_standard">
+            <t t-name="web.external_layout_standard">
+                <div t-attf-class="header border-bottom o_company_#{company.id}_layout" width="100%"
+                     t-att-style="report_header_style">
+                    <table class="table table-sm table-borderless" style="width:100%;  font-size:14px;">
+                        <tr>
+                            <td style="padding-top:10px;">
+                                <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)"
+                                     style="max-height: 80px;" alt="Logo"/>
+                            </td>
+                            <td style="padding-top:40px; text-align:right;">
+                                <strong>
+                                    <h2 t-esc="res_company.name"/>
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"
+                     t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div class="pt-5">
+                        <!-- This div ensures that the address is not cropped by the header. -->
+                        <t t-call="web.address_layout"/>
+                    </div>
+                    <t t-out="0"/>
+                </div>
+
+                <div t-attf-class="footer border-top border-bottom" width="100%" style="font-size:13px;">
+                    <table class="table table-sm table-borderless text-center" width="100%" style="padding:5px !important; margin:5px !important;">
+                        <tr>
+                            <td>
+                                <img src="/marquespoint_overall/static/description/location.png"
+                                     style="height:20px; width:20px; margin-right:10px;"/>
+                                <span>Office no. 101 &amp; 102, The V Building, Al Barsha South Arjan, Dubai, UAE</span>
+                            </td>
+                            <td width="20%" style="text-align:left;">
+                                <img src="/marquespoint_overall/static/description/phone.png"
+                                     style="height:20px; width:20px; margin-right:10px;"/>
+                                <span>Tel. 04 240 1014</span>
+                            </td>
+                            <td width="20%" style="text-align:left;">
+                                <img src="/marquespoint_overall/static/description/mail.png"
+                                     style="height:20px; width:20px; margin-right:10px;"/>
+                                <span>PO Box 95447</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
                     <button string="PDC Received" class="btn btn-primary"/>
-                    <field name="status" widget="statusbar"/>
+                    <field name="state" widget="statusbar"/>
                 </xpath>
                 <xpath expr="//label[@for='purchase_ok']" position="after">
                     <span class="d-inline-block">
@@ -15,9 +15,69 @@
                         <label for="is_unit"/>
                     </span>
                 </xpath>
-                <xpath expr="//field[@name='uom_po_id']" position="after">
-                    <field name="project"/>
-                    <field name="unit_id"/>
+                <!--                <xpath expr="//field[@name='uom_po_id']" position="after">-->
+                <!--                    <field name="project"/>-->
+                <!--                    <field name="unit_id"/>-->
+                <!--                </xpath>-->
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Multiple Images">
+                        <group>
+                            <field name="multi_image" widget="many2many_binary"/>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[@name='general_information']" position="before">
+                    <page string="Property Information">
+                        <group string="Property Information">
+                            <group>
+                                <field name="sale_order"/>
+                                <field name="short_name"/>
+                                <field name="code"/>
+                                <field name="project"/>
+                                <field name="building"/>
+                                <field name="floor_id"/>
+                                <field name="reasonable_price"/>
+                                <field name="property_owner"/>
+                                <field name="construction_status"/>
+                            </group>
+                            <group>
+                                <field name="unit_type"/>
+                                <field name="category"/>
+                                <field name="view_type" attrs="{'invisible': [('unit_type', '!=', 'appartment')]}"/>
+                                <field name="property_price"/>
+                                <field name="allow_discount"/>
+                                <field name="property_type"/>
+                                <field name="furnishing"/>
+                                <field name="build_up_area"/>
+                                <field name="carpet_area"/>
+                                <field name="bedroom"/>
+                                <field name="washroom"/>
+                                <field name="balconies"/>
+                            </group>
+                        </group>
+                        <group string="Analytic Account">
+                            <field name="project_analytical"/>
+                            <field name="building_analytic_account"/>
+                            <field name="floor_analytic_account"/>
+                            <field name="units_analytic_account"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="product_normal_form_view_inherited" model="ir.ui.view">
+            <field name="name">product.product.form.inherited</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='purchase_ok']" position="after">
+                    <span class="d-inline-block">
+                        <field name="is_unit"/>
+                        <label for="is_unit"/>
+                    </span>
                 </xpath>
                 <xpath expr="//notebook/page[last()]" position="after">
                     <page string="Multiple Images">

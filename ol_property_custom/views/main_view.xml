@@ -144,13 +144,11 @@
                     <sheet string="Buildings">
                         <group>
                             <group>
-
                                 <field name="name"/>
                                 <field name="short_name"/>
                                 <field name="code"/>
-                                <field name="project_name"/>
                                 <field name="building_id"/>
-
+                                <field name="project_name"/>
                             </group>
                             <group>
                                 <field name="project_analytical"/>
@@ -173,8 +171,6 @@
                     <field name="building_id"/>
                     <field name="short_name"/>
                     <field name="code"/>
-
-
                 </tree>
             </field>
         </record>
@@ -234,20 +230,13 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/header" position="before">
-                    <header>
-                        <!--                 <button name="action_confirm" type="object" string="Confirm" class="oe_highlight"/>-->
-                        <!--                 <button name="action_reserve" type="object" string="Reserve" class="oe_highlight"/>   -->
-                        <field name="state" widget="statusbar" options="{'clickable':'1'}"/>
-                    </header>
+                <xpath expr="//header" position="inside">
+                    <button string="PDC Received" class="btn btn-primary"/>
+                    <field name="state" widget="statusbar"/>
                 </xpath>
                 <xpath expr="//page[@name='general_information']" position="before">
-
-
                     <page string="Property Information">
                         <group string="Property Information">
-
-
                             <group>
                                 <field name="sale_order"/>
                                 <field name="short_name"/>
@@ -255,41 +244,33 @@
                                 <field name="project"/>
                                 <field name="building"/>
                                 <field name="floor_id"/>
-
-
-                            </group>
-
-                            <group>
-                                <field name="unit_type"/>
-                                <field name="property_type"/>
-                                <field name="view_type" attrs="{'invisible': [('unit_type', '!=', 'appartment')]}"/>
-                                <field name="property_price"/>
-                                <field name="allow_discount"/>
-                            </group>
-                            <group>
-
                                 <field name="reasonable_price"/>
                                 <field name="property_owner"/>
                                 <field name="construction_status"/>
-
+                            </group>
+                            <group>
+                                <field name="unit_type"/>
+                                <field name="category"/>
+                                <field name="view_type" attrs="{'invisible': [('unit_type', '!=', 'appartment')]}"/>
+                                <field name="property_price"/>
+                                <field name="allow_discount"/>
+                                <field name="property_type"/>
+                                <field name="furnishing"/>
+                                <field name="build_up_area"/>
+                                <field name="carpet_area"/>
+                                <field name="bedroom"/>
+                                <field name="washroom"/>
+                                <field name="balconies"/>
                             </group>
                         </group>
                         <group string="Analytic Account">
-
-
                             <field name="project_analytical"/>
                             <field name="building_analytic_account"/>
                             <field name="floor_analytic_account"/>
                             <field name="units_analytic_account"/>
-
-
                         </group>
-
-
                     </page>
-
                 </xpath>
-
             </field>
         </record>
 
@@ -318,7 +299,7 @@
                     <field name="project_id"/>
                     <field name="building_id"/>
                     <field name="floor_id"/>
-                    <field name="unit_id"/>
+                    <field name="unit_id" domain="[('state', '=', 'new'), ('floor_id', '=', floor_id)]"/>
                     <field name="broker_id"/>
                 </xpath>
                 <xpath expr="//group[@name='opportunity_partner']" position="inside">

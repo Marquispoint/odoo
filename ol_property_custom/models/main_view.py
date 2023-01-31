@@ -36,10 +36,18 @@ class OLBuilding(models.Model):
     project_id = fields.Many2one("project.project", "Project")
     short_name = fields.Char(string='Short Name')
     code = fields.Char(string='Code', default="New")
-    number_of_floors = fields.Integer("Number Of Floors")
+    number_of_floors = fields.Integer("Number Of Floors", compute='_compute_number_of_floors')
     floor_ids = fields.One2many('property.floor', 'building_id', string='Floor')
     project_analytical = fields.Many2one(related="project_id.analytic_account_id", string="Project Analytic Account")
     building_account_analytical = fields.Many2one('account.analytic.account', string="Building Account Analytical")
+
+    def _compute_number_of_floors(self):
+        for rec in self:
+            floors = self.env['property.floor'].search_count([('building_id.id', '=', rec.id)])
+            if floors:
+                rec.number_of_floors = floors
+            else:
+                rec.number_of_floors = 0
 
     @api.model
     def create(self, vals):
@@ -96,7 +104,8 @@ class ProductInh(models.Model):
     _inherit = 'product.product'
     short_name = fields.Char(string='Short Name')
     code = fields.Char(string='Code', default="New")
-    building = fields.Many2one(comodel_name='property.building', string='Building')
+    building = fields.Many2one(comodel_name='property.building', string='Building',
+                               domain='[("project_id", "=", project)]')
     unit_type = fields.Selection(string='Unit Type', selection=[('parking', 'Parking'), ('appartment', 'Appartment'), ])
     view_type = fields.Selection(string='View Type', selection=[
         ('front', 'Front View'),
@@ -106,14 +115,20 @@ class ProductInh(models.Model):
         ('golf', 'Golf View'),
     ])
     property_name = fields.Char(string='Name')
-    property_type = fields.Selection(string='Property Type', selection=[('rent', 'Rent'), ('sale', 'Sale'), ])
+    category = fields.Selection(string='Category', selection=[('rent', 'Rent'), ('sale', 'Sale'), ])
     property_price = fields.Float(string='Property Price')
     allow_discount = fields.Float(string='Allow Discount')
     reasonable_price = fields.Float(string='Reasonable Price')
     property_owner = fields.Many2one(comodel_name='res.partner', string='Property Owner')
     construction_status = fields.Char(string='Construction Status')
-    floor_id = fields.Many2one('property.floor', string='Floor')
-    state = fields.Selection([('new', 'NEW'), ("reserve", "RESERVE")], string="Status", default="new")
+    floor_id = fields.Many2one('property.floor', string='Floor', domain='[("building_id", "=", building)]')
+    state = fields.Selection([
+        ('available', 'Available'),
+        ('reserved', 'Reserved'),
+        ('booked', 'Booked'),
+        ('sold', 'Sold'),
+        ('cancel', 'Cancel'),
+    ], default='available')
     sale_order = fields.Many2one('sale.order', string='Sale Order')
     project_analytical = fields.Many2one(related="floor_id.building_id.project_id.analytic_account_id",
                                          string="Project Analytic Account")
@@ -123,28 +138,36 @@ class ProductInh(models.Model):
                                              string="Floor Account Analytical")
     units_analytic_account = fields.Many2one('account.analytic.account', string="Units Account Analytical")
     order = fields.Many2one(related='sale_order.order_line.product_id')
+    # new fields
+    property_type = fields.Selection([
+        ('land', 'Land'),
+        ('residential', 'Residential'),
+        ('commercial', 'Commercial'),
+        ('industrial', 'Industrial'),
+    ], string='Property Type')
 
-    def action_confirm(self):
-        for rec in self:
-            rec.state = "new"
+    furnishing = fields.Selection([
+        ('yes', 'Yes'),
+        ('no', 'No'),
+    ], string='Furnishing')
+    build_up_area = fields.Float('Build Up Area')
+    carpet_area = fields.Float('Carpet Area')
+    bedroom = fields.Float('Bedroom')
+    washroom = fields.Float('Washroom')
+    balconies = fields.Float('Balconies')
 
-    def action_reserve(self):
-        for rec in self:
-            rec.state = "reserve"
 
-
-class SalesOrderLines(models.Model):
-    _inherit = "sale.order.line"
-
-    @api.onchange('product_id')
-    def order_create(self):
-        # obj = self.env['product.product'].search([])
-        ids = 0
-        for rec in self:
-            if rec.product_id:
-                # rec.product_id.sale_order = rec.order_id.ids[0]
-
-                rec.product_id.state = "reserve"
+# class SalesOrderLines(models.Model):
+#     _inherit = "sale.order.line"
+#
+#     # @api.onchange('product_id')
+#     # def order_create(self):
+#     #     # obj = self.env['product.product'].search([])
+#     #     ids = 0
+#     #     for rec in self:
+#     #         if rec.product_id:
+#     #             # rec.product_id.sale_order = rec.order_id.ids[0]
+#     #             rec.product_id.state = "reserved"
 
 
 class AnalyticAccountInherited(models.Model):
@@ -159,9 +182,11 @@ class CrmLeadInherited(models.Model):
     _inherit = "crm.lead"
 
     project_id = fields.Many2one('project.project', string='Project')
-    building_id = fields.Many2one('property.building', string='Building')
-    floor_id = fields.Many2one("property.floor", string="Floor")
-    unit_id = fields.Many2one("product.product", string="Units", domain=[("product_tmpl_id.status", "=", "available")])
+    building_id = fields.Many2one('property.building', string='Building', domain="[('project_id', '=', project_id)]")
+    floor_id = fields.Many2one("property.floor", string="Floor", domain='[("building_id", "=", building_id)]')
+    unit_id = fields.Many2one("product.product", string="Units",
+                              domain="[('state', '=', 'available'), ('floor_id', '=', floor_id)]")
+    # domain='[("floor_id", "=", floor_id)]')
     broker_id = fields.Many2one('res.partner', string="Broker", domain=[("agent", "=", True)])
 
     def action_sale_quotations_new(self):

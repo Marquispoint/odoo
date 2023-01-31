@@ -20,24 +20,9 @@ class PurchaserCompany(models.Model):
     purchaser_id = fields.Many2one(comodel_name='sale.order')
 
 
-# class paymentterms(models.Model):
-#     _name = 'payment.terms'
-#     installment = fields.Many2one(comodel_name='account.payment', string='Individual')
-#     payment_id = fields.Many2one(comodel_name = 'account.payment')
-
 class AccountPayment(models.Model):
     _inherit = 'account.move'
     so_ids = fields.Many2one(comodel_name='sale.order')
-    # per_invoices = fields.Integer(string='% of installment')
-    #
-    #
-    # @api.onchange('invoice_line_ids','invoice_line_ids.percentage_of_invoice')
-    # def treeview(self):
-    #
-    #     self.per_invoices = self.invoice_line_ids.percentage_of_invoice
-    #     print(self.per_invoices)
-
-    # payment_id = fields.Many2one(comodel_name='sale.order',relation='payment_terms_ids', string="Sale Order")
 
 
 class AccountMoveLines(models.Model):
@@ -60,11 +45,11 @@ class SaleOrder(models.Model):
     def on_partner_id_change(self):
         var = self.env["product.product"].search([('name', '=', self.partner_id.name)])
         self.write({
-            'project': var.project[0].id if var.project else None,
-            'building': var.building[0].id if var.building else None,
-            'floor': var.floor_id[0].id if var.floor_id else None,
-            'unit': var[0].id if var else None,
-            'branch_id': var.branch_id[0].id if var.branch_id else None,
+            'project': var.project.id,
+            'building': var.building.id,
+            'floor': var.floor_id.id,
+            'unit': var.id,
+            'branch_id': var.branch_id.id
         })
         product_ids = []
         for p in var:
@@ -73,6 +58,7 @@ class SaleOrder(models.Model):
                 'name': p.name,
                 'product_uom_qty': 1,
                 'price_unit': p.list_price,
+                'product_uom': p.uom_id.id,
                 'order_id': self.id,
                 'product_uom_qty': p.uom_id.id if p.uom_id else False,
                 'tax_id': False
@@ -135,7 +121,6 @@ class OLStartDate(models.Model):
         self.down_payment_amount = self.amount_total - self.installment_payable_amount
 
     def create_invoice_installment(self):
-        # raise  UserError("check")
         invoice_lines = []
         order = self
         so_line = self.order_line[0]
@@ -175,217 +160,6 @@ class OLStartDate(models.Model):
         }
         invoice = self.env['account.move'].with_company(order.company_id) \
             .sudo().create(invoice_vals).with_user(self.env.uid)
-
-        if self.payment == "monthly":
-            pass
-
-            # for i in range(0,self.payment_duration):
-            #     order = self
-            #     so_line = self.order_line[0]
-
-            #     trigger = self.start_date + relativedelta(months=i+0)
-
-            #     invoice_vals = {
-            #         'ref': order.client_order_ref,
-            #         'move_type': 'out_invoice',
-            #         'invoice_origin': order.name,
-            #         'invoice_user_id': order.user_id.id,
-            #         'narration': order.note,
-            #         'partner_id': order.partner_invoice_id.id,
-            #         'fiscal_position_id': (order.fiscal_position_id or order.fiscal_position_id.get_fiscal_position(
-            #             order.partner_id.id)).id,
-            #         'partner_shipping_id': order.partner_shipping_id.id,
-            #         'currency_id': order.pricelist_id.currency_id.id,
-            #         'payment_reference': order.reference,
-            #         'invoice_date_due': trigger,
-
-            #         # 'invoice_payment_term_id': trigger,
-            #         'partner_bank_id': order.company_id.partner_id.bank_ids[:1].id,
-            #         'team_id': order.team_id.id,
-            #         'campaign_id': order.campaign_id.id,
-            #         'medium_id': order.medium_id.id,
-            #         'source_id': order.source_id.id,
-            #         'so_ids': order.id,
-
-            #         'invoice_line_ids': [(0, 0, {
-            #             'name': so_line.name,
-            #             'price_unit': order.installment_amount,
-            #             'quantity': 1.0,
-            #             'product_id': so_line.product_id.id,
-            #             'product_uom_id': so_line.product_uom.id,
-            #             'tax_ids': [(6, 0, so_line.tax_id.ids)],
-            #             'sale_line_ids': [(6, 0, [so_line.id])],
-            #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
-            #             'analytic_account_id': order.analytic_account_id.id or False,
-            #             'subtotal_so': so_line.price_subtotal,
-
-            #         })],
-            #     }
-            #     invoice = self.env['account.move'].with_company(order.company_id) \
-            #         .sudo().create(invoice_vals).with_user(self.env.uid)
-
-
-        elif self.payment == "quarterly":
-            pass
-            # counter = 0
-            # for i in range(0, self.payment_duration):
-            #     order = self
-
-            #     so_line = self.order_line[0]
-
-            #     trigger = self.start_date + relativedelta(months=counter)
-            #     counter = counter + 3
-
-            #     invoice_vals = {
-            #         'ref': order.client_order_ref,
-            #         'move_type': 'out_invoice',
-            #         'invoice_origin': order.name,
-            #         'invoice_user_id': order.user_id.id,
-            #         'narration': order.note,
-            #         'partner_id': order.partner_invoice_id.id,
-            #         'fiscal_position_id': (order.fiscal_position_id or order.fiscal_position_id.get_fiscal_position(
-            #             order.partner_id.id)).id,
-            #         'partner_shipping_id': order.partner_shipping_id.id,
-            #         'currency_id': order.pricelist_id.currency_id.id,
-            #         'payment_reference': order.reference,
-            #         'invoice_date_due': trigger,
-            #         'partner_bank_id': order.company_id.partner_id.bank_ids[:1].id,
-            #         'team_id': order.team_id.id,
-            #         'campaign_id': order.campaign_id.id,
-            #         'medium_id': order.medium_id.id,
-            #         'source_id': order.source_id.id,
-            #         'so_ids': order.id,
-            #         'invoice_line_ids': [(0, 0, {
-            #             'name': so_line.name,
-            #             'price_unit': order.installment_amount,
-            #             'quantity': 1.0,
-            #             'product_id': so_line.product_id.id,
-            #             'product_uom_id': so_line.product_uom.id,
-            #             'tax_ids': [(6, 0, so_line.tax_id.ids)],
-            #             'sale_line_ids': [(6, 0, [so_line.id])],
-            #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
-            #             'analytic_account_id': order.analytic_account_id.id or False,
-
-            #         })],
-            #     }
-            #     invoice = self.env['account.move'].with_company(order.company_id) \
-            #         .sudo().create(invoice_vals).with_user(self.env.uid)
-        elif self.payment == "byannual":
-            pass
-            # counter1 = 0
-            # for i in range(0, self.payment_duration):
-            #     order = self
-            #     so_line = self.order_line[0]
-            #     trigger = self.start_date + relativedelta(months=counter1)
-            #     counter1 = counter1 + 6
-            #     invoice_vals = {
-            #         'ref': order.client_order_ref,
-            #         'move_type': 'out_invoice',
-            #         'invoice_origin': order.name,
-            #         'invoice_user_id': order.user_id.id,
-            #         'narration': order.note,
-            #         'partner_id': order.partner_invoice_id.id,
-            #         'fiscal_position_id': (order.fiscal_position_id or order.fiscal_position_id.get_fiscal_position(
-            #             order.partner_id.id)).id,
-            #         'partner_shipping_id': order.partner_shipping_id.id,
-            #         'currency_id': order.pricelist_id.currency_id.id,
-            #         'payment_reference': order.reference,
-            #         'invoice_date_due': trigger,
-            #         'partner_bank_id': order.company_id.partner_id.bank_ids[:1].id,
-            #         'team_id': order.team_id.id,
-            #         'campaign_id': order.campaign_id.id,
-            #         'medium_id': order.medium_id.id,
-            #         'source_id': order.source_id.id,
-            #         'so_ids': order.id,
-            #         'invoice_line_ids': [(0, 0, {
-            #             'name': so_line.name,
-            #             'price_unit': order.installment_amount,
-            #             'quantity': 1.0,
-            #             'product_id': so_line.product_id.id,
-            #             'product_uom_id': so_line.product_uom.id,
-            #             'tax_ids': [(6, 0, so_line.tax_id.ids)],
-            #             'sale_line_ids': [(6, 0, [so_line.id])],
-            #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
-            #             'analytic_account_id': order.analytic_account_id.id or False,
-
-            #         })],
-            #     }
-            #     invoice = self.env['account.move'].with_company(order.company_id) \
-            #         .sudo().create(invoice_vals).with_user(self.env.uid)
-        else:
-            pass
-
-            # counter3 = 0
-            # for i in range(0, self.payment_duration):
-            #     order = self
-            #     so_line = self.order_line[0]
-            #     trigger = self.start_date + relativedelta(months=counter3)
-            #     counter3 = counter3 + 12
-            #     invoice_vals = {
-            #         'ref': order.client_order_ref,
-            #         'move_type': 'out_invoice',
-            #         'invoice_origin': order.name,
-            #         'invoice_user_id': order.user_id.id,
-            #         'narration': order.note,
-            #         'partner_id': order.partner_invoice_id.id,
-            #         'fiscal_position_id': (order.fiscal_position_id or order.fiscal_position_id.get_fiscal_position(
-            #             order.partner_id.id)).id,
-            #         'partner_shipping_id': order.partner_shipping_id.id,
-            #         'currency_id': order.pricelist_id.currency_id.id,
-            #         'payment_reference': order.reference,
-            #         'invoice_date_due': trigger,
-            #         'partner_bank_id': order.company_id.partner_id.bank_ids[:1].id,
-            #         'team_id': order.team_id.id,
-            #         'campaign_id': order.campaign_id.id,
-            #         'medium_id': order.medium_id.id,
-            #         'source_id': order.source_id.id,
-            #         'so_ids': order.id,
-            #         'invoice_line_ids': [(0, 0, {
-            #             'name': so_line.name,
-            #             'price_unit': order.installment_amount,
-            #             'quantity': 1.0,
-            #             'product_id': so_line.product_id.id,
-            #             'product_uom_id': so_line.product_uom.id,
-            #             'tax_ids': [(6, 0, so_line.tax_id.ids)],
-            #             'sale_line_ids': [(6, 0, [so_line.id])],
-            #             'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
-            #             'analytic_account_id': order.analytic_account_id.id or False,
-
-            #         })],
-            #     }
-            #     invoice = self.env['account.move'].with_company(order.company_id) \
-            #         .sudo().create(invoice_vals).with_user(self.env.uid)
-        # for line in self.order_line:
-        #     vals = {
-        #         'product_id': line.product_id.id,
-        #         'name': line.name,
-        #         'price_unit': line.price_unit,
-        #         'quantity': line.product_uom_qty,
-        #     }
-        #
-        #     invoice_lines.append((0, 0, vals))
-        # # product_line = self.env['sale.order'].search([('partner_id', '=', self.id)])
-        # # self.so_ids = product_line.name
-        #
-        # created = self.env['account.move'].create({
-        #     'partner_id': self.partner_id.id,
-        #     'move_type': 'out_invoice',
-        #     'invoice_user_id': self.user_id.id,
-        #     'currency_id': self.pricelist_id.currency_id.id,
-        #     'invoice_line_ids': invoice_lines,
-        #     'so_ids': self.id,
-        # })
-
-    # def _prepare_invoice_line(self, **optional_values):
-    #     res = super(OLStartDate, self)._prepare_invoice_line(**optional_values)
-    #     # stock_move_line=self.env['stock']
-    #     res.update({
-    #         'product_id': self.product_id.id,
-    #         'name': self.name,
-    #         'price_unit': self.price_unit,
-    #         'quantity': self.product_uom_qty,
-    #     })
-    #     return res
 
 
 class ContactInherit(models.Model):

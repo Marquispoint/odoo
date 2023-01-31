@@ -1,6 +1,8 @@
-from odoo import fields, models, api
+from odoo import fields, models, api, _
 from odoo.tools import float_compare
 from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError, UserError
 
 
 class SaleOrder(models.Model):
@@ -81,8 +83,6 @@ class SaleOrder(models.Model):
             invoice_paid_amount = 0.0
             for inv in order.invoice_ids:
                 invoice_paid_amount += inv.amount_total - inv.amount_residual
-            print(f'invoice_paid_amount: {invoice_paid_amount}')
-            print(f'advance_amount: {advance_amount}')
             amount_residual = order.amount_total + advance_amount - invoice_paid_amount
             payment_state = "not_paid"
             if mls or order.invoice_ids:
@@ -110,16 +110,51 @@ class SaleOrder(models.Model):
 
     def action_cancel(self):
         res = super(SaleOrder, self).action_cancel()
-        product_template = self.env['product.template'].search([('name', '=', self.partner_id.name)])
-        if product_template:
-            product_template.status = 'available'
+        product_unit = self.env['product.product'].search([('name', '=', self.partner_id.name)])
+        if product_unit:
+            product_unit.state = 'available'
         return res
 
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
-        product_template = self.env['product.template'].search([('name', '=', self.partner_id.name)])
-        if product_template:
-            product_template.status = 'sold'
+        product_unit = self.env['product.product'].search([('name', '=', self.partner_id.name)])
+        if product_unit:
+            product_unit.state = 'sold'
+
+        for plan in self.plan_ids:
+            for installment in self.installment_ids:
+                if plan.milestone_id == installment.milestone_id:
+                    invoice = None
+                    if self.order_line:
+                        inv_lines = [
+                            (
+                                0,
+                                0,
+                                {
+                                    'product_id': line.product_id.id,
+                                    'name': line.name,
+                                    'quantity': line.product_uom_qty,
+                                    'product_uom_id': line.product_uom.id,
+                                    'price_unit': installment.amount,
+                                    'tax_ids': line.tax_id,
+                                },
+                            )
+                            for line in self.order_line
+                        ]
+                        inv_vals = {
+                            'partner_id': self.partner_id.id,
+                            'invoice_date': installment.date,
+                            'invoice_line_ids': inv_lines,
+                            'move_type': 'out_invoice',
+                            'so_ids': self.id,
+                            'state': 'draft',
+                            'project': self.project.id,
+                            'building': self.building.id,
+                            'floor': self.floor.id,
+                            'unit': self.unit.id,
+                        }
+                        invoice = self.env['account.move'].create(inv_vals)
+                        installment.move_id = invoice.id
         return res
 
     def token_money_scheduler(self):
@@ -139,10 +174,10 @@ class SaleOrder(models.Model):
                         print(self.env['product.template'].search(
                             [('name', '=', rec.partner_id.name)]))
                         if payment.due_date == today_date:
-                            product_template = self.env['product.template'].search(
+                            product_unit = self.env['product.product'].search(
                                 [('name', '=', rec.partner_id.name)])
-                            if product_template:
-                                product_template.status = 'available'
+                            if product_unit:
+                                product_unit.state = 'available'
                                 payment.state = 'cancel'
 
     def unlink(self):
@@ -150,6 +185,22 @@ class SaleOrder(models.Model):
             if rec.plan_ids:
                 rec.plan_ids.unlink()
         return super(SaleOrder, self).unlink()
+
+    @api.onchange('order_line')
+    def _on_order_line_change(self):
+        print('_on_order_line_change')
+        for rec in self:
+            if rec.amount_untaxed:
+                for plan in rec.plan_ids:
+                    if plan.percentage:
+                        plan.amount = rec.amount_untaxed * (plan.percentage / 100.0)
+
+    #     These functions are used for sale quote report
+    def get_is_installments_available(self, milestone):
+        return any(
+            installment.milestone_id == milestone
+            for installment in self.installment_ids
+        )
 
 
 class PaymentPlanLines(models.Model):
@@ -165,18 +216,18 @@ class PaymentPlanLines(models.Model):
     installment_no = fields.Integer('Installment No')
     installment_period = fields.Char('Installment Period')
 
-    def _compute_percentage(self):
-        for rec in self:
-            rec.percentage = rec.milestone_id.percentage if rec.milestone_id else 0
-
-    def _compute_amount(self):
-        for rec in self:
-            if rec.order_id.amount_untaxed:
-                rec.amount = rec.order_id.amount_untaxed
-            elif rec.milestone_id.amount:
-                rec.amount = rec.milestone_id.amount
-            else:
-                rec.amount = 0
+    # def _compute_percentage(self):
+    #     for rec in self:
+    #         rec.percentage = rec.milestone_id.percentage if rec.milestone_id else 0
+    #
+    # def _compute_amount(self):
+    #     for rec in self:
+    #         if rec.order_id.amount_untaxed:
+    #             rec.amount = rec.order_id.amount_untaxed
+    #         elif rec.milestone_id.amount:
+    #             rec.amount = rec.milestone_id.amount
+    #         else:
+    #             rec.amount = 0
 
     def open_payment_plan_wizard(self):
         return {
@@ -206,13 +257,26 @@ class InstallmentLines(models.Model):
     _name = 'installment.line'
 
     milestone_id = fields.Many2one('payment.plan', string='Milestone')
-    amount = fields.Float('Amount')
+    amount = fields.Float('Amount', compute='_compute_amount')
     move_id = fields.Many2one('account.move', string='Invoice')
     invoice_date = fields.Date('Inv Date', related='move_id.invoice_date')
     invoice_payment_date = fields.Date('Payment Due Date')
     invoice_status = fields.Selection(related='move_id.state', string='Inv Status')
     payment_status = fields.Selection(related='move_id.payment_state', string='Payment Status')
     order_id = fields.Many2one('sale.order')
+    date = fields.Date('Installment Date')
+
+    def _compute_amount(self):
+        for rec in self:
+            if rec.order_id.plan_ids:
+                for plan in rec.order_id.plan_ids:
+                    if plan.milestone_id == rec.milestone_id:
+                        rec.amount = plan.amount / plan.installment_no
+                        break
+                    else:
+                        rec.amount = 0
+            else:
+                rec.amount = 0
 
     def unlink(self):
         if self.move_id:

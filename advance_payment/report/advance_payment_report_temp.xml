@@ -2,6 +2,7 @@
     <data>
         <template id="report_advance_amount_temp">
             <t t-call="web.html_container">
+                <!--                <t t-call="advance_payment.marquis_point_letterhead"/>-->
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
@@ -170,6 +171,63 @@
                     </t>
                 </t>
             </t>
+        </template>
+
+        <!--        <template id="marquis_point_letterhead">-->
+        <!--            <t t-set="company" t-value="user.company_id"/>-->
+        <!--            <div class="header text-center" width="100%">-->
+        <!--                <table class="table table-sm table-borderless" style="width:100%;  font-size:14px;">-->
+        <!--                    <tr>-->
+        <!--                        <td colspan="4">-->
+        <!--                            <img src="/advance_payment/static/description/header.png"-->
+        <!--                                 style="height:100px; width:100%;"/>-->
+        <!--                        </td>-->
+        <!--                    </tr>-->
+        <!--                </table>-->
+        <!--            </div>-->
+        <!--            <div class="footer text-right border-top border-bottom" width="100%">-->
+        <!--            </div>-->
+        <!--        </template>-->
+
+        <template id="marquis_point_letterhead">
+            <t t-set="company" t-value="user.company_id"/>
+            <div class="header border-top border-bottom" width="100%">
+                <table class="table table-sm table-borderless" style="width:100%;  font-size:14px;">
+                    <tr>
+                        <td style="padding-top:10px;">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)"
+                                 style="max-height: 80px;" alt="Logo"/>
+                        </td>
+                        <td style="padding-top:40px; text-align:right;">
+                            <strong>
+                                <h2 t-esc="res_company.name"/>
+                            </strong>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer border-top border-bottom" width="100%" style="font-size:13px;">
+                <br/>
+                <table class="table table-borderless text-center" width="100%">
+                    <tr>
+                        <td>
+                            <img src="/marquespoint_overall/static/description/location.png"
+                                 style="height:20px; width:20px; margin-right:10px;"/>
+                            <span>Office no. 101 &amp; 102, The V Building, Al Barsha South Arjan, Dubai, UAE</span>
+                        </td>
+                        <td width="20%">
+                            <img src="/marquespoint_overall/static/description/phone.png"
+                                 style="height:20px; width:20px; margin-right:10px;"/>
+                            <span>Tel. 04 240 1014</span>
+                        </td>
+                        <td width="20%">
+                            <img src="/marquespoint_overall/static/description/mail.png"
+                                 style="height:20px; width:20px; margin-right:10px;"/>
+                            <span>PO Box 95447</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </template>
     </data>
 </odoo>
