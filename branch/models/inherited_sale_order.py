@@ -27,3 +27,9 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self)._prepare_invoice()
         res['branch_id'] = self.branch_id.id
         return res
+
+    @api.onchange('branch_id')
+    def _onchange_branch_id_tag_change(self):
+        print('on_branch_change')
+        for line in self.order_line:
+            line.analytic_tag_ids = self.branch_id.analytic_tag_id
