@@ -2,12 +2,10 @@
     <data>
         <template id="report_local_po_temp">
             <t t-call="web.html_container">
-                <t t-call="advance_payment.local_po_header_footer"/>
+                <!--                <t t-call="advance_payment.local_po_header_footer"/>-->
                 <t t-foreach="docs" t-as="o">
-                    <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
-                    <t style="background-color: blue" t-call="web.basic_layout">
-                        <t t-set="o" t-value="o.with_context(lang=lang)"/>
-                        <div class="page" style="padding-top:270px; margin:8px !important;">
+                    <t t-call="web.external_layout">
+                        <div class="page">
                             <div class="oe_structure"/>
                             <table class="table table-sm table-borderless"
                                    style="width:100%; border:1px solid black; font-size:14px;">
@@ -33,7 +31,8 @@
                                 </t>
                                 <tr>
                                     <td style="border-right:1px solid black;"/>
-                                    <td style="border-right:1px solid black;">Civil Work of the following works as per
+                                    <td style="border-right:1px solid black;">Civil Work of the following works as
+                                        per
                                         above mentioned quote.
                                     </td>
                                     <td style="border-right:1px solid black;"/>
@@ -128,7 +127,8 @@
                                 <tr>
                                     <td style="border-right:1px solid black;"/>
                                     <td style="border-right:1px solid black;"/>
-                                    <th style="border:1px solid black; text-align:right;" colspan="3">Price Before Tax
+                                    <th style="border:1px solid black; text-align:right;" colspan="3">Price Before
+                                        Tax
                                     </th>
                                     <td style="border:1px solid black; text-align:right;">
                                         <span t-esc="amount_untaxed"
@@ -153,7 +153,8 @@
                                         <span t-esc="o.grand_total_in_words(grand_total)"/>
                                         )
                                     </th>
-                                    <th style="border:1px solid black; text-align:right;" colspan="3">Grand Total</th>
+                                    <th style="border:1px solid black; text-align:right;" colspan="3">Grand Total
+                                    </th>
                                     <th style="border:1px solid black; text-align:right;">
                                         <span t-esc="grand_total"
                                               t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>

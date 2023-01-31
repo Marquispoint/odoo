@@ -85,3 +85,10 @@ class PurchaseOrder(models.Model):
         result['context']['default_origin'] = self.name
         result['context']['default_reference'] = self.partner_ref
         return result
+
+    @api.onchange('branch_id')
+    def _onchange_branch_id_tag_change(self):
+        print('on_branch_change')
+        for line in self.order_line:
+            line.account_analytic_id = self.branch_id.analytic_account_id.id
+            line.analytic_tag_ids = self.branch_id.analytic_tag_id

@@ -32,6 +32,7 @@
         'views/payment_plan_view.xml',
         'views/sale_order_view.xml',
         'views/payment_view.xml',
+        'report/inherited_external_layout.xml',
         'report/sale_quote_report_template.xml',
         'report/report.xml',
     ],

@@ -2,8 +2,9 @@
 <odoo>
     <template id="final_sale_order_template">
         <t t-call="web.html_container">
-            <t t-call="web.basic_layout">
-                <t t-foreach="docs" t-as="s">
+            <!--            <t t-call="ol_sales_agreement_report.marquis_point_letterhead"/>-->
+            <t t-foreach="docs" t-as="s">
+                <t t-call="web.external_layout">
                     <table style="border:none;  width:100%; ">
                         <tr style="text-align:center">
                             <td style="width:50% text-align:center">
@@ -7451,5 +7452,20 @@
                 </t>
             </t>
         </t>
+    </template>
+    <template id="marquis_point_letterhead">
+        <t t-set="company" t-value="user.company_id"/>
+        <div class="header text-center" width="100%">
+            <table class="table table-sm table-borderless" style="width:100%;  font-size:14px;">
+                <tr>
+                    <td colspan="4">
+                        <img src="/marquespoint_overall/static/description/header.png"
+                             style="height:100px; width:100%;"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer text-right border-top border-bottom" width="100%">
+        </div>
     </template>
 </odoo>

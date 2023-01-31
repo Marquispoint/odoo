@@ -2,11 +2,29 @@
     <data>
         <template id="sale_order_marquis_report_temp">
             <t t-call="web.html_container">
+                <!--                <t t-call="marquespoint_overall.marquis_point_letterhead"/>-->
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
                             <div class="oe_structure"/>
-                            <h3 class="text-center">Sale Quote Report</h3>
+                            <table class="table-borderless" width="40%">
+                                <tr>
+                                    <th>
+                                        Reference No
+                                    </th>
+                                    <td>
+                                        <span t-field="o.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <td>
+                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                                    </td>
+                                </tr>
+                            </table>
                             <br/>
                             <span>Dear Customer,
                                 <br/>
@@ -51,7 +69,9 @@
                                         <span t-field="o.unit.unit_type"/>
                                     </td>
                                     <td style='border:1px solid black; text-align:center;'/>
-                                    <td style='border:1px solid black; text-align:center;'/>
+                                    <td style='border:1px solid black; text-align:center;'>
+                                        <span t-field="o.unit.bedroom"/>
+                                    </td>
                                     <td style='border:1px solid black; text-align:center;'/>
                                     <td style='border:1px solid black; text-align:center;'/>
                                     <td style='border:1px solid black; text-align:center;'/>
@@ -72,7 +92,7 @@
                             <table class="table table-sm"
                                    style="width: 100%; border:1px solid black; border-collapse: collapse;">
                                 <t t-set="sr_no" t-value="0"/>
-                                <t t-foreach="o.plan_ids" t-as="plan">
+                                <t t-if="o.state != 'sale'">
                                     <tr>
                                         <th style='border:1px solid black; text-align:center;'>Installment</th>
                                         <th style='border:1px solid black; text-align:center;'>Milestone</th>
@@ -83,113 +103,169 @@
                                         <th style='border:1px solid black; text-align:center;'>Vat Amount (AED)</th>
                                         <th style='border:1px solid black; text-align:center;'>Amount (AED)</th>
                                     </tr>
-
-                                    <tr>
-                                        <t t-set="sr_no" t-value="sr_no + 1"/>
-                                        <td style='border:1px solid black; text-align:center;'>
-                                            <span t-esc="sr_no"/>
-                                        </td>
-                                        <td style='border:1px solid black; text-align:center;'>
-                                            <span t-esc="plan.milestone_id.name"/>
-                                        </td>
-                                        <td style='border:1px solid black; text-align:center;'>
-                                            <span t-esc="plan.percentage"
-                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
-                                            %
-                                        </td>
-                                        <td style='border:1px solid black; text-align:center;'>
-                                            <span t-esc="plan.start_date"/>
-                                        </td>
-                                        <td style='border:1px solid black; text-align:center;'>
-                                            <span t-esc="plan.end_date"/>
-                                        </td>
-                                        <td style='border:1px solid black; text-align:center;'/>
-                                        <td style='border:1px solid black; text-align:center;'/>
-                                        <td style='border:1px solid black; text-align:right;'>
-                                            <span t-esc="plan.amount"
-                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="8" style='border:1px solid black;'>
-                                            <table class="table table-sm"
-                                                   style="width: 100%; border-collapse: collapse;">
-                                                <tr>
-                                                    <th style='text-align:center;' colspan="7">
-                                                        Installments
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Installment No</th>
-                                                    <th>Invoice</th>
-                                                    <th>Inv Date</th>
-                                                    <th>Payment Due Date</th>
-                                                    <th>Inv Status</th>
-                                                    <th>Payment Status</th>
-                                                    <th>Amount</th>
-                                                </tr>
-                                                <t t-set="ins_no" t-value="0"/>
-                                                <t t-set="ins_total" t-value="0"/>
-                                                <t t-foreach="o.installment_ids" t-as="ins_line">
-                                                    <t t-if="ins_line.milestone_id == plan.milestone_id">
+                                    <t t-foreach="o.plan_ids" t-as="plan">
+                                        <tr style="font-size: 13px;">
+                                            <t t-set="sr_no" t-value="sr_no + 1"/>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="sr_no"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.milestone_id.name"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.percentage"
+                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                %
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.start_date"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.end_date"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'/>
+                                            <td style='border:1px solid black; text-align:center;'/>
+                                            <td style='border:1px solid black; text-align:right;'>
+                                                <span t-esc="plan.amount"
+                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                <t t-set="grand_total" t-value="grand_total + plan.amount"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-foreach="o.plan_ids" t-as="plan">
+                                        <tr>
+                                            <th style='border:1px solid black; text-align:center;'>Installment</th>
+                                            <th style='border:1px solid black; text-align:center;'>Milestone</th>
+                                            <th style='border:1px solid black; text-align:center;'>Percentage (%)</th>
+                                            <th style='border:1px solid black; text-align:center;'>Start Date</th>
+                                            <th style='border:1px solid black; text-align:center;'>End Date</th>
+                                            <th style='border:1px solid black; text-align:center;'>Vat Rate (%)</th>
+                                            <th style='border:1px solid black; text-align:center;'>Vat Amount (AED)</th>
+                                            <th style='border:1px solid black; text-align:center;'>Amount (AED)</th>
+                                        </tr>
+                                        <tr style="font-size: 13px;">
+                                            <t t-set="sr_no" t-value="sr_no + 1"/>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="sr_no"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.milestone_id.name"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.percentage"
+                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                %
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.start_date"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'>
+                                                <span t-esc="plan.end_date"/>
+                                            </td>
+                                            <td style='border:1px solid black; text-align:center;'/>
+                                            <td style='border:1px solid black; text-align:center;'/>
+                                            <td style='border:1px solid black; text-align:right;'>
+                                                <span t-esc="plan.amount"
+                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            </td>
+                                        </tr>
+                                        <t t-if="o.get_is_installments_available(plan.milestone_id)">
+                                            <tr style="font-size: 13px;">
+                                                <td colspan="8" style='border:1px solid black;'>
+                                                    <table class="table table-sm"
+                                                           style="width: 100%; border-collapse: collapse;">
                                                         <tr>
-                                                            <t t-set="ins_no" t-value="ins_no + 1"/>
-                                                            <t t-set="grand_total"
-                                                               t-value="grand_total + ins_line.amount"/>
-                                                            <t t-set="ins_total" t-value="ins_total + ins_line.amount"/>
-                                                            <td>
-                                                                <span t-esc="plan.milestone_id.name"/>
-                                                                <span t-esc="ins_no"/>
-                                                            </td>
-
-                                                            <td>
-                                                                <span t-esc="ins_line.move_id.name"/>
-                                                            </td>
-                                                            <td>
-                                                                <span t-esc="ins_line.invoice_date"/>
-                                                            </td>
-                                                            <td>
-                                                                <span t-esc="ins_line.invoice_payment_date"/>
-                                                            </td>
-                                                            <td>
-                                                                <span t-esc="ins_line.invoice_status"/>
-                                                            </td>
-                                                            <td>
-                                                                <span t-esc="ins_line.payment_status"/>
-                                                            </td>
-                                                            <td style="text-align:right;">
-                                                                <span t-esc="ins_line.amount"
-                                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
-                                                            </td>
+                                                            <th style='text-align:center;' colspan="7">
+                                                                Installments
+                                                            </th>
                                                         </tr>
-                                                    </t>
-                                                </t>
-                                                <tr>
-                                                    <td colspan="5"/>
-                                                    <th>Subtotal</th>
-                                                    <td style="text-align:right;">
-                                                        <span t-esc="ins_total"
-                                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
+                                                        <tr>
+                                                            <th>Installment No</th>
+                                                            <th>Invoice</th>
+                                                            <th>Inv Date</th>
+                                                            <th>Payment Due Date</th>
+                                                            <th>Inv Status</th>
+                                                            <th>Payment Status</th>
+                                                            <th>Amount</th>
+                                                        </tr>
+                                                        <t t-set="ins_no" t-value="0"/>
+                                                        <t t-set="ins_total" t-value="0"/>
+                                                        <t t-foreach="o.installment_ids" t-as="ins_line">
+                                                            <t t-if="ins_line.milestone_id == plan.milestone_id">
+                                                                <tr>
+                                                                    <t t-set="ins_no" t-value="ins_no + 1"/>
+                                                                    <t t-set="grand_total"
+                                                                       t-value="grand_total + ins_line.amount"/>
+                                                                    <t t-set="ins_total"
+                                                                       t-value="ins_total + ins_line.amount"/>
+                                                                    <td>
+                                                                        <span t-esc="plan.milestone_id.name"/>
+                                                                        <span t-esc="ins_no"/>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span t-esc="ins_line.move_id.name"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span t-esc="ins_line.invoice_date"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span t-esc="ins_line.invoice_payment_date"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span t-esc="ins_line.invoice_status"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span t-esc="ins_line.payment_status"/>
+                                                                    </td>
+                                                                    <td style="text-align:right;">
+                                                                        <span t-esc="ins_line.amount"
+                                                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                        </t>
+                                                        <t t-if="ins_total">
+                                                            <tr>
+                                                                <td colspan="5"/>
+                                                                <th>Subtotal</th>
+                                                                <td style="text-align:right;">
+                                                                    <span t-esc="ins_total"
+                                                                          t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-else="">
+                                            <td colspan="8" style='border:1px solid black; text-align:center;'>
+                                                <span>There is no any installment Scheduled for
+                                                    <strong style="color:red;" t-esc="plan.milestone_id.name"/>
+                                                </span>
+                                            </td>
+                                        </t>
+                                    </t>
                                 </t>
                             </table>
-                            <div style="float:right; width:30%">
-                                <table class="table table-sm">
-                                    <tr>
-                                        <td>
-                                            <strong>Total</strong>
-                                        </td>
-                                        <td style="text-align:right;">
-                                            <span t-esc="grand_total"
-                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                            <t t-if="grand_total">
+                                <div style="float:right; width:30%">
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td>
+                                                <strong>Total</strong>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                <span t-esc="grand_total"
+                                                      t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </t>
                             <p style="page-break-before:always;"/>
                             <br/>
                             <br/>
@@ -218,6 +294,58 @@
                     </t>
                 </t>
             </t>
+        </template>
+
+        <template id="marquis_point_letterhead">
+            <t t-set="company" t-value="user.company_id"/>
+            <div class="header border-top border-bottom" width="100%">
+                <table class="table table-sm table-borderless" style="width:100%;  font-size:14px;">
+                    <tr>
+                        <!--                        <td colspan="4">-->
+                        <!--                            <img src="/marquespoint_overall/static/description/header.png"-->
+                        <!--                                 style="height:100px; width:100%;"/>-->
+                        <!--                        </td>-->
+                        <td style="padding-top:10px;">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)"
+                                 style="max-height: 80px;" alt="Logo"/>
+                        </td>
+                        <td style="padding-top:40px; text-align:right;">
+                            <strong>
+                                <h2 t-esc="res_company.name"/>
+                            </strong>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer border-top border-bottom" width="100%" style="font-size:13px;">
+                <br/>
+                <table class="table table-borderless text-center" width="100%">
+                    <tr>
+                        <!--                        <td width="5%">-->
+                        <!--                            -->
+                        <!--                        </td>-->
+                        <td>
+                            <img src="/marquespoint_overall/static/description/location.png"
+                                 style="height:20px; width:20px; margin-right:10px;"/>
+                            <span>Office no. 101 &amp; 102, The V Building, Al Barsha South Arjan, Dubai, UAE</span>
+                        </td>
+                        <td width="20%">
+                            <img src="/marquespoint_overall/static/description/phone.png"
+                                 style="height:20px; width:20px; margin-right:10px;"/>
+                            <span>Tel. 04 240 1014</span>
+                        </td>
+                        <td width="20%">
+                            <img src="/marquespoint_overall/static/description/mail.png"
+                                 style="height:20px; width:20px; margin-right:10px;"/>
+                            <span>PO Box 95447</span>
+                        </td>
+                    </tr>
+                </table>
+                <!--                <span>-->
+                <!--                    Office no. 101 &amp; 102, The V Building, Al Barsha South Arjan, Dubai, UAE | Tel. 04 240 1014 |-->
+                <!--                    PO Box 95447-->
+                <!--                </span>-->
+            </div>
         </template>
     </data>
 </odoo>

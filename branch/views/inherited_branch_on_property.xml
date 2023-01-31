@@ -45,19 +45,19 @@
 
 
         <!--    Floor    -->
-        <!--        Property Building Form View-->
+        <!--        Property Floor Form View-->
         <record id="view_floor_form_inherited_branch" model="ir.ui.view">
             <field name="name">property.floor.form.inherited.branch</field>
             <field name="model">property.floor</field>
             <field name="inherit_id" ref="ol_property_custom.view_floor_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='building_id']" position="after">
+                <xpath expr="//field[@name='project_name']" position="after">
                     <field name="branch_id"/>
                 </xpath>
             </field>
         </record>
 
-        <!--        Building Tree View-->
+        <!--        Floor Tree View-->
         <record id="view_floor_tree_inherited_branch" model="ir.ui.view">
             <field name="name">property.floor.tree.inherited.branch</field>
             <field name="model">property.floor</field>
@@ -69,7 +69,7 @@
             </field>
         </record>
 
-        <!--        Building Search View-->
+        <!--        Floor Search View-->
         <record id="view_floor_search_id" model="ir.ui.view">
             <field name="model">property.floor</field>
             <field name="arch" type="xml">
