@@ -98,6 +98,17 @@ class SaleOrder(models.Model):
             order.advance_payment_status = payment_state
 
     # ------------------------------------------------------------------
+    @api.depends('order_line.invoice_lines')
+    def _get_invoiced(self):
+        # The invoice_ids are obtained thanks to the invoice lines of the SO
+        # lines, and we also search for possible refunds created directly from
+        # existing invoices. This is necessary since such a refund is not
+        # directly linked to the SO.
+        for order in self:
+            invoices = self.env['account.move'].search([('so_ids', '=', self.id)])
+            order.invoice_ids = invoices
+            order.invoice_count = len(invoices)
+
     plan_ids = fields.One2many('payment.plan.line', 'order_id')
     installment_ids = fields.One2many('installment.line', 'order_id')
     ins_amount = fields.Float('Total', compute='_compute_installment_amount')
@@ -113,12 +124,15 @@ class SaleOrder(models.Model):
         product_unit = self.env['product.product'].search([('name', '=', self.partner_id.name)])
         if product_unit:
             product_unit.state = 'available'
+        if self.plan_ids:
+            self.plan_ids.unlink()
         return res
 
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
-        product_unit = self.env['product.product'].search([('name', '=', self.partner_id.name)])
-        if product_unit:
+        if product_unit := self.env['product.product'].search(
+            [('name', '=', self.partner_id.name)]
+        ):
             product_unit.state = 'sold'
 
         for plan in self.plan_ids:
@@ -203,6 +217,7 @@ class SaleOrder(models.Model):
         )
 
 
+
 class PaymentPlanLines(models.Model):
     _name = 'payment.plan.line'
     milestone_id = fields.Many2one('payment.plan', string='Milestone')
@@ -215,6 +230,8 @@ class PaymentPlanLines(models.Model):
     end_date = fields.Date('End Date')
     installment_no = fields.Integer('Installment No')
     installment_period = fields.Char('Installment Period')
+    ac_date_eng = fields.Char('Anticipated completion Date (English)', size=60)
+    ac_date_arabic = fields.Char('Anticipated completion Date (Arabic)', size=60)
 
     # def _compute_percentage(self):
     #     for rec in self:
