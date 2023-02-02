@@ -25,17 +25,17 @@ class AccountPayment(models.Model):
     so_ids = fields.Many2one(comodel_name='sale.order')
 
 
-class AccountMoveLines(models.Model):
-    _inherit = 'account.move.line'
-
-    subtotal_so = fields.Integer(string='Subtotal of SO')
-    percentage_of_invoice = fields.Integer(String='% of installment', compute='substraction')
-
-    def substraction(self):
-        try:
-            self.percentage_of_invoice = (self.price_subtotal / float(self.subtotal_so)) * 100
-        except:
-            self.percentage_of_invoice = 0
+# class AccountMoveLines(models.Model):
+#     _inherit = 'account.move.line'
+#
+#     subtotal_so = fields.Integer(string='Subtotal of SO')
+#     percentage_of_invoice = fields.Integer(String='% of installment', compute='substraction')
+#
+#     def substraction(self):
+#         try:
+#             self.percentage_of_invoice = (self.price_subtotal / float(self.subtotal_so)) * 100
+#         except:
+#             self.percentage_of_invoice = 0
 
 
 class SaleOrder(models.Model):

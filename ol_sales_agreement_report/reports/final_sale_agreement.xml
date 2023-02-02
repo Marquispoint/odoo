@@ -62,11 +62,13 @@
                                     <strong>2</strong>
                                 </td>
                                 <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;  font-size: 13px;padding-left:4px;">
-                                    <strong>Developer: MARQUIS CIRCLE REAL ESTATE DEVELOPER LLC,</strong>
+                                    <strong>Developer:
+                                        <t t-esc="res_company.name"/>
+                                    </strong>
                                     <br/>
                                     a limited company operating under commercial licence number 818744, whose address is
                                     P.O. Box [<span style="font-size:12px;padding-left:4px;"
-                                                    t-field="s.partner_id.zip"/>], Dubai, UAE.
+                                                    t-field="res_company.zip"/>], Dubai, UAE.
                                 </td>
                                 <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
                                     <strong>المطور: ماركيز بوينت للعقارات ش.ذ.م.م ,</strong>شركة ذات مسئولية محدودة تعمل
@@ -85,139 +87,123 @@
                         <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
                             <tbody>
                                 <tr>
-                                    <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
-                                        <t t-if="i==1">
+                                    <t t-if="i==1">
+                                        <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
                                             <strong>3</strong>
-                                        </t>
-                                    </td>
-
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td style="width: 5%; border:1px solid black; text-align: center; font-size: 13px;"/>
+                                    </t>
+                                    <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <strong>Purchaser:
                                             <span style="font-size:12px;padding-left:4px;" t-esc="i"/>
                                         </strong>
                                     </td>
-                                    <td style="width: 30%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 30%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <span style="font-size:12px;padding-left:4px;" t-field="l.purchase_individual"/>
                                     </td>
-                                    <td style="width: 30%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 30%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <span style="font-size:12px;padding-right:4px%;"
                                               t-field="l.purchase_individual"/>
                                     </td>
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                    <td style="width: 15%; border:1px solid black; text-align: right; font-size: 13px;">
                                         <strong>:المشتري 1</strong>
                                     </td>
-                                    <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
+                                    <td style="width: 5%; border:1px solid black; text-align: center; font-size: 13px;">
                                         <t t-if="i==1">
                                             <strong>3</strong>
                                         </t>
                                     </td>
-
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
-                                    <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
-                                        <strong></strong>
-                                    </td>
-                                    <td style="width: 10%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;"/>
+                                    <td style="width: 15%; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
                                         <strong>Individual</strong>:
                                     </td>
-                                    <td style="width: 30%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"></td>
-                                    <td style="width: 30%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
-                                        class="text-right"></td>
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
+                                    <td style="width: 30%; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
+                                    <td style="width: 30%; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
+                                    <td style="width: 15%; border-right: 1px solid black; text-align: right; font-size: 13px;">
                                         <strong>:فيما يتعلق بالأشخاص</strong>
                                     </td>
-                                    <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong></strong>
+                                    <td style="width: 5%; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
+
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
-                                    <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
-                                        <strong></strong>
-                                    </td>
-                                    <td style="width: 10%; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 5%;  border:1px solid black; text-align: center; font-size: 13px;"/>
+                                    <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <strong>Nationality</strong>:
                                     </td>
-                                    <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                        <span style="font-size:12px;padding-left:4px;" t-field="l.purchase_individual"/>
+                                    <td style="width: 30%; border:1px solid black; font-size: 13px; padding-left: 4px;">
+                                        <span style="font-size:12px;padding-left:4px;"
+                                              t-field="l.purchase_individual.country_id.name"/>
+
                                     </td>
-                                    <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
+                                    <td style="width: 30%; font-size: 13px; padding-left: 4px;border:1px solid black;"
                                         class="text-right">
                                         <span style="font-size:12px;padding-right:4px;"
-                                              t-field="l.purchase_individual"/>
+                                              t-field="l.purchase_individual.country_arabic.name"/>
                                     </td>
-                                    <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
+                                    <td style="width: 15%; text-aborder:1px solid black; text-align: right; font-size: 13px;">
                                         <strong>:الجنسية</strong>
                                     </td>
-                                    <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong></strong>
+                                    <td style="width: 5%;border:1px solid black; text-align: center; font-size: 13px;">
+
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
-                                    <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
+                                    <td style="width: 5%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
                                     </td>
-                                    <td style="width: 10%; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 10%; border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
                                         <strong>Passport No</strong>:
                                     </td>
-                                    <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 30%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
                                         <span style="font-size:12px;padding-left:4px;"
                                               t-field="l.purchase_individual.passport_eng"/>
                                     </td>
-                                    <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
+                                    <td style="width: 30%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
                                         <span style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.passport_arabic"/>
                                     </td>
-                                    <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
+                                    <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-top: 1px solid black; font-size: 13px;">
                                         <strong>:رقم جواز السفر</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
-                                    <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
+                                    <td style="width: 5%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
                                     </td>
-                                    <td style="width: 10%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 10%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
                                         <strong>Fax No</strong>:
                                     </td>
-                                    <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 30%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
                                         <span style="font-size:12px;padding-left:4px;"
                                               t-field="l.purchase_individual.fax_eng"/>
                                     </td>
-                                    <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
+                                    <td style="width: 30%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
                                         <span style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.fax_arabic"/>
                                     </td>
-                                    <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
+                                    <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px; border-top: 1px solid black;">
                                         <strong>:رقم الفاكس</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -241,10 +227,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -268,10 +251,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -295,11 +275,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
 
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -323,10 +299,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -350,10 +323,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -377,10 +347,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -404,10 +371,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -431,10 +395,7 @@
                                         <strong></strong>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
+
                                 <tr>
                                     <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; text-align: center; font-size: 13px;">
                                         <strong></strong>
@@ -460,33 +421,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                            <tbody>
-                                <tr>
-                                    <td style="width: 5%;  border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
-                                        <strong></strong>
-                                    </td>
-                                    <td style="width: 10%;  border-right: 1px solid black; border-left: 1px solid black;font-size: 13px; padding-left: 4px;">
-                                        <strong>Address</strong>:
-                                    </td>
-                                    <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                        <span style="font-size:12px;padding-left:4px;"
-                                              t-field="l.purchase_company.street"/>
-                                    </td>
-                                    <td style="width: 30%; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"
-                                        class="text-right">
-                                        <span style="font-size:12px;padding-left:4px;"
-                                              t-field="l.purchase_company.street_arabic"/>
-                                    </td>
-                                    <td style="width: 15%;  border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                        <strong>:العنوان</strong>
-                                    </td>
-                                    <td style="width: 5%;  border-right: 1px solid black; text-align: center; font-size: 13px;">
-                                        <strong></strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <t t-set="i" t-value="i+1"/>
                     </t>
 
 
@@ -1107,145 +1042,79 @@
                                 <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
                                     <strong>قيمة القسط</strong>
                                 </td>
-
                             </tr>
                         </tbody>
                     </table>
 
                     <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
                         <tbody>
-                            <tr>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
-                                    1
-                                </td>
-                                <t t-if="s.invoice_ids">
-                                    <t t-foreach="s.invoice_ids[0].invoice_line_ids" t-as="d">
-                                        <!--                                <t t-foreach="d.invoice_line_ids" t-as="z">-->
+                            <t t-if="s.plan_ids">
+                                <t t-set="sr_no" t-value="1"/>
+                                <t t-set="total_per" t-value="0"/>
+                                <t t-set="total_amount" t-value="0"/>
+                                <t t-set="sr_no" t-value="1"/>
+                                <t t-foreach="s.plan_ids" t-as="plan">
+                                    <t t-if="plan.amount">
+                                        <tr>
+                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
+                                                <t t-esc="sr_no"/>
+                                            </td>
 
+                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                                <t t-esc="plan.percentage"
+                                                   t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                %
+                                                <t t-set="total_per" t-value="total_per + plan.percentage"/>
+                                            </td>
 
-                                        <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                            <strong>
-                                                <span style="font-size:12px;padding-left:4px;"/>
-                                                <t t-esc="d.price_subtotal"/>
-                                            </strong>
-                                        </td>
-
-                                        <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                            <strong>
-                                                <span style="font-size:12px;padding-left:4px;"/>
-                                                <t t-esc="d.percentage_of_invoice"/>
-                                            </strong>
-                                        </td>
+                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                                <t t-esc="plan.milestone_id.name"/>
+                                            </td>
+                                            <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                                <t t-esc="plan.ac_date_eng"/>
+                                            </td>
+                                            <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                                <t t-esc="plan.ac_date_arabic"/>
+                                            </td>
+                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                                <t t-esc="plan.amount"
+                                                   t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                <t t-set="total_amount" t-value="total_amount + plan.amount"/>
+                                            </td>
+                                        </tr>
                                     </t>
+                                    <t t-set="sr_no" t-value="sr_no + 1"/>
                                 </t>
-                                <t t-else="">
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
-                                </t>
+                                <tr>
+                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
+                                        <p>Final Instalment</p>
+                                    </td>
+                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                        <strong>
+                                            <t t-esc="total_per"
+                                               t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            %
+                                        </strong>
+                                    </td>
+                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                        <strong></strong>
+                                    </td>
+                                    <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                        <!--                                        Completion Date-->
+                                    </td>
+                                    <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                        <!--                                        تاريخ الإنجاز-->
+                                    </td>
+                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                        <span t-field="s.currency_id.symbol"/>
+                                        <t t-esc="total_amount"
+                                           t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
 
-                                <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    On or before the effective date of the Reservation Form
-                                </td>
-                                <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    عند أو قبل تاريخ توقيع استمارة الحجز
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    AED[Insert]>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                        <tbody>
-                            <tr>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
-                                    2
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong>[Insert]%</strong>
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong>[Insert]%</strong>
-                                </td>
-                                <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    On or before the Effective Date of this Agreement
-                                </td>
-                                <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    عند أو قبل تاريخ نفاذ هذه الاتفاقية
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    AED[Insert]
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                        <tbody>
-                            <tr>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
-                                    3
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong>[Insert]%</strong>
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong>[Insert]%</strong>
-                                </td>
-                                <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong>[Insert]%</strong>
-                                </td>
-                                <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <![CDATA[&nbsp;]]></td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    AED[Insert]
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                        <tbody>
-                            <tr>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
-                                    <p>Final Instalment</p>
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong>[Insert]%</strong>
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <strong>100%</strong>
-                                </td>
-                                <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    Completion Date
-                                </td>
-                                <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    تاريخ الإنجاز
-                                </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    AED[Insert]
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
-                        <tbody>
-                            <tr>
-                                <td style="width: 15%;  border-right: 1px solid black;border-bottom: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;border-top: 1px solid black;">
-                                    لقسط الأخير
-                                </td>
-                                <td style="width: 15%;  border-right: 1px solid black;border-bottom: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <![CDATA[&nbsp;]]></td>
-                                <td style="width: 15%;  border-right: 1px solid black;border-bottom: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <![CDATA[&nbsp;]]></td>
-                                <td style="width: 22.5%;  border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <![CDATA[&nbsp;]]></td>
-                                <td style="width: 22.5%;  border-right: 1px solid black;border-bottom: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
-                                    <![CDATA[&nbsp;]]></td>
-                                <td style="width: 15%;  border-right: 1px solid black;border-bottom: 1px solid black; text-align: right; font-size: 13px;">
-                                    <![CDATA[&nbsp;]]></td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <br/>
                     <table style="height: 16px;" width="100%">
                         <tbody>
@@ -7346,7 +7215,8 @@
                                 <td style="width: 5%; font-size: 13px; padding-left: 4px;"><![CDATA[&nbsp;]]></td>
                                 <td style="width: 40%; font-size: 13px; padding-left: 4px; text-align: center;">I/We
                                     have read and understood the development declaration declared by <strong>LIWAN LLC
-                                    </strong> ("<strong>Master Developer</strong>") in respect of the Master Community (<strong>
+                                    </strong> ("<strong>Master Developer</strong>") in respect of the Master Community
+                                    (<strong>
                                         Master Community Declaration</strong>) and agree to be bound by its terms.
                                 </td>
                                 <td style="width: 40%; text-align: right; font-size: 13px;">قرأت/ قرأنا وفهمنا اعلان

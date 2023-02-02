@@ -48,6 +48,8 @@
                                 <field name="end_date" readonly="1"/>
                                 <field name="installment_no" readonly="1"/>
                                 <field name="installment_period" readonly="1"/>
+                                <field name="ac_date_eng" optional="hide"/>
+                                <field name="ac_date_arabic" optional="hide"/>
                             </tree>
                         </field>
                         <notebook name="installment">

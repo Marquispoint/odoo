@@ -7,6 +7,9 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='337']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
                 <xpath expr="//page[@name='other_information']" position="after">
                     <page name="spa" string="SPA">
 
@@ -54,17 +57,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='spa']" position="after">
                     <page name="installment" string="Installment Details" invisible="1">
-                        <!--                        <field name='payment_terms_ids' string="Payment Detail"-->
-                        <!--                                colspan="4" widget="one2many_list">-->
-                        <!--                                <tree>-->
-                        <!--                                <field name="name"/>-->
-                        <!--                                <field name="payment_reference"/>-->
-                        <!--                                <field name="invoice_date"/>-->
-                        <!--                                <field name="state"/>-->
-
-                        <!--                                </tree>-->
-                        <!--                            </field>-->
-
                         <group>
                             <group>
                                 <field name="amount_total" string="Invoice Amount" class="oe_inline" widget="monetary"
@@ -100,51 +92,18 @@
                 <xpath expr="//field[@name='payment_reference']" position="after">
                     <field name="so_ids" string="Sale Order ID"/>
                 </xpath>
-                <xpath expr="//field[@name='price_total']" position="after">
-                    <field name="percentage_of_invoice"/>
-                    <field name="subtotal_so" widget="monetary"/>
-
-                </xpath>
+<!--                <xpath expr="//field[@name='price_total']" position="after">-->
+<!--                    <field name="percentage_of_invoice"/>-->
+<!--                    <field name="subtotal_so" widget="monetary"/>-->
+<!--                </xpath>-->
 
             </field>
         </record>
-        <!--        <record id="account_move_inheritance_tree" model="ir.ui.view">-->
-        <!--            <field name="name">account.move.tree</field>-->
-        <!--            <field name="model">account.move.line</field>-->
-        <!--            <field name="inherit_id" ref="account.view_invoice_tree"/>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--            <xpath expr="//field[@name='activity_ids']" position="after">-->
-        <!--                <field name="percentage_of_invoice" string="Installment Percentage"/>-->
-        <!--            </xpath>-->
-
-        <!--            </field>-->
-        <!--        </record>-->
-
-
-        <!--         <record id="sale_order_inherit_selection" model="ir.ui.view">-->
-        <!--            <field name="name">sale.order.form</field>-->
-        <!--            <field name="model">sale.order</field>-->
-        <!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--&lt;!&ndash;                <xpath expr="/page[@name='spa']/group" position="inside">&ndash;&gt;-->
-        <!--&lt;!&ndash;                    <field name="select_purchase"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
-        <!--            </field>-->
-        <!--         </record>-->
-
         <record id="res_partner_inherit" model="ir.ui.view">
             <field name="name">res.partner.form</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <!--                <xpath expr="//field[@name='vat']" position="before">-->
-                <!--                    <field name="street_arabic"/>-->
-                <!--                    <field name="street2_arabic"/>-->
-                <!--                    <field name="state_id_arabic"/>-->
-                <!--            <field name="country_arabic" />-->
-                <!--            <field name="passport_eng" />-->
-                <!--            <field name="passport_arabic" />-->
-                <!--            </xpath>-->
                 <xpath expr="//field[@name='website']" position="before">
                     <field name="fax_eng"/>
                     <field name="fax_arabic"/>
@@ -165,8 +124,6 @@
                         </div>
                     </div>
                 </xpath>
-
-
             </field>
         </record>
         <record id="res_company_inherit" model="ir.ui.view">
@@ -174,14 +131,6 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <!--                <xpath expr="//field[@name='vat']" position="before">-->
-                <!--                    <field name="street_arabic"/>-->
-                <!--                    <field name="street2_arabic"/>-->
-                <!--                    <field name="state_id_arabic"/>-->
-                <!--            <field name="country_arabic" />-->
-                <!--            <field name="passport_eng" />-->
-                <!--            <field name="passport_arabic" />-->
-                <!--            </xpath>-->
                 <xpath expr="//field[@name='website']" position="before">
                     <field name="fax_eng"/>
                     <field name="fax_arabic"/>
@@ -203,8 +152,6 @@
                         </div>
                     </div>
                 </xpath>
-
-
             </field>
         </record>
         <record id="ali_res_bank_inherit" model="ir.ui.view">
@@ -217,11 +164,8 @@
                     <field name="account_no"/>
                     <field name="account_name"/>
                     <field name="IBAN"/>
-
-
                 </xpath>
             </field>
         </record>
-
     </data>
 </odoo>
