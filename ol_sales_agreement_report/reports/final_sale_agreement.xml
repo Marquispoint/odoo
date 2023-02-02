@@ -1023,30 +1023,30 @@
                             </tr>
                         </tbody>
                     </table>
-                    <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
+                    <table style="border:1px solid black; width: 100%; font-size: 10px;">
                         <tbody>
                             <tr>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
+                                <td style="width: 15%; border:1px solid black; text-align: center; font-size: 13px;">
                                     <strong>القسط</strong>
                                 </td>
 
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                     <strong>سعر الشراء</strong>
                                 </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                     <strong>مرحلة الإنجاز</strong>
                                 </td>
-                                <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                <td style="width: 45%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                     <strong>تاريخ القسط المتوقع</strong>
                                 </td>
-                                <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                <td style="width: 15%; border:1px solid black; text-align: right; font-size: 13px;">
                                     <strong>قيمة القسط</strong>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <table style="border-right: 1px solid black; border-left: 1px solid black; width: 100%; font-size: 10px;">
+                    <table style="border:1px solid black; width: 100%; font-size: 10px;">
                         <tbody>
                             <t t-if="s.plan_ids">
                                 <t t-set="sr_no" t-value="1"/>
@@ -1056,27 +1056,27 @@
                                 <t t-foreach="s.plan_ids" t-as="plan">
                                     <t t-if="plan.amount">
                                         <tr>
-                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
+                                            <td style="width: 15%; border:1px solid black; text-align: center; font-size: 13px;">
                                                 <t t-esc="sr_no"/>
                                             </td>
 
-                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                            <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                                 <t t-esc="plan.percentage"
                                                    t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                                 %
                                                 <t t-set="total_per" t-value="total_per + plan.percentage"/>
                                             </td>
 
-                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                            <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                                 <t t-esc="plan.milestone_id.name"/>
                                             </td>
-                                            <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                            <td style="width: 22.5%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                                 <t t-esc="plan.ac_date_eng"/>
                                             </td>
-                                            <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                            <td style="width: 22.5%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                                 <t t-esc="plan.ac_date_arabic"/>
                                             </td>
-                                            <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                            <td style="width: 15%; border:1px solid black; text-align: right; font-size: 13px;">
                                                 <t t-esc="plan.amount"
                                                    t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                                 <t t-set="total_amount" t-value="total_amount + plan.amount"/>
@@ -1086,26 +1086,26 @@
                                     <t t-set="sr_no" t-value="sr_no + 1"/>
                                 </t>
                                 <tr>
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
+                                    <td style="width: 15%; border:1px solid black; text-align: center; font-size: 13px;">
                                         <p>Final Instalment</p>
                                     </td>
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <strong>
                                             <t t-esc="total_per"
                                                t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                             %
                                         </strong>
                                     </td>
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 15%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <strong></strong>
                                     </td>
-                                    <td style="width: 22.5%; border-top: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 22.5%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <!--                                        Completion Date-->
                                     </td>
-                                    <td style="width: 22.5%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;">
+                                    <td style="width: 22.5%; border:1px solid black; font-size: 13px; padding-left: 4px;">
                                         <!--                                        تاريخ الإنجاز-->
                                     </td>
-                                    <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                    <td style="width: 15%; border:1px solid black; text-align: right; font-size: 13px;">
                                         <span t-field="s.currency_id.symbol"/>
                                         <t t-esc="total_amount"
                                            t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
