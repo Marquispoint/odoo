@@ -14,7 +14,7 @@ class ProductTemplate(models.Model):
         ('cancel', 'Cancel'),
     ], default='available')
 
-    is_unit = fields.Boolean('Is Unit')
+    is_unit = fields.Boolean('Is Unit', default=True)
     project = fields.Many2one('project.project', 'Project')
     multi_image = fields.Many2many('ir.attachment', string="Image")
 
@@ -153,7 +153,7 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    is_unit = fields.Boolean('Is Unit')
+    is_unit = fields.Boolean('Is Unit', default=True)
 
     @api.onchange('property_price')
     def _on_property_price_change(self):

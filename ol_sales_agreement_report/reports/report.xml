@@ -15,5 +15,6 @@
             string="Sale Agreement"
             name="ol_sales_agreement_report.final_sale_order_template"
             file="ol_sales_agreement_report.final_sale_order_template"
+            print_report_name="('Sale Agreement - %s' % (object.name))"
         />
 </odoo>
