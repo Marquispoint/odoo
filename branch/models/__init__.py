@@ -11,7 +11,7 @@ from . import inherited_stock_location
 from . import inherited_account_bank_statement
 from . import inherited_account_bank_statement_line
 from . import inherited_stock_inventory
-from . import inherited_customer
+# from . import inherited_customer
 from . import inherited_product
 from . import inherited_account_payment_wizard
 from . import inherited_crm__lead

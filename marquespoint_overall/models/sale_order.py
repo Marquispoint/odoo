@@ -98,16 +98,20 @@ class SaleOrder(models.Model):
             order.advance_payment_status = payment_state
 
     # ------------------------------------------------------------------
-    @api.depends('order_line.invoice_lines')
-    def _get_invoiced(self):
-        # The invoice_ids are obtained thanks to the invoice lines of the SO
-        # lines, and we also search for possible refunds created directly from
-        # existing invoices. This is necessary since such a refund is not
-        # directly linked to the SO.
-        for order in self:
-            invoices = self.env['account.move'].search([('so_ids', '=', self.id)])
-            order.invoice_ids = invoices
-            order.invoice_count = len(invoices)
+
+    def _prepare_invoice(self, ):
+        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals.update({
+            'branch_id': self.branch_id.id,
+            'project': self.project.id,
+            'building': self.building.id,
+            'floor': self.floor.id,
+            'unit': self.unit.id,
+        })
+        return invoice_vals
+
+
+
 
     plan_ids = fields.One2many('payment.plan.line', 'order_id')
     installment_ids = fields.One2many('installment.line', 'order_id')
@@ -151,6 +155,7 @@ class SaleOrder(models.Model):
                                     'product_uom_id': line.product_uom.id,
                                     'price_unit': installment.amount,
                                     'tax_ids': line.tax_id,
+                                    'sale_line_ids': line,
                                 },
                             )
                             for line in self.order_line
@@ -165,6 +170,7 @@ class SaleOrder(models.Model):
                             'project': self.project.id,
                             'building': self.building.id,
                             'floor': self.floor.id,
+                            'invoice_origin': self.name,
                             'unit': self.unit.id,
                         }
                         invoice = self.env['account.move'].create(inv_vals)
@@ -216,8 +222,20 @@ class SaleOrder(models.Model):
             for installment in self.installment_ids
         )
 
+# -----------------------------------------
+# This function is used to attach custom reportd in email
+    def _find_mail_template(self, force_confirmation_template=False):
+        self.ensure_one()
+        template_id = False
+        if self.state == 'sale':
+            # template_id = int(self.env['ir.config_parameter'].sudo().get_param('sale.default_confirmation_template'))
+            # template_id = self.env['mail.template'].search([('id', '=', template_id)]).id
+            if not template_id:
+                template_id = self.env['ir.model.data']._xmlid_to_res_id('marquespoint_overall.mail_template_sale_confirmation', raise_if_not_found=False)
+        if not template_id:
+            template_id = self.env['ir.model.data']._xmlid_to_res_id('marquespoint_overall.email_template_edi_sale', raise_if_not_found=False)
 
-
+        return template_id
 class PaymentPlanLines(models.Model):
     _name = 'payment.plan.line'
     milestone_id = fields.Many2one('payment.plan', string='Milestone')

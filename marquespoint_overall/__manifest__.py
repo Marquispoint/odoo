@@ -28,6 +28,7 @@
         "wizard/sale_advance_payment_wizard_view.xml",
         'security/ir.model.access.csv',
         'data/server.xml',
+        'data/mail_template_data.xml',
         'views/product_template_view.xml',
         'views/payment_plan_view.xml',
         'views/sale_order_view.xml',

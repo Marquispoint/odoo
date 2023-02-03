@@ -154,6 +154,7 @@
                                 <field name="project_analytical"/>
                                 <field name="building_analytic_account"/>
                                 <field name="floor_analytic_account"/>
+                                <field name="number_of_units"/>
                             </group>
                         </group>
                     </sheet>
@@ -231,7 +232,7 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button string="PDC Received" class="btn btn-primary"/>
+<!--                    <button string="PDC Received" class="btn btn-primary"/>-->
                     <field name="state" widget="statusbar"/>
                 </xpath>
                 <xpath expr="//page[@name='general_information']" position="before">

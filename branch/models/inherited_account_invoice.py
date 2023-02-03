@@ -52,28 +52,29 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).create(values)
         records = self.env['account.journal'].search(
             [('is_multi_branch', '=', False), ('id', '=', res.journal_id.id)])
-        if records:
-            for line in res.invoice_line_ids:
-                line.branch_id = res.branch_id
-                line.analytic_account_id = res.branch_id.analytic_account_id.id
-                line.analytic_tag_ids = res.branch_id.analytic_tag_id
-
-            for line in res.line_ids:
-                line.branch_id = res.branch_id
-                line.analytic_account_id = res.branch_id.analytic_account_id.id
-                line.analytic_tag_ids = res.branch_id.analytic_tag_id
-        else:
-            print("else create called")
-            for line in res.invoice_line_ids:
-                if not res.branch_id:
+        if values.get('invoice_line_ids'):
+            if records:
+                for line in res.invoice_line_ids:
                     line.branch_id = res.branch_id
                     line.analytic_account_id = res.branch_id.analytic_account_id.id
                     line.analytic_tag_ids = res.branch_id.analytic_tag_id
-            for line in res.line_ids:
-                if not line.branch_id:
-                    line.branch_id = res.branch_id.id
+
+                for line in res.line_ids:
+                    line.branch_id = res.branch_id
                     line.analytic_account_id = res.branch_id.analytic_account_id.id
                     line.analytic_tag_ids = res.branch_id.analytic_tag_id
+            else:
+                print("else create called")
+                for line in res.invoice_line_ids:
+                    if not res.branch_id:
+                        line.branch_id = res.branch_id
+                        line.analytic_account_id = res.branch_id.analytic_account_id.id
+                        line.analytic_tag_ids = res.branch_id.analytic_tag_id
+                for line in res.line_ids:
+                    if not line.branch_id:
+                        line.branch_id = res.branch_id.id
+                        line.analytic_account_id = res.branch_id.analytic_account_id.id
+                        line.analytic_tag_ids = res.branch_id.analytic_tag_id
         return res
 
     def write(self, values):

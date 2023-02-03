@@ -24,6 +24,7 @@
                 name="advance_payment.report_advance_amount_temp"
                 file="advance_payment.report_advance_amount_temp"
                 paperformat="paper_format_advance_payment"
+                print_report_name="('Interim Payment Certificate - %s' % (object.name).replace('/', ''))"
         />
 
         <!--        Local Purchase Order-->
@@ -51,6 +52,7 @@
                 name="advance_payment.report_local_po_temp"
                 file="advance_payment.report_local_po_temp"
                 paperformat="paper_format_local_po"
+                print_report_name="('Local Purchase Order - %s' % (object.name))"
         />
     </data>
 </odoo>

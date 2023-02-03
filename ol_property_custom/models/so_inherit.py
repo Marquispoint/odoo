@@ -71,11 +71,6 @@ class SaleOrder(models.Model):
 class OLStartDate(models.Model):
     _inherit = 'sale.order'
     purchaser_ids = fields.One2many('purchaser.company', 'purchaser_id')
-    payment_terms_ids = fields.One2many('account.move', 'so_ids', string='Payment Terms')
-
-    # select_purchase = fields.Selection([('purchase_1', 'Purchaser 1'), ('purchase_2', 'Purchaser 2'), ('purchase_3', 'Purchaser 3'), ('purchase_4', 'Purchaser 4')],
-    #                                                string='Select Purchase',
-    #                                                default='purchase_1')
     location = fields.Char(string='Location')
     location_arabic = fields.Char(string='Location Arabic')
     relevent_unit_no = fields.Many2one(comodel_name='product.product', string='Relevent Unit No')
@@ -83,7 +78,7 @@ class OLStartDate(models.Model):
     relevent_bays_no = fields.Char(string='Relevent Bays No')
 
     bank_details = fields.Many2one(comodel_name='res.bank', string='Bank Details')
-    anticipated_completion_date = fields.Date(string='Anticipated Completion Date')
+    anticipated_completion_date = fields.Char(string='Anticipated Completion Date')
     permitted_use = fields.Char(string='Permitted Use')
     permitted_use_arabic = fields.Char(string='Permitted Use(Arabic)')
     late_payment_fee = fields.Char(string='Late Payment Fee')

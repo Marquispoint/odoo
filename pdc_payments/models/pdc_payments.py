@@ -9,6 +9,12 @@ from datetime import datetime
 from odoo.tools import float_compare
 
 
+class PDCBank(models.Model):
+    _name = 'pdc.commercial.bank'
+
+    name = fields.Char('Name')
+
+
 class PDCPayment(models.Model):
     _name = 'pdc.payment'
     _description = 'PDC Payment'
@@ -18,7 +24,8 @@ class PDCPayment(models.Model):
     name = fields.Char(string='Name', tracking=True)
     partner_id = fields.Many2one('res.partner', string='Partner', tracking=True)
     payment_amount = fields.Float(string='Payment Amount', tracking=True)
-    cheque_ref = fields.Char(string='Commercial Name', tracking=True)
+    # cheque_ref = fields.Many2one('pdc.commercial.bank', string='Commercial Bank Name', tracking=True)
+    commercial_bank_id = fields.Many2one('pdc.commercial.bank', string='Commercial Bank Name', tracking=True)
     memo = fields.Char(string='Memo', tracking=True)
     destination_account_id = fields.Many2one('account.account', string='Bank', tracking=True)
     journal_id = fields.Many2one('account.journal', string='Journal', tracking=True)
@@ -46,6 +53,7 @@ class PDCPayment(models.Model):
     cleared_counter = fields.Integer('Cleared', compute='get_cleared_jv_count')
 
     move_id = fields.Many2one('account.move', string='Invoice/Bill Ref')
+    move_ids = fields.Many2many('account.move', string='Invoices/Bills Ref')
     cheque_no = fields.Char()
 
     def check_balance(self):
@@ -80,7 +88,7 @@ class PDCPayment(models.Model):
                     'pdc_registered_id': self.id,
                 }
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Registered',
                     'debit': record.payment_amount,
                     'credit': 0.0,
                     'partner_id': record.partner_id.id,
@@ -88,7 +96,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Registered',
                     'debit': 0.0,
                     'partner_id': record.partner_id.id,
                     'credit': record.payment_amount,
@@ -108,7 +116,7 @@ class PDCPayment(models.Model):
                     'pdc_registered_id': self.id,
                 }
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Registered',
                     'debit': 0.0,
                     'credit': record.payment_amount,
                     'partner_id': record.partner_id.id,
@@ -116,7 +124,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Registered',
                     'debit': record.payment_amount,
                     'partner_id': record.partner_id.id,
                     'credit': 0.0,
@@ -141,7 +149,7 @@ class PDCPayment(models.Model):
                     'pdc_bounce_id': self.id,
                 }
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Bounced',
                     'debit': record.payment_amount,
                     'credit': 0.0,
                     'partner_id': record.partner_id.id,
@@ -149,7 +157,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Bounced',
                     'debit': 0.0,
                     'partner_id': record.partner_id.id,
                     'credit': record.payment_amount,
@@ -169,7 +177,7 @@ class PDCPayment(models.Model):
                     'pdc_bounce_id': self.id,
                 }
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Bounced',
                     'debit': 0.0,
                     'credit': record.payment_amount,
                     'partner_id': record.partner_id.id,
@@ -177,7 +185,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Bounced',
                     'debit': record.payment_amount,
                     'partner_id': record.partner_id.id,
                     'credit': 0.0,
@@ -202,7 +210,7 @@ class PDCPayment(models.Model):
                     'pdc_cleared_id': self.id,
                 }
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': 0.0,
                     'credit':  record.payment_amount,
                     'partner_id': record.partner_id.id,
@@ -210,7 +218,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': record.payment_amount,
                     'partner_id': record.partner_id.id,
                     'credit': 0.0,
@@ -218,7 +226,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(credit_line)
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': record.payment_amount,
                     'credit': 0.0,
                     'partner_id': record.partner_id.id,
@@ -226,7 +234,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': 0.0,
                     'partner_id': record.partner_id.id,
                     'credit': record.payment_amount,
@@ -247,7 +255,7 @@ class PDCPayment(models.Model):
                     'pdc_cleared_id': self.id,
                 }
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': record.payment_amount,
                     'credit': 0.0,
                     'partner_id': record.partner_id.id,
@@ -255,7 +263,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': 0.0,
                     'partner_id': record.partner_id.id,
                     'credit': record.payment_amount,
@@ -263,7 +271,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(credit_line)
                 debit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': 0.0,
                     'credit': record.payment_amount,
                     'partner_id': record.partner_id.id,
@@ -271,7 +279,7 @@ class PDCPayment(models.Model):
                 })
                 lines.append(debit_line)
                 credit_line = (0, 0, {
-                    'name': 'PDC Payments',
+                    'name': 'PDC Cleared',
                     'debit': record.payment_amount,
                     'partner_id': record.partner_id.id,
                     'credit': 0.0,
@@ -365,7 +373,8 @@ class AccountPaymentInherit(models.Model):
     _inherit = 'account.payment'
 
     pdc_ref = fields.Char(string='PDC Reference', tracking=True)
-    available_partner_bank_ids = fields.Many2many('res.bank')
+    # available_partner_bank_ids = fields.Many2many('res.bank')
+
 
 class AccountEdiDocument(models.Model):
     _inherit = 'account.edi.document'
@@ -382,6 +391,7 @@ class AccountMove(models.Model):
     pdc_cleared_id = fields.Many2one('pdc.payment')
 
     pdc_count = fields.Integer(string="PDC", compute='_compute_pdc_count')
+    is_pdc_created = fields.Boolean()
 
     def action_pdc_payment_wizard(self):
         return {
@@ -394,7 +404,36 @@ class AccountMove(models.Model):
                         'default_date_payment': self.invoice_date_due,
                         'default_currency_id': self.currency_id.id,
                         'default_move_id': self.id,
+                        'default_move_ids': [self.id],
                         'default_pdc_type': 'received' if self.move_type == 'out_invoice' else 'sent',
+                        },
+            'res_model': 'pdc.payment.wizard',
+            'view_mode': 'form',
+        }
+
+    def action_combine_pdc_payment_wizard(self):
+        selected_ids = self.env.context.get('active_ids', [])
+        selected_records = self.env['account.move'].browse(selected_ids)
+        # print(selected_records)
+        if any(res.state != 'posted' for res in selected_records) or len(
+                selected_records.mapped('partner_id')) > 1 or len(selected_records.mapped('journal_id')) > 1 :
+            raise ValidationError('Invoices must be in Posted state And Journal must be same. ')
+        for res in selected_records:
+            if res.is_pdc_created:
+                raise UserError(_('PDC of invoice %s is already created.') % res.name)
+        # if any(res.is_pdc_created):
+        #     raise ValidationError('PDC of ')
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'PDC Wizard',
+            'view_id': self.env.ref('pdc_payments.view_pdc_payment_wizard_form', False).id,
+            'target': 'new',
+            'context': {'default_partner_id': selected_records[0].partner_id.id,
+                        'default_payment_amount': sum(selected_records.mapped('amount_residual')),
+                        # 'default_date_payment': self.invoice_date_due,
+                        'default_currency_id': selected_records[0].currency_id.id,
+                        'default_move_ids': selected_records.ids,
+                        'default_pdc_type': 'received' if selected_records[0].move_type == 'out_invoice' else 'sent',
                         },
             'res_model': 'pdc.payment.wizard',
             'view_mode': 'form',
@@ -405,10 +444,10 @@ class AccountMove(models.Model):
             'name': _('PDC Payments'),
             'view_mode': 'tree,form',
             'res_model': 'pdc.payment',
-            'domain': [('move_id', '=', self.id)],
+            'domain': [('move_ids', 'in', [self.id])],
             'type': 'ir.actions.act_window',
         }
 
     def _compute_pdc_count(self):
-        records = self.env['pdc.payment'].search_count([('move_id', '=', self.id)])
+        records = self.env['pdc.payment'].search_count([('move_ids', 'in', [self.id])])
         self.pdc_count = records
