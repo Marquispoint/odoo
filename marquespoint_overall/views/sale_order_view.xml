@@ -10,7 +10,7 @@
                             name="%(action_view_account_voucher_wizard)d"
                             string="Token Money"
                             type="action"
-                            attrs="{'invisible': ['|',('state', 'in', ['done','cancel']),('amount_residual', '=', 0)]}"
+                            attrs="{'invisible': [('state', 'in', ['sale','cancel'])]}"
                     />
                 </xpath>
                 <field name="tax_totals_json" position="after">

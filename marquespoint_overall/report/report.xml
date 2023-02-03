@@ -24,6 +24,7 @@
                 name="marquespoint_overall.sale_order_marquis_report_temp"
                 file="marquespoint_overall.sale_order_marquis_report_temp"
                 paperformat="paper_format_sale_order_marquis"
+                print_report_name="('Sale Quote - %s' % (object.name))"
         />
     </data>
 </odoo>
