@@ -13,7 +13,8 @@
 					<field name="destination_account_id" required="1"/>
 
 					<field name="pdc_type" required="1"/>
-					<field name="date_payment" required="1" string="Registered Date"/>
+					<field name="date_payment" required="1"/>
+					<field name="date_registered" required="1" />
 					<field name="commercial_bank_id"/>
 					<field name="cheque_no" required="1"/>
 					<field name="memo"/>

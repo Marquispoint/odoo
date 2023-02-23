@@ -73,8 +73,8 @@
                             <field name="pdc_type" required="1"/>
                         </group>
                         <group>
-                            <field name="date_payment" required="1" string="Registered Date"/>
-                            <field name="date_registered" required="1" string="Due Date"/>
+                            <field name="date_payment" required="1" string="Due Date"/>
+                            <field name="date_registered" required="1" string="Registered Date"/>
                             <field name="date_bounced"/>
                             <field name="date_cleared"/>
                             <field name="cheque_no" required="1"/>
@@ -101,13 +101,14 @@
                 <field name="partner_id"/>
                 <field name="payment_amount" sum="Total"/>
                 <field name="commercial_bank_id"/>
-                <field name="date_payment" string="Registered Date"/>
+                <field name="date_payment" string="Due Date"/>
                 <field name="cheque_no"/>
-                <field name="date_registered" string="Due Date"/>
+                <field name="date_registered" string="Registered Date"/>
                 <field name="pdc_type"/>
                 <field name="memo"/>
                 <field name="destination_account_id"/>
                 <field name="journal_id"/>
+                <field name="state" widget="badge"/>
             </tree>
         </field>
     </record>
