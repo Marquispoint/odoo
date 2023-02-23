@@ -83,7 +83,7 @@ class PDCPayment(models.Model):
                     'move_type': 'entry',
                     'journal_id': record.journal_id.id,
                     'partner_id': record.partner_id.id,
-                    'date': record.date_payment,
+                    'date': record.date_registered,
                     'state': 'draft',
                     'pdc_registered_id': self.id,
                 }
@@ -111,7 +111,7 @@ class PDCPayment(models.Model):
                     'move_type': 'entry',
                     'journal_id': record.journal_id.id,
                     'partner_id': record.partner_id.id,
-                    'date': record.date_payment,
+                    'date': record.date_registered,
                     'state': 'draft',
                     'pdc_registered_id': self.id,
                 }
@@ -133,7 +133,7 @@ class PDCPayment(models.Model):
                 lines.append(credit_line)
                 move_dict['line_ids'] = lines
                 move = self.env['account.move'].create(move_dict)
-        self.date_registered = datetime.today().date()
+        # self.date_registered = datetime.today().date()
 
     def action_bounce_jv(self):
         lines = []
@@ -144,7 +144,7 @@ class PDCPayment(models.Model):
                     'move_type': 'entry',
                     'journal_id': record.journal_id.id,
                     'partner_id': record.partner_id.id,
-                    'date': record.date_payment,
+                    'date': record.date_bounced,
                     'state': 'draft',
                     'pdc_bounce_id': self.id,
                 }
@@ -172,7 +172,7 @@ class PDCPayment(models.Model):
                     'move_type': 'entry',
                     'journal_id': record.journal_id.id,
                     'partner_id': record.partner_id.id,
-                    'date': record.date_payment,
+                    'date': record.date_bounced,
                     'state': 'draft',
                     'pdc_bounce_id': self.id,
                 }
@@ -205,7 +205,7 @@ class PDCPayment(models.Model):
                     'move_type': 'entry',
                     'journal_id': record.journal_id.id,
                     'partner_id': record.partner_id.id,
-                    'date': record.date_payment,
+                    'date': record.date_cleared,
                     'state': 'draft',
                     'pdc_cleared_id': self.id,
                 }
@@ -250,7 +250,7 @@ class PDCPayment(models.Model):
                     'move_type': 'entry',
                     'journal_id': record.journal_id.id,
                     'partner_id': record.partner_id.id,
-                    'date': record.date_payment,
+                    'date': record.date_cleared,
                     'state': 'draft',
                     'pdc_cleared_id': self.id,
                 }

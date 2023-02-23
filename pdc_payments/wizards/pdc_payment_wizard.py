@@ -20,7 +20,8 @@ class PDCPaymentWizard(models.TransientModel):
                                  ('received', 'Received'),
                                  ], string='PDC Type',)
 
-    date_payment = fields.Date(string='Payment Date')
+    date_payment = fields.Date(string='Due Date')
+    date_registered = fields.Date(string='Registered Date')
     cheque_no = fields.Char()
     move_id = fields.Many2one('account.move', string='Invoice/Bill Ref')
     move_ids = fields.Many2many('account.move', string='Invoices/Bills Ref')
@@ -41,8 +42,8 @@ class PDCPaymentWizard(models.TransientModel):
                     'journal_id': record.journal_id.id,
                     # 'move_id': rec.id,
                     'move_ids': record.move_ids.ids,
-                    'date_payment': datetime.today().date(),
-                    'date_registered': record.date_payment,
+                    'date_payment': record.date_payment,
+                    'date_registered': record.date_registered,
                     'destination_account_id': record.journal_id.default_account_id.id,
                     'currency_id': record.currency_id.id,
                     'commercial_bank_id': record.commercial_bank_id.id,
@@ -57,8 +58,8 @@ class PDCPaymentWizard(models.TransientModel):
                     'journal_id': record.journal_id.id,
                     # 'move_id': rec.id,
                     'move_ids': record.move_ids.ids,
-                    'date_payment': datetime.today().date(),
-                    'date_registered': record.date_payment,
+                    'date_payment': record.date_payment,
+                    'date_registered': record.date_registered,
                     'destination_account_id': record.journal_id.default_account_id.id,
                     'currency_id': record.currency_id.id,
                     'payment_amount': record.payment_amount,
