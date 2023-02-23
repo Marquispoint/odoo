@@ -340,7 +340,10 @@ class AccountMoveLines(models.Model):
     def _on_change_current_bill_amount(self):
         for rec in self:
             if rec.current_bill_amount:
-                rec.quantity = round(rec.current_bill_amount / rec.price_unit, 2)
+                try:
+                    rec.quantity = round(rec.current_bill_amount / rec.price_unit, 2)
+                except:
+                    rec.quantity = 0
 
     # @api.onchange('current_bill_amount')
     # def _on_change_current_bill_amount(self):

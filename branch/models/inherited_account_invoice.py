@@ -20,31 +20,31 @@ class AccountMove(models.Model):
                 if rec.branch_id:
                     for invoice in rec.invoice_line_ids:
                         invoice.branch_id = rec.branch_id.id
-                        invoice.analytic_account_id = rec.branch_id.analytic_account_id.id
+                        # invoice.analytic_account_id = rec.branch_id.analytic_account_id.id
                         invoice.analytic_tag_ids = rec.branch_id.analytic_tag_id
                     for line in rec.line_ids:
                         line.branch_id = rec.branch_id.id
-                        line.analytic_account_id = rec.branch_id.analytic_account_id.id
+                        # line.analytic_account_id = rec.branch_id.analytic_account_id.id
                         line.analytic_tag_ids = rec.branch_id.analytic_tag_id
                 else:
                     for invoice in rec.invoice_line_ids:
                         invoice.branch_id = False
-                        invoice.analytic_account_id = False
+                        # invoice.analytic_account_id = False
                         invoice.analytic_tag_ids = False
                     for line in rec.line_ids:
                         line.branch_id = False
-                        line.analytic_account_id = False
+                        # line.analytic_account_id = False
                         line.analytic_tag_ids = False
             else:
                 for invoice in rec.invoice_line_ids:
                     if not invoice.branch_id:
                         invoice.branch_id = rec.branch_id.id
-                        invoice.analytic_account_id = rec.branch_id.analytic_account_id.id
+                        # invoice.analytic_account_id = rec.branch_id.analytic_account_id.id
                         invoice.analytic_tag_ids = rec.branch_id.analytic_tag_id
                 for line in rec.line_ids:
                     if not line.branch_id:
                         line.branch_id = rec.branch_id.id
-                        line.analytic_account_id = rec.branch_id.analytic_account_id.id
+                        # line.analytic_account_id = rec.branch_id.analytic_account_id.id
                         line.analytic_tag_ids = rec.branch_id.analytic_tag_id
 
     @api.model
@@ -56,24 +56,24 @@ class AccountMove(models.Model):
             if records:
                 for line in res.invoice_line_ids:
                     line.branch_id = res.branch_id
-                    line.analytic_account_id = res.branch_id.analytic_account_id.id
+                    # line.analytic_account_id = res.branch_id.analytic_account_id.id
                     line.analytic_tag_ids = res.branch_id.analytic_tag_id
 
                 for line in res.line_ids:
                     line.branch_id = res.branch_id
-                    line.analytic_account_id = res.branch_id.analytic_account_id.id
+                    # line.analytic_account_id = res.branch_id.analytic_account_id.id
                     line.analytic_tag_ids = res.branch_id.analytic_tag_id
             else:
                 print("else create called")
                 for line in res.invoice_line_ids:
                     if not res.branch_id:
                         line.branch_id = res.branch_id
-                        line.analytic_account_id = res.branch_id.analytic_account_id.id
+                        # line.analytic_account_id = res.branch_id.analytic_account_id.id
                         line.analytic_tag_ids = res.branch_id.analytic_tag_id
                 for line in res.line_ids:
                     if not line.branch_id:
                         line.branch_id = res.branch_id.id
-                        line.analytic_account_id = res.branch_id.analytic_account_id.id
+                        # line.analytic_account_id = res.branch_id.analytic_account_id.id
                         line.analytic_tag_ids = res.branch_id.analytic_tag_id
         return res
 
@@ -84,22 +84,22 @@ class AccountMove(models.Model):
         if records:
             for line in self.invoice_line_ids:
                 line.branch_id = self.branch_id.id
-                line.analytic_account_id = self.branch_id.analytic_account_id.id
+                # line.analytic_account_id = self.branch_id.analytic_account_id.id
                 line.analytic_tag_ids = self.branch_id.analytic_tag_id
             for line in self.line_ids:
                 line.branch_id = self.branch_id.id
-                line.analytic_account_id = self.branch_id.analytic_account_id.id
+                # line.analytic_account_id = self.branch_id.analytic_account_id.id
                 line.analytic_tag_ids = self.branch_id.analytic_tag_id
         else:
             for line in self.invoice_line_ids:
                 if not line.branch_id:
                     line.branch_id = self.branch_id.id
-                    line.analytic_account_id = self.branch_id.analytic_account_id.id
+                    # line.analytic_account_id = self.branch_id.analytic_account_id.id
                     line.analytic_tag_ids = self.branch_id.analytic_tag_id
             for line in self.line_ids:
                 if not line.branch_id:
                     line.branch_id = self.branch_id.id
-                    line.analytic_account_id = self.branch_id.analytic_account_id.id
+                    # line.analytic_account_id = self.branch_id.analytic_account_id.id
                     line.analytic_tag_ids = self.branch_id.analytic_tag_id
         return res
 
@@ -134,11 +134,11 @@ class AccountMoveLine(models.Model):
         for rec in self:
             if rec.branch_id:
                 print('branch id found')
-                rec.analytic_account_id = rec.branch_id.analytic_account_id.id
+                # rec.analytic_account_id = rec.branch_id.analytic_account_id.id
                 rec.analytic_tag_ids = rec.branch_id.analytic_tag_id
             else:
                 print('branch id is not found')
-                rec.analytic_account_id = False
+                # rec.analytic_account_id = False
                 rec.analytic_tag_ids = False
 
 
