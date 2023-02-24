@@ -28,14 +28,15 @@
         "wizard/sale_advance_payment_wizard_view.xml",
         'security/ir.model.access.csv',
         'data/server.xml',
+        'report/inherited_external_layout.xml',
+        'report/sale_quote_report_template.xml',
+        'report/report.xml',
         'data/mail_template_data.xml',
         'views/product_template_view.xml',
         'views/payment_plan_view.xml',
         'views/sale_order_view.xml',
         'views/payment_view.xml',
-        'report/inherited_external_layout.xml',
-        'report/sale_quote_report_template.xml',
-        'report/report.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [

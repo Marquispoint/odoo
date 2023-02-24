@@ -221,21 +221,21 @@ class SaleOrder(models.Model):
             installment.milestone_id == milestone
             for installment in self.installment_ids
         )
-
-# -----------------------------------------
-# This function is used to attach custom reportd in email
-    def _find_mail_template(self, force_confirmation_template=False):
-        self.ensure_one()
-        template_id = False
-        if self.state == 'sale':
-            # template_id = int(self.env['ir.config_parameter'].sudo().get_param('sale.default_confirmation_template'))
-            # template_id = self.env['mail.template'].search([('id', '=', template_id)]).id
-            if not template_id:
-                template_id = self.env['ir.model.data']._xmlid_to_res_id('marquespoint_overall.mail_template_sale_confirmation', raise_if_not_found=False)
-        if not template_id:
-            template_id = self.env['ir.model.data']._xmlid_to_res_id('marquespoint_overall.email_template_edi_sale', raise_if_not_found=False)
-
-        return template_id
+#
+# # -----------------------------------------
+# # This function is used to attach custom reportd in email
+#     def _find_mail_template(self, force_confirmation_template=False):
+#         self.ensure_one()
+#         template_id = False
+#         if self.state == 'sale':
+#             # template_id = int(self.env['ir.config_parameter'].sudo().get_param('sale.default_confirmation_template'))
+#             # template_id = self.env['mail.template'].search([('id', '=', template_id)]).id
+#             if not template_id:
+#                 template_id = self.env['ir.model.data']._xmlid_to_res_id('marquespoint_overall.mail_template_sale_confirmation', raise_if_not_found=False)
+#         if not template_id:
+#             template_id = self.env['ir.model.data']._xmlid_to_res_id('marquespoint_overall.email_template_edi_sale', raise_if_not_found=False)
+#
+#         return template_id
 class PaymentPlanLines(models.Model):
     _name = 'payment.plan.line'
     milestone_id = fields.Many2one('payment.plan', string='Milestone')
