@@ -1,20 +1,16 @@
 <odoo>
-
     <record id="pdc_payment_approval" model="ir.module.category">
         <field name="name">PDC Payment Approval</field>
         <field name="description">Manage PDC Payment Approvals</field>
     </record>
-
     <record id="group_save" model="res.groups">
         <field name="name">Save Approval</field>
         <field name="category_id" ref="pdc_payment_approval"/>
     </record>
-
     <record id="group_register" model="res.groups">
         <field name="name">Register Approval</field>
         <field name="category_id" ref="pdc_payment_approval"/>
     </record>
-
     <record id="group_cancel" model="res.groups">
         <field name="name">Cancel Approval</field>
         <field name="category_id" ref="pdc_payment_approval"/>
