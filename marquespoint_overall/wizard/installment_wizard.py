@@ -87,7 +87,8 @@ class InstallmentWizard(models.TransientModel):
             raise ValidationError('Please Enter Positive value for Percentage')
         model = self.env.context.get('active_model')
         active_id = self.env[model].browse(self.env.context.get('active_id'))
-        self.env['installment.line'].search([('milestone_id', '=', self.milestone_id.id)]).unlink()
+        self.env['installment.line'].search(
+            [('milestone_id', '=', self.milestone_id.id), ('order_id', '=', self.order_id.id)]).unlink()
         active_id.write({
             'amount': self.amount,
             'percentage': self.percentage,
