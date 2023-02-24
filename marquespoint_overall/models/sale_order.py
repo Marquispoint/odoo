@@ -284,7 +284,7 @@ class PaymentPlanLines(models.Model):
 
     def unlink(self):
         for rec in self:
-            self.env['installment.line'].search([('milestone_id', '=', rec.milestone_id.id)]).unlink()
+            self.env['installment.line'].search([('milestone_id', '=', rec.milestone_id.id), ('order_id', '=', rec.order_id.id)]).unlink()
         return super(PaymentPlanLines, self).unlink()
 
 
