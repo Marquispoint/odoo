@@ -13,9 +13,10 @@ class CustomReport(models.AbstractModel):
         lst = []
         for p in data['partner_id']:
             partner_ledger = self.env['account.move.line'].search(
-                [('partner_id', '=', p), ('date', '>=', data['start_date']),('date', '<=', data['end_date']),
-                 ('move_id.state', '=', 'posted'),  ('balance', '!=', 0), '|',('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable')
-                 ,('account_id.is_pdc', '=', False)]).sorted(key=lambda r: r.date)
+                [('partner_id', '=', p), ('date', '>=', data['start_date']), ('date', '<=', data['end_date']),
+                 ('move_id.state', '=', 'posted'), ('balance', '!=', 0), '|',
+                 ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable')
+                    , ('account_id.is_pdc', '=', False)]).sorted(key=lambda r: r.date)
             for r in partner_ledger:
                 lst.append(r)
         # print(lst)
@@ -32,7 +33,7 @@ class CustomReport(models.AbstractModel):
             bal = 0
             for rec in open_bal:
                 bal = bal + rec.balance
-            record = self.env['res.partner'].search([('id' , '=',p)])
+            record = self.env['res.partner'].search([('id', '=', p)])
             vals = {
                 'partner': record,
                 'bal': bal,
@@ -51,7 +52,7 @@ class CustomReport(models.AbstractModel):
             bal = 0
             for rec in open_bal:
                 bal = bal + rec.amount_currency
-            record = self.env['res.partner'].search([('id' , '=',p)])
+            record = self.env['res.partner'].search([('id', '=', p)])
             vals = {
                 'partner': record,
                 'bal': bal,
@@ -67,11 +68,12 @@ class CustomReport(models.AbstractModel):
                 [('partner_id', '=', p), ('date', '>=', data['start_date']), ('date', '<=', data['end_date']),
                  ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0),
                  ('account_id.reconcile', '=', True), ('full_reconcile_id', '=', False), '|',
-                 ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable'), ('account_id.is_pdc', '=', False)])
+                 ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable'),
+                 ('account_id.is_pdc', '=', False)])
             bal = 0
             for rec in open_bal:
                 bal = bal + rec.balance
-            record = self.env['res.partner'].search([('id' , '=',p)])
+            record = self.env['res.partner'].search([('id', '=', p)])
             vals = {
                 'partner': record,
                 'bal': bal,
@@ -100,7 +102,7 @@ class CustomReport(models.AbstractModel):
 
         partners = []
         for p in data['partner_id']:
-            record = self.env['res.partner'].search([('id' , '=',p)])
+            record = self.env['res.partner'].search([('id', '=', p)])
             partners.append(record)
         pdc_ledger = []
         pdc_opening = []
@@ -108,7 +110,7 @@ class CustomReport(models.AbstractModel):
         for p in data['partner_id']:
             open_bal = self.env['account.move.line'].search(
                 [('partner_id', '=', p), ('date', '<', data['start_date']),
-                 ('move_id.state', '=', 'posted'),('balance', '!=', 0), '|',
+                 ('move_id.state', '=', 'posted'), ('balance', '!=', 0), '|',
                  ('account_id', '=', account_recieve_id.id), ('account_id', '=', account_payable_id.id)
                  ])
             bal = 0
@@ -124,7 +126,7 @@ class CustomReport(models.AbstractModel):
             closing_bal = self.env['account.move.line'].search(
                 [('partner_id', '=', p), ('date', '>=', data['start_date']), ('date', '<=', data['end_date']),
                  ('move_id.state', '=', 'posted'), ('balance', '!=', 0), '|',
-                 ('account_id', '=', account_recieve_id.id), ('account_id', '=', account_payable_id.id),])
+                 ('account_id', '=', account_recieve_id.id), ('account_id', '=', account_payable_id.id), ])
             b = 0
             for cl in closing_bal:
                 b = b + cl.balance
@@ -148,8 +150,25 @@ class CustomReport(models.AbstractModel):
 
         active = self.env['partner.ledger'].browse(self.env.context.get('active_ids'))
         # print(active)
-        print("pdc opening",pdc_opening)
-        print("pdc Closing",pdc_closing)
+        print("pdc opening", pdc_opening)
+        print("pdc Closing", pdc_closing)
+        print({
+            'doc_ids': self.ids,
+            'doc_model': 'partner.ledger',
+            'openbal': openbal,
+            'print_date': self.get_print_date(),
+            'login_user': self.env.user.name,
+            'foreign_openbal': self.get_foreign_opening_bal(data),
+            # 'closingbal': closingbal + openbal,
+            'closingbal': closingbal,
+            'pdc_opening': pdc_opening,
+            'pdc_closing': pdc_closing,
+            'dat': dat,
+            'pdc_partner': pdc_ledger,
+            'data': data,
+            'partners': partners,
+            'result': active,
+        })
         return {
             'doc_ids': self.ids,
             'doc_model': 'partner.ledger',
