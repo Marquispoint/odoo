@@ -34,7 +34,7 @@
                 <group>
                     <group>
                         <field name="start_date"/>
-                        <field name="partner_id" readonly="1" widget="many2many_tags"/>
+                        <field name="partner_id" widget="many2many_tags"/>
                     </group>
                     <group>
                         <field name="end_date"/>
@@ -69,5 +69,5 @@
     </record>
 
 <!--    <menuitem id="menu_partner_ledger_report_contact" name="Partner Ledger" parent="contacts.menu_contacts" action="action_partner_ledger_wizard" sequence="150" />-->
-<!--    <menuitem id="menu_partner_ledger_report" name="Partner Ledger" parent="account.account_reports_management_menu" action="action_partner_ledger_wizard" sequence="150" />-->
+    <menuitem id="menu_partner_ledger_report" name="Partner Ledger" parent="account.account_reports_management_menu" action="action_partner_ledger_wizard" sequence="150" />
 </odoo>

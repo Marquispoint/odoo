@@ -34,11 +34,6 @@
             </div>
         </div>
 
-        <!-- <div t-attf-class="article o_report_layout_standard o_company_#{res_company.id}_layout" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id" t-att-data-oe-lang="doc and doc.env.context.get('lang')">
-            <div class="pt-5">
-                <t t-call="web.address_layout"/>
-            </div>
-
             <t t-raw="0"/>
         </div> -->
         <div t-attf-class="footer o_standard_footer o_company_#{res_company.id}_layout"  style="margin-top:15px; padding-top:20px;">
@@ -71,7 +66,7 @@
     <template id="de_partner_ledger_hic_pdf_report">
         <t t-call="web.html_container">
             <!--            <t t-call="web.external_layout">-->
-            <div class="article o_report_layout_standard" t-att-data-oe-model="doc and doc._name"
+            <div class="article o_report_layout_standard"
                  t-att-data-oe-id="doc and doc.id">
                 <t t-call="de_partner_ledger.partner_ledger_report_hic_header_footer"/>
                 <div class="page">
