@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="de_partner_ledger_pdf_report">
         <t t-call="web.html_container">
@@ -22,12 +21,6 @@
                         <t t-set="net_balance" t-value="0"/>
                         <t t-set="open_bal" t-value="0"/>
                         <table class="table table-sm" name="account_lines_table" style="border-bottom:1px solid black;">
-                            <!--                            <tr>-->
-                            <!--                                <th colspan="3" class="text-center">-->
-                            <!--                                    <span t-esc="p.name"/>-->
-                            <!--                                </th>-->
-                            <!--                            </tr>-->
-
                             <tr style="border-bottom:1px solid black;">
                                 <td style="border-bottom:1px solid black;">
                                     <strong>Date</strong>
@@ -65,19 +58,21 @@
                                         <t t-foreach="foreign_openbal" t-as="f">
                                             <t t-if="f['partner'] == p">
                                                 <strong>
-                                                    <span t-esc="f['bal']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                    <span t-esc="f['bal']"
+                                                          t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                                 </strong>
                                                 <t t-set="foreign_bal" t-value="foreign_bal + f['bal']"/>
                                             </t>
                                         </t>
                                     </td>
                                     <td style="border-bottom:1px solid black;" class="text-right">
-                                        <t t-foreach="openbal" t-as="o">
-                                            <t t-if="o['partner'] == p">
+                                        <t t-foreach="openbal" t-as="op">
+                                            <t t-if="op['partner'] == p">
                                                 <strong>
-                                                    <span t-esc="o['bal']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                    <span t-esc="op['bal']"
+                                                          t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                                 </strong>
-                                                <t t-set="open_bal" t-value="o['bal']" />
+                                                <t t-set="open_bal" t-value="op['bal']"/>
                                             </t>
                                         </t>
                                     </td>
@@ -111,7 +106,7 @@
                                             <span t-esc="d.name"/>
                                         </td>
                                         <td style="border-bottom:1px solid black;" class="text-right">
-                                            <t t-esc="'{0:,.0f}'.format(int(d.debit))" />
+                                            <t t-esc="'{0:,.0f}'.format(int(d.debit))"/>
                                         </td>
                                         <td style="border-bottom:1px solid black;" class="text-right">
                                             <t t-esc="'{0:,.0f}'.format(int(d.credit))"/>
@@ -123,11 +118,11 @@
                                         <td style="border-bottom:1px solid black;" class="text-right">
                                             <!--                                            <t t-esc="bal"/>-->
                                             <t t-esc="'{0:,.0f}'.format(int(bal))"/>
-
                                         </td>
                                     </tr>
 
                                 </t>
+
                                 <tr style="border-top:1px solid #000;">
                                     <td style="border-bottom:1px solid black;font-size:13px;" colspan="4"
                                         class="text-left">
@@ -154,7 +149,7 @@
                                     <td style="border-bottom:1px solid black;font-size:13px;"
                                         class="text-right text-nowrap">
                                         <strong>
-<!--                                            <t t-esc="closing_bal"/>-->
+                                            <!--                                            <t t-esc="closing_bal"/>-->
                                             <t t-esc="'{0:,.0f}'.format(int(closing_bal))"/>
 
                                         </strong>
@@ -162,7 +157,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
 
                         <t t-set="pdc_opening_bal" t-value="0"/>
                         <t t-set="pdc_closing_balance" t-value="0"/>
@@ -214,7 +208,8 @@
                                         <t t-foreach="pdc_opening" t-as="open">
                                             <t t-if="open['partner'] == p">
                                                 <strong>
-                                                    <span t-esc="open['bal']" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                    <span t-esc="open['bal']"
+                                                          t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                                 </strong>
                                                 <t t-set="pdc_opening_bal" t-value="open['bal']"/>
                                             </t>
@@ -318,7 +313,8 @@
                                                        t-value="close['bal'] + pdc_opening_bal"/>
                                                 </t>
                                             </t>
-                                            <span t-esc="pdc_closing_balance" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <span t-esc="pdc_closing_balance"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
 
                                         </strong>
                                     </td>
@@ -333,11 +329,8 @@
                                 </div>
                                 <div class="col-2">
                                     <p style="text-align:right; font-weight:bold;">
-                                        <!--                                            <t t-set="total_grand_balance" t-value="(o.amount_untaxed + o.amount_tax)"/>-->
                                         <t t-esc="closing_bal-pdc_closing_balance"
                                            t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
-                                        <!--                                            <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/>-->
-
                                     </p>
                                 </div>
                             </div>
@@ -346,9 +339,7 @@
 
                     </t>
                 </div>
-                <!--                </div>-->
             </t>
         </t>
-
     </template>
 </odoo>
