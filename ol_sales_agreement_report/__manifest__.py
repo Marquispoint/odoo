@@ -4,7 +4,7 @@
     "name": "Sale Purchase Agrement",
     "author": "Cognitive",
     'Maintainer': "M.Rizwan",
-    "category": "CRM",
+    "category": "Customizations",
     "license": "OPL-1",
     "version": "15.0.1",
     "depends": [
@@ -12,7 +12,7 @@
     ],
     "data": [
         # 'security/ir.model.access.csv',
-        # 'views/main_view.xml',
+        'views/main_view.xml',
         'reports/final_sale_agreement.xml',
         'reports/report.xml',
     ],
