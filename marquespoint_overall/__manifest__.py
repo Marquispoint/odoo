@@ -28,7 +28,7 @@
         "wizard/sale_advance_payment_wizard_view.xml",
         'security/ir.model.access.csv',
         'data/server.xml',
-        'report/inherited_external_layout.xml',
+        # 'report/inherited_external_layout.xml',
         'report/sale_quote_report_template.xml',
         'report/report.xml',
         'data/mail_template_data.xml',

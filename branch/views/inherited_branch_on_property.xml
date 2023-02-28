@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="ol_property_custom.view_building_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='number_of_floors']" position="after">
-                    <field name="branch_id"/>
+                    <field name="branch_id" required="1"/>
                 </xpath>
             </field>
         </record>
@@ -19,7 +19,7 @@
             <field name="inherit_id" ref="ol_property_custom.view_building_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='code']" position="after">
-                    <field name="branch_id"/>
+                    <field name="branch_id" required="1"/>
                 </xpath>
             </field>
         </record>

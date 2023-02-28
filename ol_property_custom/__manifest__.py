@@ -11,7 +11,7 @@
 
     "depends": [
         'project', 'sale_management', 'contacts', 'product', 'crm', 'sale_crm', 'ol_sales_agreement_report', 'account',
-        'stock'],
+        'stock', 'sale_commission'],
 
     "data": [
         'security/ir.model.access.csv',

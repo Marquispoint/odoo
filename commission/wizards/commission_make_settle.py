@@ -108,11 +108,14 @@ class CommissionMakeSettle(models.TransientModel):
             agents = self.agent_ids
         else:
             agents = self.env["res.partner"].search([("agent", "=", True)])
+        print(f'agents: {agents}')
         date_to = self.date_to
         for agent in agents:
             date_to_agent = self._get_period_start(agent, date_to)
+            print(f'date_to_agent: {date_to_agent}')
             # Get non settled elements
             agent_lines = self._get_agent_lines(agent, date_to_agent)
+            print(f'agent_lines: {agent_lines}')
             for company in agent_lines.mapped("company_id"):
                 agent_lines_company = agent_lines.filtered(
                     lambda r: r.object_id.company_id == company
@@ -121,16 +124,20 @@ class CommissionMakeSettle(models.TransientModel):
                 sett_to = date(year=1900, month=1, day=1)
                 while pos < len(agent_lines_company):
                     line = agent_lines_company[pos]
+                    print(f'agent_lines_company: {line}')
                     pos += 1
                     if line._skip_settlement():
                         continue
                     if line.invoice_date > sett_to:
                         sett_from = self._get_period_start(agent, line.invoice_date)
+                        print(f'_get_period_start: {sett_from}')
                         sett_to = self._get_next_period_date(agent, sett_from)
+                        print(f'_get_next_period_date: {sett_to}')
                         sett_to -= timedelta(days=1)
                         settlement = self._get_settlement(
                             agent, company, sett_from, sett_to
                         )
+                        print(f'settlement: {settlement}')
                         if not settlement:
                             settlement = settlement_obj.create(
                                 self._prepare_settlement_vals(
@@ -142,6 +149,7 @@ class CommissionMakeSettle(models.TransientModel):
                     settlement_line_obj.create(
                         self._prepare_settlement_line_vals(settlement, line)
                     )
+                    print(f'self._prepare_settlement_line_vals(settlement, line): {self._prepare_settlement_line_vals(settlement, line)}')
         # go to results
         if len(settlement_ids):
             return {

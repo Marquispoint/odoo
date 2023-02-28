@@ -195,7 +195,8 @@ class CrmLeadInherited(models.Model):
     unit_id = fields.Many2one("product.product", string="Units",
                               domain="[('state', '=', 'available'), ('floor_id', '=', floor_id)]")
     # domain='[("floor_id", "=", floor_id)]')
-    broker_id = fields.Many2one('res.partner', string="Broker", domain=[("agent", "=", True)])
+    broker_id = fields.Many2many('res.partner', string="Broker", domain=[("agent", "=", True)])
+    # broker_id = fields.Many2one('res.partner', string="Broker", domain=[("agent", "=", True)])
 
     def action_sale_quotations_new(self):
         print('action_sale_quotations_new called')
@@ -205,10 +206,16 @@ class CrmLeadInherited(models.Model):
             return self.action_new_quotation()
 
     def action_new_quotation(self):
+        # agent_ids = [
+        #     (6, 0, {"agent_id": x.id, "commission_id": x.commission_id.id})
+        #     for x in self.broker_id
+        # ]
+        # print(agent_ids)
         print('action_new_quotation called')
         print(self.env['res.partner'].search([('name', '=', self.unit_id.name)]))
         action = self.env["ir.actions.actions"]._for_xml_id("sale_crm.sale_action_quotations_new")
         action['context'] = {
+            # 'default_broker_id': self.broker_id.ids,
             'search_default_opportunity_id': self.id,
             'default_opportunity_id': self.id,
             'search_default_partner_id': self.env['res.partner'].search([('name', '=', self.unit_id.name)]).id,
@@ -227,6 +234,7 @@ class CrmLeadInherited(models.Model):
             'default_source_id': self.source_id.id,
             'default_company_id': self.company_id.id or self.env.company.id,
             'default_tag_ids': [(6, 0, self.tag_ids.ids)]
+
         }
         if self.team_id:
             action['context']['default_team_id'] = self.team_id.id,
