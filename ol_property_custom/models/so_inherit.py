@@ -177,7 +177,7 @@ class OLStartDate(models.Model):
 
 class ContactInherit(models.Model):
     _inherit = 'res.partner'
-    pr_name_arabic = fields.Char('Name Arabic')
+    # pr_name_arabic = fields.Char('Name Arabic')
     country_arabic = fields.Many2one(comodel_name='res.country', string='Nationality (Arabic)')
     passport_eng = fields.Char(string='Passport (English)')
     passport_arabic = fields.Char(string='Passport (Arabic)')
