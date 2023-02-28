@@ -6,7 +6,7 @@ class inheritincompany(models.Model):
     image = fields.Image(string='Image')
 
 
-# class ResPartnerInherited(models.Model):
-#     _inherit = 'res.partner'
-#
-#     name_arabic = fields.Char(string='Name Arabic')
+class ResPartnerInherited(models.Model):
+    _inherit = 'res.partner'
+
+    name_arabic = fields.Char(string='Name Arabic')
