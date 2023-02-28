@@ -86,7 +86,7 @@ class OLFloor(models.Model):
                                                 string="Building Analytic Account")
     floor_analytic_account = fields.Many2one('account.analytic.account', string="Floor Account Analytical")
     project_name = fields.Many2one(related="building_id.project_id", string="Project Name")
-    number_of_units = fields.Integer("Number Of Floors", compute='_compute_number_of_units')
+    number_of_units = fields.Integer("Number Of Units", compute='_compute_number_of_units')
 
     def _compute_number_of_units(self):
         for rec in self:
