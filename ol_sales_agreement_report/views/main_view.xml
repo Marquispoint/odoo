@@ -1,14 +1,14 @@
 <odoo>
     <data>
-        <record id="res_partner_inherit" model="ir.ui.view">
-            <field name="name">res.partner.form</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//h1" position="after">
-                    <h1><field name="name_arabic" placeholder="على سبيل المثال براندوم فريمان"/></h1>
-                </xpath>
-            </field>
-        </record>
+<!--        <record id="res_partner_inherit" model="ir.ui.view">-->
+<!--            <field name="name">res.partner.form</field>-->
+<!--            <field name="model">res.partner</field>-->
+<!--            <field name="inherit_id" ref="base.view_partner_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//h1" position="after">-->
+<!--                    <h1><field name="name_arabic" placeholder="على سبيل المثال براندوم فريمان"/></h1>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
     </data>
 </odoo>
