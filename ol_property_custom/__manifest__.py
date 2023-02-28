@@ -3,10 +3,8 @@
 
     "author": "Cognitive",
     'Maintainer': "M.Rizwan",
-    "category": "sale",
-
     "license": "OPL-1",
-
+    'category': 'Customizations',
     "version": "15.0.1",
 
     "depends": [
