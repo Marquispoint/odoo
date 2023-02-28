@@ -42,14 +42,17 @@ class AccountMove(models.Model):
         return action
 
     def _compute_settlement(self):
+        print('_compute_settlement')
         for invoice in self:
             settlements = invoice.invoice_line_ids.settlement_id
+            print(f'settlement_ids :{settlements}')
             invoice.settlement_ids = settlements
             invoice.settlement_count = len(settlements)
 
     @api.depends("partner_agent_ids", "invoice_line_ids.agent_ids.agent_id")
     def _compute_agents(self):
         for move in self:
+            print(move.partner_agent_ids)
             move.partner_agent_ids = [
                 (6, 0, move.mapped("invoice_line_ids.agent_ids.agent_id").ids)
             ]
@@ -89,7 +92,7 @@ class AccountMove(models.Model):
 
     @api.model
     def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
+            self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
         """Inject in this method the needed context for not removing other
         possible context values.
@@ -150,7 +153,7 @@ class AccountMoveLine(models.Model):
                 line.commission_id = False
         self.agent_ids = False  # for resetting previous agents
         for record in self.filtered(
-            lambda x: x.move_id.partner_id and x.move_id.move_type[:3] == "out"
+                lambda x: x.move_id.partner_id and x.move_id.move_type[:3] == "out"
         ):
             if not record.commission_free and record.product_id:
                 record.agent_ids = record._prepare_agents_vals_partner(
@@ -253,6 +256,6 @@ class AccountInvoiceLineAgent(models.Model):
         """
         self.ensure_one()
         return (
-            self.commission_id.invoice_state == "paid"
-            and self.invoice_id.payment_state not in ["in_payment", "paid"]
+                self.commission_id.invoice_state == "paid"
+                and self.invoice_id.payment_state not in ["in_payment", "paid"]
         ) or self.invoice_id.state != "posted"

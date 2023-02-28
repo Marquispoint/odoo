@@ -43,10 +43,12 @@
                                 </td>
                                 <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;  font-size: 13px;padding-left:4px;">
                                     <strong>Effective Date:</strong>
-                                    <span style="font-size:12px;padding-left:4px;" t-field="s.date_order"/>
+                                    <span style="font-size:12px;padding-left:4px;"
+                                          t-esc="(s.date_order).strftime('%d/%m/%Y')"/>
                                 </td>
                                 <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <span style="font-size:12px;padding-left:4px;" t-field="s.date_order"/>
+                                    <span style="font-size:12px;padding-left:4px;"
+                                          t-esc="(s.date_order).strftime('%d/%m/%Y')"/>
                                     <strong>:تاريخ النفاذ</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
@@ -461,11 +463,11 @@
                                     </strong>
                                     payable in accordance with the Payment Schedule
                                 </td>
-                                <td style="width: 25%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px; height: 21.5px;">
+                                <td style="text-align:right !important; width: 25%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px; height: 21.5px;">
                                     [<span style="font-size:12px;padding-left:4px;" t-field="s.amount_total"/>] درهم
                                     إماراتي يستحق حسب جدول الدفع.
                                 </td>
-                                <td style="width: 20%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px; height: 21.5px;">
+                                <td style="text-align:right !important; width: 20%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px; height: 21.5px;">
                                     <strong>:سعر الشراء</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px; height: 21.5px;">
@@ -490,7 +492,7 @@
                                 <td style="width: 25%; font-size: 13px; color: red; padding-left: 4px; border: 1px solid black;">
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.location_arabic"/>
                                 </td>
-                                <td style="width: 10%; font-size: 13px; padding-left: 4px; border-right: 1px solid black;border-bottom: 1px solid black;border-top: 1px solid black;">
+                                <td style="text-align:right !important; width: 10%; font-size: 13px; padding-left: 4px; border-right: 1px solid black;border-bottom: 1px solid black;border-top: 1px solid black;">
                                     :الموقع
                                 </td>
                                 <td style="width: 10%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
@@ -514,7 +516,7 @@
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.relevent_unit_no"/>] حسب
                                     ما هو مبين في مخطط الوحدة المعنية.
                                 </td>
-                                <td style="width: 10%; font-size: 13px; padding-left: 4px;border-right: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
+                                <td style="text-align:right !important; width: 10%; font-size: 13px; padding-left: 4px;border-right: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
                                     :رقم الوحدة المعنية
                                 </td>
                                 <td style="width: 10%;  border-right: 1px solid black;border-left: 1px solid black; text-align: right; font-size: 13px;">
@@ -534,11 +536,11 @@
                                     [<span style="font-size:12px;padding-left:4px;" t-field="s.relevent_bays_no"/>] (if
                                     any).
                                 </td>
-                                <td style="width: 25%; font-size: 13px;  padding-left: 4px; border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
+                                <td style="text-align:right !important; width: 25%; font-size: 13px;  padding-left: 4px; border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
                                     :عدد مواقف السيارات
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.relevent_bays_no"/>
                                 </td>
-                                <td style="width: 10%; font-size: 13px; padding-left: 4px;border-right: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
+                                <td style="text-align:right !important; width: 10%; font-size: 13px; padding-left: 4px;border-right: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
                                     :مساحة الوحدة المعنية
                                 </td>
                                 <td style="width: 10%;  border-right: 1px solid black;border-left: 1px solid black; text-align: right; font-size: 13px;border-bottom: 1px solid black;">
@@ -564,11 +566,11 @@
                                     <span style="font-size:12px;padding-left:4px;"
                                           t-field="s.bank_details.account_name"/>
                                 </td>
-                                <td style="width: 25%;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;color: red; border: 1px solid black;">
+                                <td style="text-align:right !important; width: 25%;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;color: red; border: 1px solid black;">
                                     :اسم الحساب
                                 </td>
                                 <td style="width: 10%;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px; border-top: 1px solid black;"></td>
-                                <td style="width: 10%;border-bottom: 1px solid black; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                <td style="text-align:right !important; width: 10%;border-bottom: 1px solid black; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
                                     <strong>:حساب الضمان</strong>
                                 </td>
                                 <td style="width: 5%;border-bottom: 1px solid black; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
@@ -584,7 +586,7 @@
                                 <td style="width: 25%; font-size: 13px; color: red; padding-left: 4px; border: 1px solid black;">
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.bank_details.account_no"/>
                                 </td>
-                                <td style="width: 25%; font-size: 13px; color: red; padding-left: 4px; border: 1px solid black;">
+                                <td style="text-align:right !important; width: 25%; font-size: 13px; color: red; padding-left: 4px; border: 1px solid black;">
                                     :رقم الحساب
                                 </td>
                                 <td style="width: 10%; font-size: 13px; padding-left: 4px;"></td>

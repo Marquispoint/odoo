@@ -61,11 +61,13 @@ class SaleOrder(models.Model):
                 'product_uom': p.uom_id.id,
                 'order_id': self.id,
                 'product_uom_qty': p.uom_id.id if p.uom_id else False,
-                'tax_id': False
+                'tax_id': False,
             }))
+            print(product_ids)
         self.write({
             'order_line': product_ids
         })
+        print(self.order_line)
 
 
 class OLStartDate(models.Model):
@@ -150,11 +152,27 @@ class OLStartDate(models.Model):
                 'analytic_tag_ids': [(6, 0, so_line.analytic_tag_ids.ids)],
                 'analytic_account_id': order.analytic_account_id.id or False,
                 'subtotal_so': so_line.price_subtotal,
-
             })],
         }
         invoice = self.env['account.move'].with_company(order.company_id) \
             .sudo().create(invoice_vals).with_user(self.env.uid)
+
+    @api.model
+    def create(self, vals):
+        res = super(OLStartDate, self).create(vals)
+        if res.opportunity_id.unit_id == res.unit:
+            print("res.opportunity_id.broker_id Created")
+            # broker_id = [
+            #     (0, 0, {'agent_id': res.opportunity_id.broker_id.id, "commission_id": res.opportunity_id.broker_id.commission_id.id, 'object_id': res.order_line[0].id})]
+
+            broker_id = [
+                (0, 0, {'agent_id': x.id,
+                        "commission_id": x.commission_id.id,
+                        'object_id': res.order_line[0].id})
+                for x in res.opportunity_id.broker_id]
+            print(f"Onchange_broker_id:{broker_id}")
+            res.order_line[0].agent_ids = broker_id
+        return res
 
 
 class ContactInherit(models.Model):

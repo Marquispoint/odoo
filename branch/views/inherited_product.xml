@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <field name="detailed_type" position="before">
-                <field name="branch_id"/>
+                <field name="branch_id" required="1"/>
             </field>
         </field>
     </record>
@@ -46,7 +46,7 @@
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name="arch" type="xml">
             <field name="detailed_type" position="before">
-                <field name="branch_id"/>
+                <field name="branch_id" required="1"/>
             </field>
         </field>
     </record>
@@ -85,7 +85,7 @@
         <field name="inherit_id" ref="product.product_category_form_view"/>
         <field name="arch" type="xml">
             <field name="property_valuation" position="after">
-                <field name="branch_id"/>
+                <field name="branch_id"  required="1"/>
             </field>
         </field>
     </record>

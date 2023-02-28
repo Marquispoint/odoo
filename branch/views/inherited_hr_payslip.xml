@@ -18,7 +18,7 @@
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
                 <field name="struct_id" position="after">
-                    <field name="branch_id"/>
+                    <field name="branch_id" required="1"/>
                 </field>
             </field>
         </record>
