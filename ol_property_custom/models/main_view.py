@@ -96,6 +96,7 @@ class OLFloor(models.Model):
             else:
                 rec.number_of_units = 0
 
+
 class PDC(models.Model):
     _name = "post.date.checks"
 
@@ -165,19 +166,6 @@ class ProductInh(models.Model):
     balconies = fields.Float('Balconies')
 
 
-# class SalesOrderLines(models.Model):
-#     _inherit = "sale.order.line"
-#
-#     # @api.onchange('product_id')
-#     # def order_create(self):
-#     #     # obj = self.env['product.product'].search([])
-#     #     ids = 0
-#     #     for rec in self:
-#     #         if rec.product_id:
-#     #             # rec.product_id.sale_order = rec.order_id.ids[0]
-#     #             rec.product_id.state = "reserved"
-
-
 class AnalyticAccountInherited(models.Model):
     _inherit = "account.analytic.account"
     project_id = fields.Many2one('project.project', string='Project')
@@ -194,9 +182,8 @@ class CrmLeadInherited(models.Model):
     floor_id = fields.Many2one("property.floor", string="Floor", domain='[("building_id", "=", building_id)]')
     unit_id = fields.Many2one("product.product", string="Units",
                               domain="[('state', '=', 'available'), ('floor_id', '=', floor_id)]")
-    # domain='[("floor_id", "=", floor_id)]')
     broker_id = fields.Many2many('res.partner', string="Broker", domain=[("agent", "=", True)])
-    # broker_id = fields.Many2one('res.partner', string="Broker", domain=[("agent", "=", True)])
+    partner_id = fields.Many2one(comodel_name='res.partner', domain='[("is_unit", "=", False)]')
 
     def action_sale_quotations_new(self):
         print('action_sale_quotations_new called')
