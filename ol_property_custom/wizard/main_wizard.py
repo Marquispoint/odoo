@@ -110,14 +110,6 @@ class CreatUnits(models.TransientModel):
         obj = self.env['product.product'].search([('floor_id', '=', active_id)])
 
         obj_project = self.env['property.floor'].search([('id', '=', active_id)])
-
-        # obj1 = self.env['product.product'].search([('building','=',active_id)])
-
-        # obj1_project = self.env['property.building'].search([('id','=',active_id)])
-
-        # obj2 = self.env['product.product'].search([('project','=',active_id)])
-
-        # obj2_project = self.env['property.project'].search([('id','=',active_id)])
         for i in range(no):
             if obj:
                 idd = self.env['account.analytic.account'].create({
@@ -134,6 +126,7 @@ class CreatUnits(models.TransientModel):
                 print(f'sid: {sid}')
                 sidd = self.env['res.partner'].create({
                     'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}',
+                    'is_unit': True,
                 })
                 s = self.env['account.analytic.account'].search(
                     [('name', '=', obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}')])
@@ -155,6 +148,7 @@ class CreatUnits(models.TransientModel):
                 })
                 sidd = self.env['res.partner'].create({
                     'name': obj_project.code + "-" + f'{i + 1:02}',
+                    'is_unit': True,
                 })
                 s = self.env['account.analytic.account'].search([('name', '=', obj_project.code + "-" + f'{i + 1:02}')])
                 s.write({

@@ -172,6 +172,7 @@ class SaleOrder(models.Model):
                             'floor': self.floor.id,
                             'invoice_origin': self.name,
                             'unit': self.unit.id,
+                            'branch_id': self.branch.id.id,
                         }
                         invoice = self.env['account.move'].create(inv_vals)
                         installment.move_id = invoice.id
@@ -296,10 +297,32 @@ class InstallmentLines(models.Model):
     move_id = fields.Many2one('account.move', string='Invoice')
     invoice_date = fields.Date('Inv Date', related='move_id.invoice_date')
     invoice_payment_date = fields.Date('Payment Due Date')
-    invoice_status = fields.Selection(related='move_id.state', string='Inv Status')
-    payment_status = fields.Selection(related='move_id.payment_state', string='Payment Status')
+    invoice_status = fields.Char(compute='_compute_invoice_status', string='Inv Status')
+    inv_status = fields.Selection(related='move_id.state')
+    payment_status = fields.Char(compute='_compute_payment_status', string='Payment Status')
+    pymt_status = fields.Selection(related='move_id.payment_state')
     order_id = fields.Many2one('sale.order')
     date = fields.Date('Installment Date')
+
+    @api.depends('inv_status')
+    def _compute_invoice_status(self):
+        for rec in self:
+            if rec.inv_status:
+                print(dict(self.fields_get(allfields=['inv_status'])['inv_status']['selection'])[rec.inv_status])
+                # print(dict(self._fields['move_id.state'].selection).get(self.move_id.state))
+                rec.invoice_status = dict(self.fields_get(allfields=['inv_status'])['inv_status']['selection'])[rec.inv_status]
+            else:
+                rec.invoice_status = ''
+
+    @api.depends('pymt_status')
+    def _compute_payment_status(self):
+        for rec in self:
+            if rec.pymt_status:
+                print(dict(self.fields_get(allfields=['pymt_status'])['pymt_status']['selection'])[rec.pymt_status])
+                # print(dict(self._fields['move_id.state'].selection).get(self.move_id.state))
+                rec.payment_status = dict(self.fields_get(allfields=['pymt_status'])['pymt_status']['selection'])[rec.pymt_status]
+            else:
+                rec.payment_status = ''
 
     def _compute_amount(self):
         for rec in self:
