@@ -14,7 +14,7 @@
                             </td>
 
                             <td style="width:50% text-align:left">
-                                <span style="font-size: 24px; font-weight: bold; text-align: right;">
+                                <span dir="rtl" style="font-size: 24px; font-weight: bold; text-align: right;">
                                     اتفاقية بيع وشراء
                                 </span>
                             </td>
@@ -28,8 +28,8 @@
                             </td>
 
                             <td style="width:50%">
-                                <span style="font-size: 16px; font-weight: bold; text-align: right;">
-                                    التفاصيل
+                                <span dir="rtl" style="font-size: 22px; font-weight: bold; text-align: right;">
+                                    التفاصيل:
                                 </span>
                             </td>
                         </tr>
@@ -47,9 +47,9 @@
                                           t-esc="(s.date_order).strftime('%d/%m/%Y')"/>
                                 </td>
                                 <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
+                                    <strong>تاريخ النفاذ:</strong>
                                     <span style="font-size:12px;padding-left:4px;"
                                           t-esc="(s.date_order).strftime('%d/%m/%Y')"/>
-                                    <strong>:تاريخ النفاذ</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
                                     <strong>-1</strong>
@@ -73,7 +73,8 @@
                                                     t-field="res_company.zip"/>], Dubai, UAE.
                                 </td>
                                 <td style="width: 45%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>المطور: ماركيز بوينت للعقارات ش.ذ.م.م ,</strong>شركة ذات مسئولية محدودة تعمل
+                                    <strong dir="rtl">المطور: ماركيز بوينت للعقارات ش.ذ.م.م ,</strong>شركة ذات مسئولية
+                                    محدودة تعمل
                                     تحت الرخصة التجارية رقم 818744 و عنوانها ص.ب [<span
                                         style="font-size:12px;padding-left:4px;" t-field="s.partner_id.zip"/>], دبي ,
                                     الامارات العربية المتحدة.
@@ -131,7 +132,7 @@
                                     <td style="width: 30%; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
                                     <td style="width: 30%; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px;"/>
                                     <td style="width: 15%; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                        <strong>:فيما يتعلق بالأشخاص</strong>
+                                        <strong dir="rtl">فيما يتعلق بالأشخاص:</strong>
                                     </td>
                                     <td style="width: 5%; border-right: 1px solid black; border-left: 1px solid black; text-align: center; font-size: 13px;">
 
@@ -150,15 +151,13 @@
                                     </td>
                                     <td style="width: 30%; font-size: 13px; padding-left: 4px;border:1px solid black;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.country_arabic.name"/>
                                     </td>
                                     <td style="width: 15%; text-aborder:1px solid black; text-align: right; font-size: 13px;">
-                                        <strong>:الجنسية</strong>
+                                        <strong dir="rtl">الجنسية:</strong>
                                     </td>
-                                    <td style="width: 5%;border:1px solid black; text-align: center; font-size: 13px;">
-
-                                    </td>
+                                    <td style="width: 5%;border:1px solid black; text-align: center; font-size: 13px;"/>
                                 </tr>
 
                                 <tr>
@@ -174,11 +173,11 @@
                                     </td>
                                     <td style="width: 30%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.passport_arabic"/>
                                     </td>
                                     <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-top: 1px solid black; font-size: 13px;">
-                                        <strong>:رقم جواز السفر</strong>
+                                        <strong dir="rtl">رقم جواز السفر:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -198,11 +197,11 @@
                                     </td>
                                     <td style="width: 30%;  border-right: 1px solid black; border-top: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.fax_arabic"/>
                                     </td>
                                     <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px; border-top: 1px solid black;">
-                                        <strong>:رقم الفاكس</strong>
+                                        <strong dir="rtl">رقم الفاكس:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -223,11 +222,11 @@
                                     </td>
                                     <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.phone"/>
                                     </td>
                                     <td style="width: 15%; border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:رقم الهاتف</strong>
+                                        <strong dir="rtl">رقم الهاتف:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -247,11 +246,11 @@
                                     </td>
                                     <td style="width: 30%; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.email"/>
                                     </td>
                                     <td style="width: 15%; border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:البريد الإلكتروني</strong>
+                                        <strong dir="rtl">البريد الإلكتروني:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -271,11 +270,11 @@
                                     </td>
                                     <td style="width: 30%; border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_individual.street_arabic"/>
                                     </td>
                                     <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:العنوان</strong>
+                                        <strong dir="rtl">العنوان:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -299,7 +298,7 @@
                                               t-field="l.purchase_company.name"/>
                                     </td>
                                     <td style="width: 15%; border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:فيما يتعلق بالشركات</strong>
+                                        <strong dir="rtl">فيما يتعلق بالشركات:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -319,11 +318,11 @@
                                     </td>
                                     <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_company.city_arabic"/>
                                     </td>
                                     <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:مرخصة في</strong>
+                                        <strong dir="rtl">مرخصة في:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -343,11 +342,11 @@
                                     </td>
                                     <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_company.registration_no"/>
                                     </td>
                                     <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:رقم الترخيص</strong>
+                                        <strong dir="rtl">رقم الترخيص:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -367,11 +366,11 @@
                                     </td>
                                     <td style="width: 30%;  border-right: 1px solid black; border-left: 1px solid black;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;"
                                         class="text-right">
-                                        <span style="font-size:12px;padding-right:4px;"
+                                        <span dir="rtl" style="font-size:12px;padding-right:4px;"
                                               t-field="l.purchase_company.fax_arabic"/>
                                     </td>
                                     <td style="width: 15%;  border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:رقم الفاكس</strong>
+                                        <strong dir="rtl">رقم الفاكس:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -395,7 +394,7 @@
                                               t-field="l.purchase_company.phone"/>
                                     </td>
                                     <td style="width: 15%; border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:رقم الهاتف</strong>
+                                        <strong dir="rtl">رقم الهاتف:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -419,7 +418,7 @@
                                               t-field="l.purchase_company.email"/>
                                     </td>
                                     <td style="width: 15%; border-right: 1px solid black; text-align: right;border-bottom: 1px solid black; font-size: 13px;">
-                                        <strong>:البريد الإلكتروني</strong>
+                                        <strong dir="rtl">البريد الإلكتروني:</strong>
                                     </td>
                                     <td style="width: 5%;  border-right: 1px solid black; text-align: center;border-bottom: 1px solid black; font-size: 13px;">
                                         <strong></strong>
@@ -444,7 +443,7 @@
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.project.name"/>
                                 </td>
                                 <td style="width: 15%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>:المشروع</strong>
+                                    <strong dir="rtl">المشروع:</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
                                     <strong>-4</strong>
@@ -468,11 +467,13 @@
                                     payable in accordance with the Payment Schedule
                                 </td>
                                 <td style="text-align:right !important; width: 25%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-size: 13px; padding-left: 4px; height: 21.5px;">
-                                    [<span style="font-size:12px;padding-left:4px;" t-field="s.amount_total"/>] درهم
-                                    إماراتي يستحق حسب جدول الدفع.
+                                    <span dir="rtl">
+                                        [<span style="font-size:12px;padding-left:4px;" t-field="s.amount_total"/>] درهم
+                                        إماراتي يستحق حسب جدول الدفع.
+                                    </span>
                                 </td>
                                 <td style="text-align:right !important; width: 20%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px; height: 21.5px;">
-                                    <strong>:سعر الشراء</strong>
+                                    <strong dir="rtl">سعر الشراء:</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px; height: 21.5px;">
                                     <strong>-5</strong>
@@ -497,10 +498,10 @@
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.location_arabic"/>
                                 </td>
                                 <td style="text-align:right !important; width: 10%; font-size: 13px; padding-left: 4px; border-right: 1px solid black;border-bottom: 1px solid black;border-top: 1px solid black;">
-                                    :الموقع
+                                    <span dir="rtl">الموقع:</span>
                                 </td>
                                 <td style="width: 10%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>:اتفاصيل العقار</strong>
+                                    <strong dir="rtl">اتفاصيل العقار:</strong>
                                 </td>
                                 <td style="width: 5%;  border-right: 1px solid black; text-align: center; font-size: 13px;"></td>
                             </tr>
@@ -517,11 +518,14 @@
                                     identified in the Relevant Unit Plan.
                                 </td>
                                 <td style="width: 25%; font-size: 13px;  padding-left: 4px; border: 1px solid black;">[
-                                    <span style="font-size:12px;padding-left:4px;" t-field="s.relevent_unit_no"/>] حسب
+                                    <span dir="rtl" style="font-size:12px;padding-left:4px;"
+                                          t-field="s.relevent_unit_no"/>] حسب
                                     ما هو مبين في مخطط الوحدة المعنية.
                                 </td>
                                 <td style="text-align:right !important; width: 10%; font-size: 13px; padding-left: 4px;border-right: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
-                                    :رقم الوحدة المعنية
+                                    <span dir="rtl">
+                                        رقم الوحدة المعنية:
+                                    </span>
                                 </td>
                                 <td style="width: 10%;  border-right: 1px solid black;border-left: 1px solid black; text-align: right; font-size: 13px;">
                                     <strong></strong>
@@ -541,11 +545,13 @@
                                     any).
                                 </td>
                                 <td style="text-align:right !important; width: 25%; font-size: 13px;  padding-left: 4px; border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
-                                    :عدد مواقف السيارات
+                                    <span dir="rtl">عدد مواقف السيارات:</span>
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.relevent_bays_no"/>
                                 </td>
                                 <td style="text-align:right !important; width: 10%; font-size: 13px; padding-left: 4px;border-right: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;">
-                                    :مساحة الوحدة المعنية
+                                    <span dir="rtl">
+                                        مساحة الوحدة المعنية:
+                                    </span>
                                 </td>
                                 <td style="width: 10%;  border-right: 1px solid black;border-left: 1px solid black; text-align: right; font-size: 13px;border-bottom: 1px solid black;">
                                     <strong></strong>
@@ -571,11 +577,13 @@
                                           t-field="s.bank_details.account_name"/>
                                 </td>
                                 <td style="text-align:right !important; width: 25%;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px;color: red; border: 1px solid black;">
-                                    :اسم الحساب
+                                    <span dir="rtl">
+                                        اسم الحساب:
+                                    </span>
                                 </td>
                                 <td style="width: 10%;border-bottom: 1px solid black; font-size: 13px; padding-left: 4px; border-top: 1px solid black;"></td>
                                 <td style="text-align:right !important; width: 10%;border-bottom: 1px solid black; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>:حساب الضمان</strong>
+                                    <strong dir="rtl">حساب الضمان:</strong>
                                 </td>
                                 <td style="width: 5%;border-bottom: 1px solid black; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
                                     -6
@@ -591,7 +599,8 @@
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.bank_details.account_no"/>
                                 </td>
                                 <td style="text-align:right !important; width: 25%; font-size: 13px; color: red; padding-left: 4px; border: 1px solid black;">
-                                    :رقم الحساب
+                                    <span dir="rtl">رقم الحساب:
+                                    </span>
                                 </td>
                                 <td style="width: 10%; font-size: 13px; padding-left: 4px;"></td>
                                 <td style="width: 10%; border-right: 1px solid black; text-align: right; font-size: 13px;"></td>
@@ -645,7 +654,7 @@
                                           t-field="s.anticipated_completion_date"/>
                                 </td>
                                 <td style="width: 20%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>:تاريخ الإنجاز المتوقع</strong>
+                                    <strong dir="rtl">تاريخ الإنجاز المتوقع:</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
                                     <strong>-7</strong>
@@ -665,7 +674,7 @@
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.permitted_use_arabic"/>
                                 </td>
                                 <td style="width: 20%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>:الاستخدام المصرح به</strong>
+                                    <strong dir="rtl">الاستخدام المصرح به:</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
                                     <strong>-8</strong>
@@ -685,7 +694,7 @@
                                     <span style="font-size:12px;padding-left:4px;" t-field="s.late_payment_arabic"/>
                                 </td>
                                 <td style="width: 20%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>:رسم الدفعة المتأخرة</strong>
+                                    <strong dir="rtl">رسم الدفعة المتأخرة:</strong>
                                 </td>
                                 <td style="width: 5%; border-top: 1px solid black; border-right: 1px solid black; text-align: center; font-size: 13px;">
                                     <strong>-9</strong>
@@ -703,9 +712,11 @@
                                     the Particulars and the Purchaser named at Item 3 of the Particulars.
                                 </td>
                                 <td style="width: 50%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>تكون</strong>
-                                    هذه الاتفاقية<strong>نافذة اعتباراً من تاريخ النفاذ بين</strong>المطور المشار إليه
-                                    في البند 2 من قسم التفاصيل، والمشتري المشار إليه في البند 3 من قسم التفاصيل؛
+                                    <span dir="rtl">
+                                        <strong>تكون</strong>
+                                        هذه الاتفاقية<strong>نافذة اعتباراً من تاريخ النفاذ بين</strong>المطور المشار إليه
+                                        في البند 2 من قسم التفاصيل، والمشتري المشار إليه في البند 3 من قسم التفاصيل؛
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
@@ -727,7 +738,7 @@
                                     <strong>RECITALS:</strong>
                                 </td>
                                 <td style="width: 50%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    <strong>الحيثيات:</strong>
+                                    <strong dir="rtl">الحيثيات:</strong>
                                 </td>
                             </tr>
                         </tbody>
@@ -750,8 +761,10 @@
                                     RERA approved developer of the Project.
                                 </td>
                                 <td style="width: 50%; border-top: 1px solid black; border-right: 1px solid black; text-align: right; font-size: 13px;">
-                                    أ- المطور الرئيسي مسؤول عن تطوير المجمع الرئيسي ومالك لقطعة الأرض وقام بتعيين المطور
-                                    كمطور معتمد من قبل ومسجل لدى مؤسسة التنظيم العقاري بخصوص المشروع.
+                                    <span dir="rtl">
+                                        أ- المطور الرئيسي مسؤول عن تطوير المجمع الرئيسي ومالك لقطعة الأرض وقام بتعيين المطور
+                                        كمطور معتمد من قبل ومسجل لدى مؤسسة التنظيم العقاري بخصوص المشروع.
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>

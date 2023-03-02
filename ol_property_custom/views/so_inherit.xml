@@ -112,7 +112,6 @@
                     <field name="fax_arabic"/>
                     <field name="passport_eng"/>
                     <field name="passport_arabic"/>
-                    <field name="is_unit"/>
                 </xpath>
 
                 <xpath expr="//field[@name='vat']" position="before">

@@ -188,7 +188,7 @@ class ContactInherit(models.Model):
     zip_arabic = fields.Char(String="Zip(Arabic)")
     city_arabic = fields.Char(String="City (Arabic)")
     state_id_arabic = fields.Many2one(comodel_name='res.country.state', string='State')
-    is_unit = fields.Boolean('Is Unit')
+
 
 
 class ContactInheritInCompany(models.Model):
