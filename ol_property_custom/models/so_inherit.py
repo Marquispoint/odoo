@@ -15,8 +15,9 @@ from datetime import timedelta
 
 class PurchaserCompany(models.Model):
     _name = 'purchaser.company'
-    purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual',
-                                          domain='[("is_unit", "=", False)]')
+    # purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual',
+    #                                       domain='[("is_unit", "=", False)]')
+    purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual')
     purchase_company = fields.Many2one(comodel_name='res.company', string='Company')
     purchaser_id = fields.Many2one(comodel_name='sale.order')
 

@@ -183,7 +183,7 @@ class CrmLeadInherited(models.Model):
     unit_id = fields.Many2one("product.product", string="Units",
                               domain="[('state', '=', 'available'), ('floor_id', '=', floor_id)]")
     broker_id = fields.Many2many('res.partner', string="Broker", domain=[("agent", "=", True)])
-    partner_id = fields.Many2one(comodel_name='res.partner', domain='[("is_unit", "=", False)]')
+    # partner_id = fields.Many2one(comodel_name='res.partner', domain='[("is_unit", "=", False)]')
 
     def action_sale_quotations_new(self):
         print('action_sale_quotations_new called')
