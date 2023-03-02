@@ -9,7 +9,7 @@
 
     "depends": [
         'project', 'sale_management', 'contacts', 'product', 'crm', 'sale_crm', 'account',
-        'stock', 'sale_commission', 'ol_sales_agreement_report'],
+        'stock', 'sale_commission'],
 
     "data": [
         'security/ir.model.access.csv',

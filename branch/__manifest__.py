@@ -1,7 +1,7 @@
 {
     'name': 'Multiple Branch(Unit) Operation Setup for All Applications Odoo/odoo',
     'version': '16.0',
-    'category': 'Sales',
+    'category': 'Customizations',
     'summary': 'Multiple Branch/Unit Operation on Sales, Purchases, Accounting/Invoicing,'
                ' Voucher, Payment, Accounting Reports for single company',
     "description": """
