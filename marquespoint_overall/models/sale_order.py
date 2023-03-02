@@ -172,7 +172,7 @@ class SaleOrder(models.Model):
                             'floor': self.floor.id,
                             'invoice_origin': self.name,
                             'unit': self.unit.id,
-                            'branch_id': self.branch.id.id,
+                            'branch_id': self.branch_id.id,
                         }
                         invoice = self.env['account.move'].create(inv_vals)
                         installment.move_id = invoice.id
