@@ -8,7 +8,7 @@
     "license": "OPL-1",
     "version": "15.0.1",
     "depends": [
-        'sale'
+        'sale', 'crm', 'ol_property_custom'
     ],
     "data": [
         # 'security/ir.model.access.csv',
