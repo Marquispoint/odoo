@@ -15,8 +15,9 @@ from datetime import timedelta
 
 class PurchaserCompany(models.Model):
     _name = 'purchaser.company'
-    purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual',
-                                          domain='[("is_unit", "=", False)]')
+    # purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual',
+    #                                       domain='[("is_unit", "=", False)]')
+    purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual')
     purchase_company = fields.Many2one(comodel_name='res.company', string='Company')
     purchaser_id = fields.Many2one(comodel_name='sale.order')
 
@@ -188,7 +189,7 @@ class ContactInherit(models.Model):
     zip_arabic = fields.Char(String="Zip(Arabic)")
     city_arabic = fields.Char(String="City (Arabic)")
     state_id_arabic = fields.Many2one(comodel_name='res.country.state', string='State')
-    is_unit = fields.Boolean('Is Unit')
+
 
 
 class ContactInheritInCompany(models.Model):

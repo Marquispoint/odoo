@@ -1,5 +1,6 @@
-
 from odoo import models, fields, api
+
+
 class inheritincompany(models.Model):
     _inherit = 'res.company'
 
@@ -10,3 +11,4 @@ class ResPartnerInherited(models.Model):
     _inherit = 'res.partner'
 
     name_arabic = fields.Char(string='Name Arabic')
+    # is_unit = fields.Boolean('Is Unit')
