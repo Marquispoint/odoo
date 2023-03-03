@@ -110,9 +110,6 @@ class SaleOrder(models.Model):
         })
         return invoice_vals
 
-
-
-
     plan_ids = fields.One2many('payment.plan.line', 'order_id')
     installment_ids = fields.One2many('installment.line', 'order_id')
     ins_amount = fields.Float('Total', compute='_compute_installment_amount')
@@ -135,7 +132,7 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
         if product_unit := self.env['product.product'].search(
-            [('name', '=', self.partner_id.name)]
+                [('name', '=', self.partner_id.name)]
         ):
             product_unit.state = 'sold'
 
@@ -222,6 +219,8 @@ class SaleOrder(models.Model):
             installment.milestone_id == milestone
             for installment in self.installment_ids
         )
+
+
 #
 # # -----------------------------------------
 # # This function is used to attach custom reportd in email
@@ -241,9 +240,7 @@ class PaymentPlanLines(models.Model):
     _name = 'payment.plan.line'
     milestone_id = fields.Many2one('payment.plan', string='Milestone')
     order_id = fields.Many2one('sale.order')
-    # percentage = fields.Float('Percentage', compute='_compute_percentage')
     percentage = fields.Float('Percentage')
-    # amount = fields.Float('Amount', compute='_compute_amount')
     amount = fields.Float('Amount')
     start_date = fields.Date('Start Date')
     end_date = fields.Date('End Date')
@@ -251,19 +248,7 @@ class PaymentPlanLines(models.Model):
     installment_period = fields.Char('Installment Period')
     ac_date_eng = fields.Char('Anticipated completion Date (English)', size=60)
     ac_date_arabic = fields.Char('Anticipated completion Date (Arabic)', size=60)
-
-    # def _compute_percentage(self):
-    #     for rec in self:
-    #         rec.percentage = rec.milestone_id.percentage if rec.milestone_id else 0
-    #
-    # def _compute_amount(self):
-    #     for rec in self:
-    #         if rec.order_id.amount_untaxed:
-    #             rec.amount = rec.order_id.amount_untaxed
-    #         elif rec.milestone_id.amount:
-    #             rec.amount = rec.milestone_id.amount
-    #         else:
-    #             rec.amount = 0
+    is_admin_fee = fields.Boolean('DLD+Admin Fee')
 
     def open_payment_plan_wizard(self):
         return {
@@ -276,7 +261,6 @@ class PaymentPlanLines(models.Model):
                 'default_is_admin': self.milestone_id.is_admin_fee,
                 'default_order_id': self.order_id.id,
                 'default_percentage': self.milestone_id.percentage,
-                # 'default_amount': self.order_id.amount_untaxed if self.order_id.amount_untaxed else self.milestone_id.amount,
             },
             'target': 'new',
             'res_model': 'installment.wizard',
@@ -285,7 +269,8 @@ class PaymentPlanLines(models.Model):
 
     def unlink(self):
         for rec in self:
-            self.env['installment.line'].search([('milestone_id', '=', rec.milestone_id.id), ('order_id', '=', rec.order_id.id)]).unlink()
+            self.env['installment.line'].search(
+                [('milestone_id', '=', rec.milestone_id.id), ('order_id', '=', rec.order_id.id)]).unlink()
         return super(PaymentPlanLines, self).unlink()
 
 
@@ -296,7 +281,7 @@ class InstallmentLines(models.Model):
     amount = fields.Float('Amount', compute='_compute_amount')
     move_id = fields.Many2one('account.move', string='Invoice')
     invoice_date = fields.Date('Inv Date', related='move_id.invoice_date')
-    invoice_payment_date = fields.Date('Payment Due Date')
+    invoice_payment_date = fields.Date('Payment Due Date', compute="_compute_payment_date")
     invoice_status = fields.Char(compute='_compute_invoice_status', string='Inv Status')
     inv_status = fields.Selection(related='move_id.state')
     payment_status = fields.Char(compute='_compute_payment_status', string='Payment Status')
@@ -304,13 +289,27 @@ class InstallmentLines(models.Model):
     order_id = fields.Many2one('sale.order')
     date = fields.Date('Installment Date')
 
+    @api.depends('move_id')
+    def _compute_payment_date(self):
+        for rec in self:
+            if rec.move_id:
+                print(self.env['account.payment'].search([('ref', '=', rec.move_id.name)]))
+                payments = self.env['account.payment'].search([('ref', '=', rec.move_id.name)])
+                if payments:
+                    rec.invoice_payment_date = payments[-1].date
+                else:
+                    rec.invoice_payment_date = False
+            else:
+                rec.invoice_payment_date = False
+
     @api.depends('inv_status')
     def _compute_invoice_status(self):
         for rec in self:
             if rec.inv_status:
                 print(dict(self.fields_get(allfields=['inv_status'])['inv_status']['selection'])[rec.inv_status])
                 # print(dict(self._fields['move_id.state'].selection).get(self.move_id.state))
-                rec.invoice_status = dict(self.fields_get(allfields=['inv_status'])['inv_status']['selection'])[rec.inv_status]
+                rec.invoice_status = dict(self.fields_get(allfields=['inv_status'])['inv_status']['selection'])[
+                    rec.inv_status]
             else:
                 rec.invoice_status = ''
 
@@ -318,9 +317,8 @@ class InstallmentLines(models.Model):
     def _compute_payment_status(self):
         for rec in self:
             if rec.pymt_status:
-                print(dict(self.fields_get(allfields=['pymt_status'])['pymt_status']['selection'])[rec.pymt_status])
-                # print(dict(self._fields['move_id.state'].selection).get(self.move_id.state))
-                rec.payment_status = dict(self.fields_get(allfields=['pymt_status'])['pymt_status']['selection'])[rec.pymt_status]
+                rec.payment_status = dict(self.fields_get(allfields=['pymt_status'])['pymt_status']['selection'])[
+                    rec.pymt_status]
             else:
                 rec.payment_status = ''
 

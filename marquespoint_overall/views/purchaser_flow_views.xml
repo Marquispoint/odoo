@@ -33,7 +33,7 @@
         <field name="arch" type="xml">
             <xpath expr="//form/group/group[@name='group1']/field[@name='partner_bank_id']" position="after">
                 <field name="purchaser_ids" widget="many2many_tags" invisible="1"/>
-                <field name="purchaser_id" options="{'no_create': True}"/>
+                <field name="purchaser_id" options="{'no_create': True}" required="1"/>
             </xpath>
         </field>
     </record>

@@ -10,4 +10,4 @@ class PaymentPlan(models.Model):
     percentage = fields.Float('Percentage')
     amount = fields.Float('Amount')
     is_booked = fields.Boolean('Is Booked')
-    is_admin_fee = fields.Boolean('PLD+Admin Fee')
+    is_admin_fee = fields.Boolean('DLD+Admin Fee')

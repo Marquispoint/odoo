@@ -18,6 +18,7 @@
 					<field name="commercial_bank_id"/>
 					<field name="cheque_no" required="1"/>
 					<field name="memo"/>
+					<field name="branch_id" readonly="1"/>
 <!--					<field name="move_id" readonly="1"/>-->
 					<field name="move_ids" readonly="1" widget="many2many_tags"/>
 				</group>
