@@ -454,6 +454,16 @@ class AccountMove(models.Model):
             'view_mode': 'tree,form',
             'res_model': 'pdc.payment',
             'domain': [('move_ids', 'in', [self.id])],
+            'context': {'default_partner_id': self.partner_id.id,
+                        'default_payment_amount': self.amount_residual,
+                        'default_date_payment': self.invoice_date_due,
+                        'default_currency_id': self.currency_id.id,
+                        'default_move_id': self.id,
+                        'default_move_ids': [self.id],
+                        'default_branch_id': self.branch_id.id,
+                        'default_memo': self.name,
+                        'default_pdc_type': 'received' if self.move_type == 'out_invoice' else 'sent',
+                        },
             'type': 'ir.actions.act_window',
         }
 
