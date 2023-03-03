@@ -55,6 +55,7 @@ class PDCPayment(models.Model):
     move_id = fields.Many2one('account.move', string='Invoice/Bill Ref')
     move_ids = fields.Many2many('account.move', string='Invoices/Bills Ref')
     cheque_no = fields.Char()
+    branch_id = fields.Many2one('res.branch', string='Branch')
 
     def check_balance(self):
         partner_ledger = self.env['account.move.line'].search(
@@ -139,6 +140,8 @@ class PDCPayment(models.Model):
         lines = []
         for record in self:
             if record.pdc_type == 'received':
+                if not record.date_bounced:
+                    record.date_bounced = datetime.today().date()
                 move_dict = {
                     'ref': record.name,
                     'move_type': 'entry',
@@ -163,10 +166,9 @@ class PDCPayment(models.Model):
                     'credit': record.payment_amount,
                     'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
                 })
-                lines.append(credit_line)
-                move_dict['line_ids'] = lines
-                move = self.env['account.move'].create(move_dict)
             else:
+                if not record.date_bounced:
+                    record.date_bounced = datetime.today().date()
                 move_dict = {
                     'ref': record.name,
                     'move_type': 'entry',
@@ -191,15 +193,16 @@ class PDCPayment(models.Model):
                     'credit': 0.0,
                     'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
                 })
-                lines.append(credit_line)
-                move_dict['line_ids'] = lines
-                move = self.env['account.move'].create(move_dict)
-        self.date_bounced = datetime.today().date()
+            lines.append(credit_line)
+            move_dict['line_ids'] = lines
+            move = self.env['account.move'].create(move_dict)
 
     def action_cleared_jv(self):
         lines = []
         for record in self:
             if record.pdc_type == 'received':
+                if not record.date_cleared:
+                    record.date_cleared = datetime.today().date()
                 move_dict = {
                     'ref': record.name,
                     'move_type': 'entry',
@@ -207,12 +210,13 @@ class PDCPayment(models.Model):
                     'partner_id': record.partner_id.id,
                     'date': record.date_cleared,
                     'state': 'draft',
+                    'branch_id': record.branch_id.id,
                     'pdc_cleared_id': self.id,
                 }
                 debit_line = (0, 0, {
                     'name': 'PDC Cleared',
                     'debit': 0.0,
-                    'credit':  record.payment_amount,
+                    'credit': record.payment_amount,
                     'partner_id': record.partner_id.id,
                     'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
                 })
@@ -245,6 +249,8 @@ class PDCPayment(models.Model):
                 move = self.env['account.move'].create(move_dict)
                 move.action_post()
             else:
+                if not record.date_cleared:
+                    record.date_cleared = datetime.today().date()
                 move_dict = {
                     'ref': record.name,
                     'move_type': 'entry',
@@ -252,6 +258,7 @@ class PDCPayment(models.Model):
                     'partner_id': record.partner_id.id,
                     'date': record.date_cleared,
                     'state': 'draft',
+                    'branch_id': record.branch_id.id,
                     'pdc_cleared_id': self.id,
                 }
                 debit_line = (0, 0, {
@@ -405,6 +412,8 @@ class AccountMove(models.Model):
                         'default_currency_id': self.currency_id.id,
                         'default_move_id': self.id,
                         'default_move_ids': [self.id],
+                        'default_branch_id': self.branch_id.id,
+                        'default_memo': self.name,
                         'default_pdc_type': 'received' if self.move_type == 'out_invoice' else 'sent',
                         },
             'res_model': 'pdc.payment.wizard',
@@ -416,7 +425,7 @@ class AccountMove(models.Model):
         selected_records = self.env['account.move'].browse(selected_ids)
         # print(selected_records)
         if any(res.state != 'posted' for res in selected_records) or len(
-                selected_records.mapped('partner_id')) > 1 or len(selected_records.mapped('journal_id')) > 1 :
+                selected_records.mapped('partner_id')) > 1 or len(selected_records.mapped('journal_id')) > 1:
             raise ValidationError('Invoices must be in Posted state And Journal must be same. ')
         for res in selected_records:
             if res.is_pdc_created:

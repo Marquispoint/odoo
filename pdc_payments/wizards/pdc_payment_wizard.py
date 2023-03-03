@@ -25,6 +25,7 @@ class PDCPaymentWizard(models.TransientModel):
     cheque_no = fields.Char()
     move_id = fields.Many2one('account.move', string='Invoice/Bill Ref')
     move_ids = fields.Many2many('account.move', string='Invoices/Bills Ref')
+    branch_id = fields.Many2one('res.branch', string='Branch')
 
     @api.onchange('journal_id')
     def _onchange_journal(self):
@@ -44,12 +45,14 @@ class PDCPaymentWizard(models.TransientModel):
                     'move_ids': record.move_ids.ids,
                     'date_payment': record.date_payment,
                     'date_registered': record.date_registered,
-                    'destination_account_id': record.journal_id.default_account_id.id,
+                    # 'destination_account_id': record.journal_id.default_account_id.id,
+                    'destination_account_id': record.destination_account_id.id,
                     'currency_id': record.currency_id.id,
                     'commercial_bank_id': record.commercial_bank_id.id,
                     'payment_amount': record.payment_amount,
                     'cheque_no': record.cheque_no,
-                    'pdc_type': 'received'
+                    'pdc_type': 'received',
+                    'branch_id': record.branch_id.id,
                 }
                 record = self.env['pdc.payment'].create(vals)
             elif record.pdc_type == 'sent':

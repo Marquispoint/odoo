@@ -23,7 +23,7 @@ class InstallmentWizard(models.TransientModel):
     order_id = fields.Many2one('sale.order')
     is_token_money = fields.Boolean('Token Money Included')
     is_admin = fields.Boolean()
-    is_admin_fee = fields.Boolean('PLD+Admin Fee')
+    is_admin_fee = fields.Boolean('DLD+Admin Fee')
     admin_fee = fields.Float('Amount')
 
     # @api.onchange('is_token_money')
@@ -96,11 +96,12 @@ class InstallmentWizard(models.TransientModel):
             'end_date': self.end_date,
             'installment_no': self.installment_no,
             'installment_period': self.installment_period,
+            'is_admin_fee': self.is_admin_fee,
         })
         # Validations
         if active_id.order_id.plan_ids:
             total_percentage = sum(percen.percentage for percen in active_id.order_id.plan_ids)
-            total_amount = sum(line.amount for line in active_id.order_id.plan_ids)
+            total_amount = sum(line.amount for line in active_id.order_id.plan_ids if not line.is_admin_fee)
             print(f'total_percentage: {total_percentage}')
             print(f'total_amount: {total_amount}')
             print(f'self.order_id.amount_untaxed: {active_id.order_id.amount_untaxed}')
