@@ -34,12 +34,6 @@ class AccountMove(models.Model):
     advance_vat = fields.Float('Advance Vat', compute='_compute_advance_vat')
     recoverable = fields.Float('Recoverable')
 
-    # journal_id = fields.Many2one('account.journal', string='Journal')
-
-    # @api.onchange('project_name')
-    # def _onchange_project_name(self):
-    #     print(self.move_type)
-    #     # out_invoice
 
     @api.depends('retention')
     def _compute_retention_amount(self):
@@ -68,51 +62,6 @@ class AccountMove(models.Model):
 
     @api.onchange('po_no')
     def _on_change_po_no(self):
-        # for rec in self:
-        #     if rec.po_no:
-        #         rec.write(
-        #             {
-        #                 'attendant': rec.po_no.attendant.id,
-        #                 'project_name': rec.po_no.project_name.id,
-        #                 'project_shipment': rec.po_no.project_shipment,
-        #                 'project_code': rec.po_no.project_code,
-        #                 'po_type': rec.po_no.po_type,
-        #                 'confirmation_date': self.po_no.date_approve,
-        #                 'sub_contractor': rec.po_no.sub_contractor.id,
-        #                 'contract_order': rec.po_no.contract_order
-        #             }
-        #         )
-        #         lines = []
-        #         for line in rec.po_no.order_line:
-        #             lines.append((0, 0, {
-        #                 'product_id': line.product_id.id,
-        #                 'name': line.name,
-        #                 'quantity': line.product_qty,
-        #                 'contract_per_amount': line.contract_per_amount,
-        #                 'contract_amount': line.price_subtotal,
-        #                 'product_uom_id': line.product_uom.id,
-        #                 'price_unit': line.price_unit,
-        #                 'tax_ids': line.taxes_id.id,
-        #                 'purchase_order_id': self.po_no.id,
-        #                 'analytic_account_id': line.account_analytic_id.id,
-        #             }))
-        #         rec.update({
-        #             'invoice_line_ids': lines
-        #         })
-
-        # inv_ids = []
-        # for line in [str(line.id) for line in self.invoice_line_ids]:
-        #     temp = ''
-        #     for i in line:
-        #         if i.isdigit():
-        #             temp += str(i)
-        #     inv_ids.append(int(temp))
-        # print(inv_ids)
-        # # print(invoices)
-        # print('-------------------------------------------------------')
-        # print(self.env['account.move.line'].search([('id', 'in', inv_ids)]))
-        # print('-------------------------------------------------------')
-        # self.env['account.move.line'].search([('id', 'in', inv_ids)]).unlink()
         if self.po_no:
             self.purchase_id = self.po_no.id
         self.purchase_vendor_bill_id = False
@@ -158,26 +107,58 @@ class AccountMove(models.Model):
 
         self.purchase_id = False
 
-    # def write(self, vals):
-    #     res = super(AccountMove, self).write(vals)
-    #     print(self.line_ids)
-    #     if self.move_type == 'in_invoice':
-    #         if self.po_type == 'project':
-    #             # current_bill = sum([line.current_bill_amount for line in self.invoice_line_ids])
-    #             balance = self.line_ids[0].balance
-    #             print(f'amount: {self.amount_untaxed}')
-    #             # self.amount_untaxed = balance
-    #             print(f'amount_untaxed: {self.amount_untaxed}')
-    #             print(f'amount_total: {self.amount_total}')
-    #             print(f'amount_residual: {self.amount_residual}')
-    #             #     if line.debit:
-    #             #         print(f'line: {line}\t debit: {line.debit}')
-    #             #         print(current_bill)
-    #             #         # line.update({'debit': current_bill})
-    #             #     else:
-    #             #         print(f'line: {line}\t credit: {line.credit}')
-    #             # line.update({'debit': current_bill})
-    #     return res
+    @api.onchange('purchase_vendor_bill_id', 'purchase_id')
+    def _onchange_purchase_auto_complete(self):
+        if self.purchase_vendor_bill_id.vendor_bill_id:
+            self.invoice_vendor_bill_id = self.purchase_vendor_bill_id.vendor_bill_id
+            self._onchange_invoice_vendor_bill()
+        elif self.purchase_vendor_bill_id.purchase_order_id:
+            self.purchase_id = self.purchase_vendor_bill_id.purchase_order_id
+        self.purchase_vendor_bill_id = False
+
+        if not self.purchase_id:
+            return
+
+        # Copy data from PO
+        invoice_vals = self.purchase_id.with_company(self.purchase_id.company_id)._prepare_invoice()
+        invoice_vals['currency_id'] = self.line_ids and self.currency_id or invoice_vals.get('currency_id')
+        del invoice_vals['ref']
+        self.update(invoice_vals)
+
+        # Copy purchase lines.
+        po_lines = self.purchase_id.order_line - self.line_ids.mapped('purchase_line_id')
+
+        # Custom
+
+        new_lines = self.env['account.move.line']
+        for line in po_lines.filtered(lambda l: not l.display_type):
+            print('line is create')
+            new_line = new_lines.new(line._prepare_account_move_line(self))
+            new_line.account_id = new_line._get_computed_account()
+            new_line._onchange_price_subtotal()
+            new_line.update({
+                'contract_per_amount': line.contract_per_amount,
+                'contract_amount': line.price_subtotal
+            })
+            new_line.quantity = line.product_qty
+            new_lines += new_line
+        new_lines._onchange_mark_recompute_taxes()
+
+        # Compute invoice_origin.
+        origins = set(self.line_ids.mapped('purchase_line_id.order_id.name'))
+        self.invoice_origin = ','.join(list(origins))
+
+        # Compute ref.
+        refs = self._get_invoice_reference()
+        self.ref = ', '.join(refs)
+
+        # Compute payment_reference.
+        if len(refs) == 1:
+            self.payment_reference = refs[0]
+
+        self.purchase_id = False
+        self._onchange_currency()
+        self.partner_bank_id = self.bank_partner_id.bank_ids and self.bank_partner_id.bank_ids[0]
 
     #     Working for Report Totals
     def get_contract_per_amount(self):
@@ -260,17 +241,6 @@ class AccountMoveLines(models.Model):
             else:
                 rec.is_project = False
 
-    # @api.depends('price_unit', 'quantity', 'price_subtotal')
-    # def _compute_contract_per_amount(self):
-    #     for rec in self:
-    #         if rec.price_unit or rec.quantity or rec.price_subtotal or rec.move_id.amount_untaxed:
-    #             try:
-    #                 rec.contract_per_amount = f'{round((rec.price_subtotal / rec.move_id.amount_untaxed) * 100, 2)}%'
-    #             except:
-    #                 rec.contract_per_amount = f'0.00%'
-    #         else:
-    #             rec.contract_per_amount = f'0.00%'
-
     def _compute_previous(self):
         for rec in self:
             previous_bill = self.env['account.move.line'].search(
@@ -344,32 +314,6 @@ class AccountMoveLines(models.Model):
                     rec.quantity = round(rec.current_bill_amount / rec.price_unit, 2)
                 except:
                     rec.quantity = 0
-
-    # @api.onchange('current_bill_amount')
-    # def _on_change_current_bill_amount(self):
-    #     for rec in self:
-    #         if rec.current_bill_amount:
-    #             rec.price_subtotal = rec.current_bill_amount
-    #         else:
-    #             rec.price_subtotal = 0
-    #
-    # def write(self, vals):
-    #     res = super(AccountMoveLines, self).write(vals)
-    #     if self.move_id.po_type == 'project':
-    #         if 'current_bill_amount' in vals:
-    #             self.price_subtotal = self.current_bill_amount
-    #     return res
-    #
-    # @api.model
-    # def create(self, vals):
-    #     res = super(AccountMoveLines, self).create(vals)
-    #     print(vals)
-    #     if 'move_id' in vals:
-    #         move_id = self.env['account.move'].search([('id', '=', vals['move_id'])])
-    #         if move_id.po_type == 'project':
-    #             for line in move_id.invoice_line_ids:
-    #                 line.price_subtotal = line.current_bill_amount
-    #     return res
 
     @api.constrains('current_bill_amount', 'total_bill_amount')
     def get_current_bill_amount(self):

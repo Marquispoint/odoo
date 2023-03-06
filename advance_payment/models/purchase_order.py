@@ -88,3 +88,10 @@ class PurchaseOrderLines(models.Model):
                     rec.contract_per_amount = f'0.00%'
             else:
                 rec.contract_per_amount = f'0.00%'
+
+    # def _prepare_account_move_line(self):
+    #     invoice_vals = super(PurchaseOrderLines, self)._prepare_account_move_line()
+    #     invoice_vals.update({
+    #         'contract_per_amount': self.contract_per_amount
+    #     })
+    #     return invoice_vals
