@@ -138,7 +138,7 @@ class AccountMove(models.Model):
             new_line._onchange_price_subtotal()
             new_line.update({
                 'contract_per_amount': line.contract_per_amount,
-                'contract_amount': line.price_subtotal
+                'contract_amount': line.price_subtotal,
             })
             new_line.quantity = line.product_qty
             new_lines += new_line
