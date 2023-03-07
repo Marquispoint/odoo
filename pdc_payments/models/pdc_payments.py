@@ -375,6 +375,8 @@ class PDCPayment(models.Model):
             if rec.journal_id:
                 rec.destination_account_id = rec.journal_id.default_account_id.id
 
+    purchaser_id = fields.Many2one(comodel_name='res.partner', string='Purchaser')
+
 
 class AccountPaymentInherit(models.Model):
     _inherit = 'account.payment'

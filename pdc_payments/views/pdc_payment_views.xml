@@ -81,6 +81,7 @@
 <!--                            <field name="move_id"/>-->
                             <field name="move_ids" widget="many2many_tags"/>
                             <field name="branch_id"/>
+                            <field name="purchaser_id"/>
                         </group>
                     </group>
                 </sheet>

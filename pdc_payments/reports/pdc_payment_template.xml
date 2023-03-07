@@ -3,7 +3,6 @@
     <template id="pdc_payment_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-
                 <t t-call="web.external_layout">
                     <div class="page">
                         <h3>
@@ -12,63 +11,55 @@
                             </strong>
                         </h3>
                         <div class="row mt64">
-                            <div class="col-6" t-if="o.date_payment">
-                                <strong>Payment Date:</strong>
-                                <span t-field="o.date_payment"/>
+                            <div class="col-6">
+                                <t t-if="o.date_payment">
+                                    <strong>Payment Date:</strong>
+                                    <span t-field="o.date_payment"/>
+                                </t>
+                                <t t-if="o.partner_id">
+                                    <br/>
+                                    <strong>Partner:</strong>
+                                    <span t-field="o.partner_id.name"/>
+                                </t>
+                                <t t-if="o.payment_amount">
+                                    <br/>
+                                    <strong>PDC Payment Amount:</strong>
+                                    <span t-field="o.payment_amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </t>
+                                <t t-if="o.memo">
+                                    <br/>
+                                    <strong>Memo:</strong>
+                                    <span t-field="o.memo"/>
+                                </t>
+                                <t t-if="o.date_registered">
+                                    <br/>
+                                    <strong>Registered Date:</strong>
+                                    <span t-field="o.date_registered"/>
+                                </t>
+                                <t t-if="o.date_payment">
+                                    <br/>
+                                    <strong>Due Date:</strong>
+                                    <span t-field="o.date_payment"/>
+                                </t>
+                                <t t-if="o.cheque_no">
+                                    <br/>
+                                    <strong>Cheque No:</strong>
+                                    <span t-field="o.cheque_no"/>
+                                </t>
+                            </div>
+                            <div class="col-6">
+                                <t t-if="o.purchaser_id">
+                                    <span t-field="o.purchaser_id"
+                                          t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                </t>
+                                <t t-if="o.destination_account_id">
+                                    <strong>Bank:</strong>
+                                    <span t-field="o.destination_account_id.name"/>
+                                </t>
                             </div>
                         </div>
-                        <div class="row mt64">
-                            <div class="col-6" t-if="o.partner_id">
-                                <strong>Partner:</strong>
-                                <span t-field="o.partner_id.name"/>
-                            </div>
-                        </div>
-                        <!--                    <div class="row">-->
-                        <!--                        <div class="col-6" t-if="o.partner_type">-->
-                        <!--                            <t t-if="o.partner_type == 'customer'">-->
-                        <!--                                <strong>Customer:</strong>-->
-                        <!--                            </t>-->
-                        <!--                            <t t-if="o.partner_type == 'supplier'">-->
-                        <!--                                <strong>Vendor:</strong>-->
-                        <!--                            </t>-->
-                        <!--                            <span t-field="o.partner_id"/>-->
-                        <!--                        </div>-->
-                        <!--                        <div class="col-6" t-if="o.payment_method_id">-->
-                        <!--                            <strong>Payment Method:</strong>-->
-                        <!--                            <span t-field="o.payment_method_id.name"/>-->
-                        <!--                        </div>-->
-                        <!--                    </div>-->
-                        <div class="row mb64">
-                            <div class="col-6" t-if="o.payment_amount">
-                                <strong>PDC Payment Amount:</strong>
-                                <span t-field="o.payment_amount"
-                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
-                            </div>
-                            <div class="col-6" t-if="o.memo">
-                                <strong>Memo:</strong>
-                                <span t-field="o.memo"/>
-                            </div>
-                        </div>
-                        <div class="row mb64">
-                            <div class="col-6" t-if="o.date_registered">
-                                <strong>Registered Date:</strong>
-                                <span t-field="o.date_registered"/>
-                            </div>
-                            <div class="col-6" t-if="o.date_payment">
-                                <strong>Due Date:</strong>
-                                <span t-field="o.date_payment"/>
-                            </div>
-                        </div>
-                        <div class="row mb64">
-                            <div class="col-6" t-if="o.cheque_no">
-                                <strong>Cheque No:</strong>
-                                <span t-field="o.cheque_no"/>
-                            </div>
-                            <div class="col-6" t-if="o.destination_account_id">
-                                <strong>Bank:</strong>
-                                <span t-field="o.destination_account_id.name"/>
-                            </div>
-                        </div>
+
                         <div class="row mb64">
                             <div class="col-6" t-if="o.commercial_bank_id">
                                 <strong>Commercial Bank:</strong>
@@ -129,17 +120,17 @@
                                 </t>
                             </tbody>
                         </table>
-                        <br/>
-                        <p name="arabic" align="left">
-                            <b>
-                                This is a certified electronic receipt and does not require a stamp
-                            </b>
-                        </p>
-                        <p name="eng" align="right">
-                            <b>
-                                "هذا إيصال إلكتروني معتمد ولا يتطلب ختم أو توقيع"
-                            </b>
-                        </p>
+                        <!--                        <br/>-->
+                        <!--                        <p name="arabic" align="left">-->
+                        <!--                            <b>-->
+                        <!--                                This is a certified electronic receipt and does not require a stamp-->
+                        <!--                            </b>-->
+                        <!--                        </p>-->
+                        <!--                        <p name="eng" align="right">-->
+                        <!--                            <b>-->
+                        <!--                                "هذا إيصال إلكتروني معتمد ولا يتطلب ختم أو توقيع"-->
+                        <!--                            </b>-->
+                        <!--                        </p>-->
                     </div>
 
                 </t>
