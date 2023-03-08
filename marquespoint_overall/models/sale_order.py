@@ -107,6 +107,7 @@ class SaleOrder(models.Model):
             'building': self.building.id,
             'floor': self.floor.id,
             'unit': self.unit.id,
+            'so_ids': self.id,
         })
         return invoice_vals
 

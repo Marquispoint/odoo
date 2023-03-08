@@ -19,7 +19,7 @@
     'version': '14.0.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'branch'],
+    'depends': ['base', 'account', 'branch', 'marquespoint_overall'],
 
     # always loaded
     'data': [

@@ -8,7 +8,7 @@ class PDCPaymentWizard(models.TransientModel):
     _name = 'pdc.payment.wizard'
     _description = 'PDC Payment'
 
-    partner_id = fields.Many2one('res.partner', string='Partner',)
+    partner_id = fields.Many2one('res.partner', string='Partner', )
     payment_amount = fields.Float(string='Payment Amount')
     # cheque_ref = fields.Char(string='Commercial Name')
     commercial_bank_id = fields.Many2one('pdc.commercial.bank', string='Commercial Bank Name', tracking=True)
@@ -18,7 +18,7 @@ class PDCPaymentWizard(models.TransientModel):
     currency_id = fields.Many2one('res.currency', string='Currency')
     pdc_type = fields.Selection([('sent', 'Sent'),
                                  ('received', 'Received'),
-                                 ], string='PDC Type',)
+                                 ], string='PDC Type', )
 
     date_payment = fields.Date(string='Due Date')
     date_registered = fields.Date(string='Registered Date')
@@ -53,6 +53,7 @@ class PDCPaymentWizard(models.TransientModel):
                     'cheque_no': record.cheque_no,
                     'pdc_type': 'received',
                     'branch_id': record.branch_id.id,
+                    'purchaser_id': record.purchaser_id.id,
                 }
                 record = self.env['pdc.payment'].create(vals)
             elif record.pdc_type == 'sent':
@@ -67,9 +68,30 @@ class PDCPaymentWizard(models.TransientModel):
                     'currency_id': record.currency_id.id,
                     'payment_amount': record.payment_amount,
                     'cheque_no': record.cheque_no,
-                    'pdc_type': 'sent'
+                    'pdc_type': 'sent',
+                    'branch_id': record.branch_id.id,
+                    'purchaser_id': record.purchaser_id.id,
                 }
                 record = self.env['pdc.payment'].create(vals)
 
             for r in self.move_ids:
                 r.is_pdc_created = True
+
+    # Purchaser Flow ----------------------------------------------------------------
+    purchaser_ids = fields.Many2many(comodel_name='res.partner', compute="_compute_purchaser_ids")
+    purchaser_id = fields.Many2one(comodel_name='res.partner', string='Purchaser',
+                                   domain="[('id', 'in', purchaser_ids)]")
+    is_invoice = fields.Boolean('Is invoice', compute="_compute_purchaser_ids")
+
+    @api.depends('move_ids')
+    def _compute_purchaser_ids(self):
+        model = self.env.context.get('active_model')
+        active_id = self.env[model].browse(self.env.context.get('active_id'))
+        print(active_id.move_type)
+        if active_id.purchaser_ids and active_id.move_type == 'out_invoice':
+            self.is_invoice = True
+            self.purchaser_ids = active_id.purchaser_ids.ids
+        else:
+            self.is_invoice = False
+            self.purchaser_ids = []
+    # -------------------------------------------------------------------------------

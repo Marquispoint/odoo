@@ -24,14 +24,18 @@ class PaymentWizardInherit(models.TransientModel):
     purchaser_ids = fields.Many2many(comodel_name='res.partner', compute="_compute_purchaser_ids")
     purchaser_id = fields.Many2one(comodel_name='res.partner', string='Purchaser',
                                    domain="[('id', 'in', purchaser_ids)]")
+    is_invoice = fields.Boolean('Is invoice', compute="_compute_purchaser_ids")
 
     @api.depends('communication')
     def _compute_purchaser_ids(self):
         model = self.env.context.get('active_model')
         active_id = self.env[model].browse(self.env.context.get('active_id'))
-        if active_id.purchaser_ids:
+        print(active_id.move_type)
+        if active_id.purchaser_ids and active_id.move_type == 'out_invoice':
+            self.is_invoice = True
             self.purchaser_ids = active_id.purchaser_ids.ids
         else:
+            self.is_invoice = False
             self.purchaser_ids = []
 
     def _create_payment_vals_from_wizard(self):
