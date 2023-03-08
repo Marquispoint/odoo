@@ -91,6 +91,7 @@ class PurchaseOrderLines(models.Model):
             'product_uom_id': self.product_uom.id,
             'quantity': self.qty_to_invoice,
             'contract_per_amount': self.contract_per_amount,
+            'contract_amount': self.price_subtotal,
             'price_unit': self.currency_id._convert(self.price_unit, aml_currency, self.company_id, date, round=False),
             'tax_ids': [(6, 0, self.taxes_id.ids)],
             'analytic_account_id': self.account_analytic_id.id,
