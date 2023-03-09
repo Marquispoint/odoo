@@ -180,28 +180,28 @@ class AccountMove(models.Model):
         for rec in self.invoice_line_ids:
             if rec.previous_percentage:
                 total += float(rec.previous_percentage.replace('%', ''))
-        return f'{round(float(total), 2)}%'
+        return total
 
     def get_this_month_percentage(self):
         total = 0
         for rec in self.invoice_line_ids:
             if rec.this_month_percentage:
                 total += float(rec.this_month_percentage.replace('%', ''))
-        return f'{round(float(total), 2)}%'
+        return total
 
     def get_total_percentage(self):
         total = 0
         for rec in self.invoice_line_ids:
             if rec.total_percentage:
                 total += float(rec.total_percentage.replace('%', ''))
-        return f'{round(float(total), 2)}%'
+        return total
 
     def get_percentage_total_amount(self):
         total = 0
         for rec in self.invoice_line_ids:
             if rec.percentage_total_amount:
                 total += float(rec.percentage_total_amount.replace('%', ''))
-        return f'{round(float(total), 2)}%'
+        return total
 
     def get_total_bill_amount(self):
         total = 0
@@ -319,4 +319,4 @@ class AccountMoveLines(models.Model):
     def get_current_bill_amount(self):
         for rec in self:
             if rec.total_bill_amount > rec.contract_amount:
-                raise UserError('Amount exceeds from contract amount')
+                raise UserError('Amount exceeded from contract amount')
