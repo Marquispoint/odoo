@@ -104,40 +104,62 @@
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_previous_percentage()">
-                                            <span t-esc="o.get_previous_percentage()"/>
+                                            <span t-esc="o.get_previous_percentage()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_this_month_percentage()">
-                                            <span t-esc="o.get_this_month_percentage()"/>
+                                            <span t-esc="o.get_this_month_percentage()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_total_percentage()">
-                                            <span t-esc="o.get_total_percentage()"/>
+                                            <span t-esc="o.get_total_percentage()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_percentage_total_amount()">
-                                            <span t-esc="o.get_percentage_total_amount()"/>
+                                            <span t-esc="o.get_percentage_total_amount()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:right;">
                                         <t t-if="o.get_total_bill_amount()">
                                             <span t-esc="o.get_total_bill_amount()"
-                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
                                         </t>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th style="border:1px solid black; text-align:right;" colspan="4">Less:</th>
-                                    <th colspan="4" style="border:1px solid black; text-align:center;"/>
-                                    <td style="border:1px solid black; text-align:right;"/>
+                                    <td colspan="4" style="border:1px solid black; text-align:center;">
+                                        RETENTION
+                                        <t t-if="o.retention">
+                                            <span t-field="o.retention" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        </t>
+                                        <t t-else="">
+                                            0.00
+                                        </t>
+                                        %
+                                    </td>
+                                    <td style="border:1px solid black; text-align:right;">
+                                        <span t-field="o.retention_amount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="border:1px solid black; text-align:right;" colspan="4">Less:</th>
-                                    <th colspan="4" style="border:1px solid black; text-align:center;"/>
-                                    <td style="border:1px solid black; text-align:right;"/>
+                                    <td colspan="4" style="border:1px solid black; text-align:center;">
+                                        ADVANCE
+                                        <t t-if="o.advance">
+                                            <span t-field="o.advance" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        </t>
+                                        <t t-else="">
+                                            0.00
+                                        </t>
+                                        %
+                                    </td>
+                                    <td style="border:1px solid black; text-align:right;">
+                                        <span t-field="o.advance_amount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="border:1px solid black; text-align:right;" colspan="4">Less:</th>
@@ -172,22 +194,6 @@
                 </t>
             </t>
         </template>
-
-        <!--        <template id="marquis_point_letterhead">-->
-        <!--            <t t-set="company" t-value="user.company_id"/>-->
-        <!--            <div class="header text-center" width="100%">-->
-        <!--                <table class="table table-sm table-borderless" style="width:100%;  font-size:14px;">-->
-        <!--                    <tr>-->
-        <!--                        <td colspan="4">-->
-        <!--                            <img src="/advance_payment/static/description/header.png"-->
-        <!--                                 style="height:100px; width:100%;"/>-->
-        <!--                        </td>-->
-        <!--                    </tr>-->
-        <!--                </table>-->
-        <!--            </div>-->
-        <!--            <div class="footer text-right border-top border-bottom" width="100%">-->
-        <!--            </div>-->
-        <!--        </template>-->
 
         <template id="marquis_point_letterhead">
             <t t-set="company" t-value="user.company_id"/>
