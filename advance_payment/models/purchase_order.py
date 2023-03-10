@@ -36,6 +36,13 @@ class PurchaseOrder(models.Model):
         })
         return invoice_vals
 
+    # @api.depends('project_name')
+    # def _on_project_name_change(self):
+    #     print('_on_project_name_change')
+    #     for rec in self:
+    #         if rec.project_name:
+    #             rec.branch_id = rec.project_name.branch_id.id
+
     @api.depends('order_line.invoice_lines.move_id')
     def compute_po_no(self):
         for order in self:

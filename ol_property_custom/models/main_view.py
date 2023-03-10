@@ -115,7 +115,7 @@ class ProductInh(models.Model):
     code = fields.Char(string='Code', default="New")
     building = fields.Many2one(comodel_name='property.building', string='Building',
                                domain='[("project_id", "=", project)]')
-    unit_type = fields.Selection(string='Unit Type', selection=[('parking', 'Parking'), ('appartment', 'Appartment'), ])
+    unit_type = fields.Selection(string='Unit Type', selection=[('parking', 'Parking'), ('appartment', 'Apartment'), ])
     view_type = fields.Selection(string='View Type', selection=[
         ('front', 'Front View'),
         ('rear', 'Rear View'),

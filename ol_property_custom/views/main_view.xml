@@ -36,7 +36,7 @@
             <field name="name">property.building.form</field>
             <field name="model">property.building</field>
             <field name="arch" type="xml">
-                <form string="Add Building">
+                <form string="Add Building" create="0">
                     <header>
                         <button name="%(create_floor_wizard)d" string="Create Floor " type="action"
                                 class="oe_highlight"/>
@@ -48,7 +48,7 @@
                                 <field name="name" string="Name"/>
                                 <field name="project_id" string="Project"/>
                                 <field name="project_analytical"/>
-                                <field name="building_account_analytical"/>
+                                <field name="building_account_analytical" readonly="1"/>
                             </group>
                             <group>
 
@@ -68,7 +68,7 @@
             <field name="name">property.building.tree</field>
             <field name="model">property.building</field>
             <field name="arch" type="xml">
-                <tree string="Buildings">
+                <tree string="Buildings" create="0">
                     <field name="name"/>
                     <field name="project_id"/>
                     <field name="short_name"/>
@@ -136,7 +136,7 @@
             <field name="name">property.floor.form</field>
             <field name="model">property.floor</field>
             <field name="arch" type="xml">
-                <form string="Add Floor">
+                <form string="Add Floor" create="0">
                     <header>
                         <button name="%(create_units_wizard)d" string="Create Units " type="action"
                                 class="oe_highlight"/>
@@ -167,7 +167,7 @@
             <field name="name">property.floor.tree</field>
             <field name="model">property.floor</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree create="0">
                     <field name="name"/>
                     <field name="building_id"/>
                     <field name="short_name"/>
