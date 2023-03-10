@@ -26,7 +26,8 @@ class CreateBuildingWizard(models.TransientModel):
                 sid = self.env['property.building'].create({
                     'project_id': active_id,
                     'code': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}',
-                    'building_account_analytical': idd.id
+                    'building_account_analytical': idd.id,
+                    'branch_id': obj_project.branch_id.id,
                 })
                 s = self.env['account.analytic.account'].search(
                     [('name', '=', obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}')])
@@ -42,7 +43,8 @@ class CreateBuildingWizard(models.TransientModel):
                 sid = self.env['property.building'].create({
                     'project_id': active_id,
                     'code': obj_project.code + "-" + f'{i + 1:02}',
-                    'building_account_analytical': idd.id
+                    'building_account_analytical': idd.id,
+                    'branch_id': obj_project.branch_id.id,
                 })
                 s = self.env['account.analytic.account'].search([('name', '=', obj_project.code + "-" + f'{i + 1:02}')])
                 s.write({

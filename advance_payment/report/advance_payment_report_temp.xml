@@ -7,6 +7,7 @@
                     <t t-call="web.external_layout">
                         <div class="page">
                             <div class="oe_structure"/>
+
                             <h3 class="text-center">INTERIM PAYMENT CERTIFICATE NO. 2</h3>
                             <h5 class="text-center">FOR THE MONTH ENDING
                                 <t t-if="o.confirmation_date">
