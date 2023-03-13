@@ -34,7 +34,6 @@ class AccountMove(models.Model):
     advance_vat = fields.Float('Advance Vat', compute='_compute_advance_vat')
     recoverable = fields.Float('Recoverable')
 
-
     @api.depends('retention')
     def _compute_retention_amount(self):
         for rec in self:
@@ -306,14 +305,17 @@ class AccountMoveLines(models.Model):
             else:
                 rec.percentage_total_amount = f'0.00%'
 
-    @api.onchange('current_bill_amount', 'price_unit')
+    @api.onchange('current_bill_amount')
     def _on_change_current_bill_amount(self):
         for rec in self:
             if rec.current_bill_amount:
                 try:
-                    rec.quantity = round(rec.current_bill_amount / rec.price_unit, 2)
+                    qty = rec.current_bill_amount / rec.contract_amount
+                    rec.quantity = qty
+                    # rec.price_unit = rec.current_bill_amount
                 except:
                     rec.quantity = 0
+                    # rec.price_unit = 0
 
     @api.constrains('current_bill_amount', 'total_bill_amount')
     def get_current_bill_amount(self):
