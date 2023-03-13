@@ -84,9 +84,9 @@
                                     <th style="text-align:left; border:1px solid black;" width="10%">Pages:</th>
                                     <td style="text-align:left; border:1px solid black;" width="35%">
                                         <div>
-<!--                                            <span class="page"/>-->
-<!--                                            /-->
-<!--                                            <span class="topage"/>-->
+                                            <!--                                            <span class="page"/>-->
+                                            <!--                                            /-->
+                                            <!--                                            <span class="topage"/>-->
                                         </div>
                                     </td>
                                 </tr>
@@ -137,9 +137,8 @@
                                 </t>
                                 <tr>
                                     <td style="border-right:1px solid black;"/>
-                                    <td style="border-right:1px solid black;">Civil Work of the following works as
-                                        per
-                                        above mentioned quote.
+                                    <td style="border-right:1px solid black;">
+                                        Following Works as per mention Quotation
                                     </td>
                                     <td style="border-right:1px solid black;"/>
                                     <td style="border-right:1px solid black;"/>
