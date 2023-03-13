@@ -103,6 +103,9 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="string">TRN</attribute>
+                </xpath>
                 <xpath expr="//field[@name='website']" position="before">
                     <field name="fax_eng"/>
                     <field name="fax_arabic"/>
@@ -130,6 +133,9 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="string">TRN</attribute>
+                </xpath>
                 <xpath expr="//field[@name='website']" position="before">
                     <field name="fax_eng"/>
                     <field name="fax_arabic"/>

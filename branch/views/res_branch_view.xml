@@ -12,6 +12,7 @@
                         <group>
                             <group>
                                 <field name="name"/>
+                                <field name="vat"/>
                                 <field name="company_id"/>
                                 <field name="telephone"/>
                             </group>
@@ -34,6 +35,7 @@
             <field name="arch" type="xml">
                 <tree string="Branch">
                     <field name="name"/>
+                    <field name="vat"/>
                     <field name="company_id"/>
                 </tree>
             </field>

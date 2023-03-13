@@ -24,7 +24,7 @@
                                 <tr>
                                     <th style="text-align:left; border:1px solid black;" width="10%">From:</th>
                                     <th style="text-align:left; border:1px solid black;" width="35%">
-                                        <span t-esc="res_company.name"/>
+                                        <span t-field="o.branch_id.name"/>
                                     </th>
                                     <th style="text-align:left; border:1px solid black;" width="10%">To:</th>
                                     <th style="text-align:left; border:1px solid black;" width="35%">
@@ -33,9 +33,13 @@
                                 </tr>
                                 <tr>
                                     <th style="text-align:left; border:1px solid black;" width="10%">TRN:</th>
-                                    <th style="text-align:left; border:1px solid black;" width="35%">-</th>
+                                    <th style="text-align:left; border:1px solid black;" width="35%">
+                                        <span t-field="o.branch_id.vat"/>
+                                    </th>
                                     <th style="text-align:left; border:1px solid black;" width="10%">TRN:</th>
-                                    <th style="text-align:left; border:1px solid black;" width="35%">-</th>
+                                    <th style="text-align:left; border:1px solid black;" width="35%">
+                                        <span t-field="o.partner_id.vat"/>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <th style="text-align:left; border:1px solid black;" width="10%">P.O Box:</th>

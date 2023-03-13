@@ -7,7 +7,6 @@
                     <t t-call="web.external_layout">
                         <div class="page">
                             <div class="oe_structure"/>
-
                             <h3 class="text-center">INTERIM PAYMENT CERTIFICATE NO. 2</h3>
                             <h5 class="text-center">FOR THE MONTH ENDING
                                 <t t-if="o.confirmation_date">
@@ -105,28 +104,36 @@
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_previous_percentage()">
-                                            <span t-esc="o.get_previous_percentage()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
+                                            <span t-esc="o.get_previous_percentage()"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            %
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_this_month_percentage()">
-                                            <span t-esc="o.get_this_month_percentage()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
+                                            <span t-esc="o.get_this_month_percentage()"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            %
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_total_percentage()">
-                                            <span t-esc="o.get_total_percentage()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
+                                            <span t-esc="o.get_total_percentage()"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            %
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:center;">
                                         <t t-if="o.get_percentage_total_amount()">
-                                            <span t-esc="o.get_percentage_total_amount()" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
+                                            <span t-esc="o.get_percentage_total_amount()"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            %
                                         </t>
                                     </td>
                                     <td style="border:1px solid black; text-align:right;">
                                         <t t-if="o.get_total_bill_amount()">
                                             <span t-esc="o.get_total_bill_amount()"
-                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>%
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                         </t>
                                     </td>
                                 </tr>
@@ -135,7 +142,8 @@
                                     <td colspan="4" style="border:1px solid black; text-align:center;">
                                         RETENTION
                                         <t t-if="o.retention">
-                                            <span t-field="o.retention" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <span t-field="o.retention"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                         </t>
                                         <t t-else="">
                                             0.00
@@ -143,7 +151,8 @@
                                         %
                                     </td>
                                     <td style="border:1px solid black; text-align:right;">
-                                        <span t-field="o.retention_amount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        <span t-field="o.retention_amount"
+                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -151,7 +160,8 @@
                                     <td colspan="4" style="border:1px solid black; text-align:center;">
                                         ADVANCE
                                         <t t-if="o.advance">
-                                            <span t-field="o.advance" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            <span t-field="o.advance"
+                                                  t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                         </t>
                                         <t t-else="">
                                             0.00
@@ -159,7 +169,8 @@
                                         %
                                     </td>
                                     <td style="border:1px solid black; text-align:right;">
-                                        <span t-field="o.advance_amount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                        <span t-field="o.advance_amount"
+                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -176,7 +187,10 @@
                                     <th style="border:1px solid black; text-align:center;" colspan="8">NET TOTAL AMOUNT
                                         TO BE CERTIFIED FOR IPC NO. 2
                                     </th>
-                                    <td style="border:1px solid black; text-align:right;"/>
+                                    <td style="border:1px solid black; text-align:right;">
+                                        <span t-esc="o.get_total_bill_amount() - o.retention_amount - o.advance_amount"
+                                              t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                    </td>
                                 </tr>
                             </table>
                             <br/>
