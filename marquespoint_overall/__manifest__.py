@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product', 'sale', 'ol_property_custom', 'project', 'crm', 'branch'],
+    'depends': ['base', 'product', 'sale', 'ol_property_custom', 'project', 'crm', 'branch', 'account'],
 
     # always loaded
     'data': [
@@ -37,6 +37,7 @@
         'views/sale_order_view.xml',
         'views/payment_view.xml',
         'views/purchaser_flow_views.xml',
+        'views/account_journal_inherited.xml',
 
     ],
     # only loaded in demonstration mode

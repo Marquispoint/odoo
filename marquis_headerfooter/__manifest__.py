@@ -19,12 +19,13 @@
     'version': '15',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'account', 'branch'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'views/inherited_external_layout.xml',
+        'views/account_move_document.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
