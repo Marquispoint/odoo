@@ -11,16 +11,17 @@ class payroll(models.Model):
     dept = fields.Char("Department")
     # date = fields.Date("Date")
     date_start = fields.Char("Date To", compute="compute_dates")
-    amount_in_word = fields.Char("Amount In Words", compute="amount_in_words")
+    # amount_in_word = fields.Char("Amount In Words", compute="amount_in_words")
+    # amount_in_word = fields.Char("Amount In Words")
 
-    def amount_in_words(self):
-        currency_id = self.env['res.currency'].search([('name', '=', 'PKR')], limit=1)
-        print('as', currency_id)
-        word = ''
-        for i in self.line_ids:
-            if i.name == 'Net Salary':
-                word = str(currency_id.amount_to_text(i.amount)) + 's only.'
-        self.amount_in_word = word
+    # def amount_in_words(self):
+    #     currency_id = self.env['res.currency'].search([('name', '=', 'PKR')], limit=1)
+    #     print('as', currency_id)
+    #     word = ''
+    #     for i in self.line_ids:
+    #         if i.name == 'Net Salary':
+    #             word = str(currency_id.amount_to_text(i.amount)) + 's only.'
+    #     self.amount_in_word = word
 
     def compute_month(self):
         for i in self:
