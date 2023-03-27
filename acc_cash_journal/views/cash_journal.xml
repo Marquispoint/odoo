@@ -95,8 +95,8 @@
 
     <menuitem id="cash_journal_details"
               name="Cash Journal"
-              parent="account.menu_finance_entries"
+              parent="account.menu_finance_entries_accounting_miscellaneous"
               action="cash_journal_action"
-              sequence="1"/>
+              sequence="150"/>
 
 </odoo>
