@@ -60,6 +60,7 @@
                                 <tree editable="bottom">
                                     <field name="account_id"/>
                                     <field name="analytical_account_id"/>
+                                    <field name="analytical_tag_ids" widget="many2many_tags"/>
                                     <field name="partner_id"/>
                                     <field name="description"/>
                                     <field name="date" required="True"/>

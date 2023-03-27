@@ -22,7 +22,7 @@ class CashJournal(models.Model):
         ('bpv', 'Bank Payment Voucher'),
     ])
     journal_item = fields.Many2many('account.move', string="Journal Entry", track_visibility='onchange')
-    state = fields.Selection([('draft', 'Darft'), ('validate', 'Validate'), ('cancel', 'Cancelled')],default='draft',
+    state = fields.Selection([('draft', 'Darft'), ('validate', 'Validate'), ('cancel', 'Cancelled')], default='draft',
                              string="State", tracking=True)
 
     cash_journal_lines_id = fields.One2many('cash.lines', 'cash_journal_id')
@@ -32,15 +32,16 @@ class CashJournal(models.Model):
         res = super(CashJournal, self).create(values)
         if res.branch_id:
             for line in res.cash_journal_lines_id:
-                line.analytical_account_id = res.branch_id.analytical_account_id.id
+                line.analytical_account_id = res.branch_id.analytic_account_id.id
+                line.analytical_tag_ids = res.branch_id.analytic_tag_id
         return res
-
 
     def write(self, values):
         res = super(CashJournal, self).write(values)
         if 'branch_id' in values:
             for line in self.cash_journal_lines_id:
-                line.analytical_account_id = self.branch_id.analytical_account_id.id
+                line.analytical_account_id = self.branch_id.analytic_account_id.id
+                line.analytical_tag_ids = self.branch_id.analytic_tag_id
         return res
 
     @api.onchange('journal_id')
@@ -50,19 +51,20 @@ class CashJournal(models.Model):
         else:
             self.voucher_type = 'cpv'
 
-    # @api.onchange('branch_id')
-    # def change_branch_id(self):
-    #     for rec in self:
-    #         if rec.branch_id:
-    #             for line in rec.cash_journal_lines_id:
-    #                 line.analytical_account_id = rec.branch_id.analytical_account_id.id
+    @api.onchange('branch_id')
+    def change_branch_id(self):
+        for rec in self:
+            if rec.branch_id:
+                for line in rec.cash_journal_lines_id:
+                    # line.analytical_account_id = rec.branch_id.analytical_account_id.id
+                    line.analytical_tag_ids = rec.branch_id.analytic_tag_id
 
     def unlink(self):
         for x in self:
             if x.journal_item:
                 raise ValidationError('You cannot delete an entry which has been posted once.')
             # if x.state in ["validate"]:
-        rec = super(CashJournal,self).unlink()
+        rec = super(CashJournal, self).unlink()
         return rec
 
     def action_validate(self):
@@ -148,7 +150,6 @@ class CashJournal(models.Model):
             rec.state = 'validate'
             rec.journal_item = records
 
-
     # def action_reset_draft(self):
     #     self.state = 'draft'
     #     self.journal_item.state = 'draft'
@@ -184,6 +185,8 @@ class CashJournalLines(models.Model):
     account_id = fields.Many2one('account.account', String="Account")
     analytical_account_id = fields.Many2one('account.analytic.account', string="Analytical Account",
                                             track_visibility='onchange')
+    analytical_tag_ids = fields.Many2many('account.analytic.tag', string="Analytical Account",
+                                          track_visibility='onchange')
     partner_id = fields.Many2one('res.partner', string="Partner", tracking=True)
     description = fields.Char(string='Description')
     cheque_no = fields.Char(string='Cheque No#')
