@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cash_journal_tree" model="ir.ui.view">
+        <field name="name">cash.journal.tree</field>
+        <field name="model">cash.journal</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="payment_type"/>
+                <field name="company_id"/>
+                <field name="journal_id"/>
+                <field name="voucher_type"/>
+                <field name="journal_item"/>
+            </tree>
+
+        </field>
+    </record>
+    <record id="cash_journal_form" model="ir.ui.view">
+        <field name="name">cash.journal.form</field>
+        <field name="model">cash.journal</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button id="button_validate" name="action_validate" string="Validate"
+                            class="btn-primary" type="object"
+                            attrs="{'invisible':[('state','in',('validate' , 'cancel'))]}"/>
+<!--                    <button id="button_reset_draft" name="action_reset_draft" string="Reset to Draft"-->
+<!--                            class="btn-secondary" type="object"-->
+<!--                            attrs="{'invisible':[('state','in',('validate' , 'draft'))]}"/>-->
+                    <button id="button_cancel" name="action_cancel" string="Cancel"
+                            class="btn-secondary" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validate"/>
+                </header>
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+                        <button name="journal_entries_button" type="object"
+                                class="oe_stat_button" icon="fa-bars">
+                            <field name="journal_counter" widget="statinfo" string="Journal Entries"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="payment_type" widget="radio"/>
+                            <field name="company_id"/>
+                            <field name="branch_id"/>
+                        </group>
+                        <group>
+                            <field name="journal_id"
+                                   options="{'no_create_edit': True,'no_edit': True,'no_open': True,'no_quick_create': True}"
+                                   domain="[('type','in',['bank' , 'cash'])]"/>
+                        </group>
+                        <group>
+                            <field name="voucher_type"/>
+                            <field name="journal_item" readonly="True" widget="many2many_tags" invisible="True"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page>
+                            <field name="cash_journal_lines_id">
+                                <tree editable="bottom">
+                                    <field name="account_id"/>
+                                    <field name="analytical_account_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="description"/>
+                                    <field name="date" required="True"/>
+                                    <field name="cheque_no"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="cash_journal_action" model="ir.actions.act_window">
+        <field name="name">Cash Journal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cash.journal</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create your Cash Journal!
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="cash_journal_details"
+              name="Cash Journal"
+              parent="account.menu_finance_entries"
+              action="cash_journal_action"
+              sequence="1"/>
+
+</odoo>

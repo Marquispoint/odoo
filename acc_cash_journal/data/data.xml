@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate ="1">
+        <record id="seq_cash_journal" model="ir.sequence">
+            <field name="name">Cash Journal</field>
+            <field name="code">cash.journal</field>
+            <field name="prefix">VHR</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

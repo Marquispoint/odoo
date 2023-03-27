@@ -37,7 +37,7 @@
         'views/sale_order_view.xml',
         'views/payment_view.xml',
         'views/purchaser_flow_views.xml',
-        'views/account_journal_inherited.xml',
+        # 'views/account_journal_inherited.xml',
 
     ],
     # only loaded in demonstration mode
