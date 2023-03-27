@@ -32,7 +32,7 @@ class CashJournal(models.Model):
         res = super(CashJournal, self).create(values)
         if res.branch_id:
             for line in res.cash_journal_lines_id:
-                line.analytical_account_id = res.branch_id.analytic_account_id.id
+                # line.analytical_account_id = res.branch_id.analytic_account_id.id
                 line.analytical_tag_ids = res.branch_id.analytic_tag_id
         return res
 
@@ -40,7 +40,7 @@ class CashJournal(models.Model):
         res = super(CashJournal, self).write(values)
         if 'branch_id' in values:
             for line in self.cash_journal_lines_id:
-                line.analytical_account_id = self.branch_id.analytic_account_id.id
+                # line.analytical_account_id = self.branch_id.analytic_account_id.id
                 line.analytical_tag_ids = self.branch_id.analytic_tag_id
         return res
 
