@@ -4,3 +4,4 @@ access_payment_plan_line,access.payment.plan.line,model_payment_plan_line,,1,1,1
 access_installment_wizard,access.installment.wizard,model_installment_wizard,,1,1,1,1
 access_installment_line,access.installment.line.line,model_installment_line,,1,1,1,1
 access_account_voucher_wizard_sale,access.account.voucher.wizard.sale,model_account_voucher_wizard_sale,,1,1,1,1
+

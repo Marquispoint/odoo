@@ -90,7 +90,7 @@ class OLFloor(models.Model):
 
     def _compute_number_of_units(self):
         for rec in self:
-            units = self.env['product.product'].search_count([('building.id', '=', rec.id)])
+            units = self.env['product.product'].search_count([('floor_id.id', '=', rec.id)])
             if units:
                 rec.number_of_units = units
             else:

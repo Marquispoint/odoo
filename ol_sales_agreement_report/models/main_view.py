@@ -25,3 +25,11 @@ class PurchaserCompanyInherit(models.Model):
 
     purchase_individual = fields.Many2one(comodel_name='res.partner', string='Individual',
                                           domain='[("is_unit", "=", False)]')
+
+
+class SaleOrderInherited(models.Model):
+    _inherit = 'sale.order'
+
+    def get_first_purchaser(self):
+        if self.purchaser_ids:
+            return self.purchaser_ids[0]

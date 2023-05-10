@@ -7,13 +7,18 @@ class ResBranch(models.Model):
     _name = 'res.branch'
     _description = 'Branch'
 
-    name = fields.Char(required=True)
-    company_id = fields.Many2one('res.company', required=True)
+    name = fields.Char('Name')
+    arabic_name = fields.Char('Arabic')
+    vat = fields.Char(string='TRN')
+    company_id = fields.Many2one('res.company', 'Company')
     telephone = fields.Char(string='Telephone No')
     address = fields.Text('Address')
+    address_arabic = fields.Text('Address Arabic')
     division_id = fields.Char(string='Division')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account')
     analytic_tag_id = fields.Many2one('account.analytic.tag', string='Analytic Account')
+    image_1920 = fields.Binary('Image 1920')
+    company_registry = fields.Char('Company Registry')
 
     @api.model
     def create(self, vals):

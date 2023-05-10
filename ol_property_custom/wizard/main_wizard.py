@@ -61,11 +61,11 @@ class CreatFloor(models.TransientModel):
     def create_floor(self):
         active_id = self._context.get('active_id')
         no = self._context['floor']
-        obj = self.env['property.floor'].search([('id', '=', active_id)])
-
+        model = self.env.context.get('active_model')
+        # obj = self.env[model].browse(self.env.context.get('active_id'))
+        obj = self.env['property.floor'].search([('building_id.id', '=', active_id)])
         obj_project = self.env['property.building'].search([('id', '=', active_id)])
         for i in range(no):
-
             if obj:
                 idd = self.env['account.analytic.account'].create({
                     'name': obj_project.code + "-" + f'{len(obj.ids) + 1 + i:02}'
@@ -82,11 +82,11 @@ class CreatFloor(models.TransientModel):
                 s.write({
                     'floor_id': sid.id
                 })
-
             else:
+                print('Create floor else part runn')
+
                 idd = self.env['account.analytic.account'].create({
                     'name': obj_project.code + "-" + f'{i + 1:02}'
-
                 })
                 sid = self.env['property.floor'].create({
                     'building_id': active_id,
@@ -101,7 +101,7 @@ class CreatFloor(models.TransientModel):
 
 
 # create units
-class CreatUnits(models.TransientModel):
+class CreateUnits(models.TransientModel):
     _name = "create.units.wizard"
 
     no_of_unit = fields.Integer("No of Units")
@@ -109,9 +109,9 @@ class CreatUnits(models.TransientModel):
     def create_units(self):
         active_id = self._context.get('active_id')
         no = self._context['units']
-        obj = self.env['product.product'].search([('floor_id', '=', active_id)])
-
+        obj = self.env['product.product'].search([('floor_id.id', '=', active_id)])
         obj_project = self.env['property.floor'].search([('id', '=', active_id)])
+
         for i in range(no):
             if obj:
                 idd = self.env['account.analytic.account'].create({
