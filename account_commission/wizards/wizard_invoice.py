@@ -20,7 +20,7 @@ class CommissionMakeInvoice(models.TransientModel):
             settlements = settlements.filtered_domain(
                 [
                     ("state", "=", "settled"),
-                    ("agent_type", "=", "agent"),
+                    ("agent_type", "in", ["agent", "agent1"]),
                     ("company_id", "=", self.env.company.id),
                 ]
             )
@@ -49,7 +49,7 @@ class CommissionMakeInvoice(models.TransientModel):
         relation="commission_make_invoice_settlement_rel",
         column1="wizard_id",
         column2="settlement_id",
-        domain="[('state', '=', 'settled'),('agent_type', '=', 'agent'),"
+        domain="[('state', '=', 'settled'),('agent_type', 'in', ['agent', 'agent1']),"
         "('company_id', '=', company_id)]",
         default=lambda self: self._default_settlement_ids(),
     )
@@ -67,7 +67,7 @@ class CommissionMakeInvoice(models.TransientModel):
             settlements = self.env["commission.settlement"].search(
                 [
                     ("state", "=", "settled"),
-                    ("agent_type", "=", "agent"),
+                    ("agent_type", "in", ["agent", "agent1"]),
                     ("company_id", "=", self.journal_id.company_id.id),
                 ]
             )

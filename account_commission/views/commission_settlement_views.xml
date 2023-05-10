@@ -32,7 +32,7 @@
             <button name="action_cancel" position="before">
                 <button
                         string="Make invoice"
-                        attrs="{'invisible': ['|', ('state', '!=', 'settled'), ('agent_type', '!=', 'agent')]}"
+                        attrs="{'invisible': ['|', ('state', '!=', 'settled'), ('agent_type', 'not in', ['agent', 'agent1'])]}"
                         class="oe_highlight"
                         type="object"
                         name="action_invoice"
