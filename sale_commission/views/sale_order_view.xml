@@ -5,9 +5,15 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-<!--            <field name="partner_id" position="after">-->
-<!--                <field name="partner_agent_ids" widget="many2many_tags"/>-->
-<!--            </field>-->
+            <xpath expr="//label[@for='pricelist_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='update_prices']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree//field[@name='price_subtotal']"
                 position="after"
