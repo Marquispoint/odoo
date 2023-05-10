@@ -210,6 +210,17 @@ class CrmLeadInherited(models.Model):
             'default_project': self.project_id.id,
             'default_building': self.building_id.id,
             'default_floor': self.floor_id.id,
+            'default_unit': self.unit_id.id,
+            'default_relevent_unit_no': self.unit_id.id,
+            'default_order_line':[(0, 0, {
+                'product_id': self.unit_id.id,
+                'name': self.unit_id.name,
+                'product_uom_qty': 1,
+                'price_unit': self.unit_id.list_price,
+                'product_uom': self.unit_id.uom_id.id,
+                'product_uom_qty': self.unit_id.uom_id.id if self.unit_id.uom_id else False,
+                'tax_id': False,
+            })],
             'default_branch_id': self.branch_id.id,
             'default_purchaser_ids': [(0, 0, {
                 'purchase_individual': self.partner_id.id,
