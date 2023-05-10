@@ -9,16 +9,28 @@
             <field name="arch" type="xml">
                 <form string="Branch">
                     <sheet>
+                        <field name="image_1920" widget="image" class="oe_avatar"/>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <label for="name" string="Name"/>
+                                <div class="o_row name-fields">
+                                    <field name="name" placeholder="Name" nolabel="1" required="1"/>
+                                    <field name="arabic_name" placeholder="اسم - عربي" nolabel="1" required="1"/>
+                                </div>
                                 <field name="vat"/>
-                                <field name="company_id"/>
+                                <field name="company_id" required="1"/>
                                 <field name="telephone"/>
                             </group>
                             <group>
-                                <field name="address"/>
+                                <label for="address" string="Address"/>
+                                <div class="o_row address-fields">
+                                    <field name="address" placeholder="Address" nolabel="1"/>
+                                    <field name="address_arabic" placeholder="عنوان - عربي" nolabel="1"/>
+                                </div>
+<!--                                <field name="address"/>-->
+<!--                                <field name="address_arabic" placeholder="عنوان"/>-->
                                 <field name="division_id"/>
+                                <field name="company_registry"/>
                                 <field name="analytic_account_id" readonly="1" invisible="1"/>
                                 <field name="analytic_tag_id" readonly="1" invisible="1"/>
                             </group>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product', 'sale', 'ol_property_custom', 'project', 'crm', 'branch', 'account'],
+    'depends': ['base', 'product', 'sale', 'ol_property_custom', 'project', 'crm', 'account'],
 
     # always loaded
     'data': [

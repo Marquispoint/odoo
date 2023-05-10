@@ -84,9 +84,9 @@ class CreatFloor(models.TransientModel):
                 })
             else:
                 print('Create floor else part runn')
+
                 idd = self.env['account.analytic.account'].create({
                     'name': obj_project.code + "-" + f'{i + 1:02}'
-
                 })
                 sid = self.env['property.floor'].create({
                     'building_id': active_id,
@@ -98,6 +98,7 @@ class CreatFloor(models.TransientModel):
                 s.write({
                     'floor_id': sid.id
                 })
+
 
 # create units
 class CreateUnits(models.TransientModel):
