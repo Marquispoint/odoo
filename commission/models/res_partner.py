@@ -25,7 +25,8 @@ class ResPartner(models.Model):
         help="Check this field if the partner is a creditor or an agent.",
     )
     agent_type = fields.Selection(
-        selection=[("agent", "External agent")],
+        selection=[("agent", "External agent"),
+                   ("agent1", "Internal agent")],
         string="Type",
         default="agent",
     )

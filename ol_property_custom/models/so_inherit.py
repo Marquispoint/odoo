@@ -45,31 +45,33 @@ class SaleOrder(models.Model):
 
     @api.onchange('partner_id')
     def on_partner_id_change(self):
-        var = self.env["product.product"].search([('name', '=', self.partner_id.name)])
-        self.write({
-            'project': var.project.id,
-            'building': var.building.id,
-            'floor': var.floor_id.id,
-            'unit': var.id,
-            'branch_id': var.branch_id.id
-        })
-        product_ids = []
-        for p in var:
-            product_ids.append((0, 0, {
-                'product_id': p.id,
-                'name': p.name,
-                'product_uom_qty': 1,
-                'price_unit': p.list_price,
-                'product_uom': p.uom_id.id,
-                'order_id': self.id,
-                'product_uom_qty': p.uom_id.id if p.uom_id else False,
-                'tax_id': False,
-            }))
-            print(product_ids)
-        self.write({
-            'order_line': product_ids
-        })
-        print(self.order_line)
+        if not self.opportunity_id:
+            var = self.env["product.product"].search([('name', '=', self.partner_id.name)])
+            self.write({
+                'project': var.project.id,
+                'building': var.building.id,
+                'floor': var.floor_id.id,
+                'unit': var.id,
+                'branch_id': var.branch_id.id,
+                'relevent_unit_no': var.id,
+            })
+            product_ids = []
+            for p in var:
+                product_ids.append((0, 0, {
+                    'product_id': p.id,
+                    'name': p.name,
+                    'product_uom_qty': 1,
+                    'price_unit': p.list_price,
+                    'product_uom': p.uom_id.id,
+                    'order_id': self.id,
+                    'product_uom_qty': p.uom_id.id if p.uom_id else False,
+                    'tax_id': False,
+                }))
+                print(product_ids)
+            self.write({
+                'order_line': product_ids
+            })
+            print(self.order_line)
 
 
 class OLStartDate(models.Model):
@@ -166,7 +168,6 @@ class OLStartDate(models.Model):
             print("res.opportunity_id.broker_id Created")
             # broker_id = [
             #     (0, 0, {'agent_id': res.opportunity_id.broker_id.id, "commission_id": res.opportunity_id.broker_id.commission_id.id, 'object_id': res.order_line[0].id})]
-
             broker_id = [
                 (0, 0, {'agent_id': x.id,
                         "commission_id": x.commission_id.id,
@@ -189,7 +190,6 @@ class ContactInherit(models.Model):
     zip_arabic = fields.Char(String="Zip(Arabic)")
     city_arabic = fields.Char(String="City (Arabic)")
     state_id_arabic = fields.Many2one(comodel_name='res.country.state', string='State')
-
 
 
 class ContactInheritInCompany(models.Model):

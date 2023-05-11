@@ -35,6 +35,7 @@ class CommissionSettlement(models.Model):
         comodel_name="account.move",
         compute="_compute_invoice_id",
     )
+    payment_state = fields.Selection(related='invoice_id.payment_state')
 
     def _compute_can_edit(self):
         """Make settlements coming from invoice lines to not be editable."""
