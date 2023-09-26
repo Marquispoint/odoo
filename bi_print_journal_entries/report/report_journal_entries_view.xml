@@ -157,19 +157,30 @@
                                         <t t-set="total" t-value="total + line.debit"/>
                                         <t t-set="total1" t-value="total1 + line.credit"/>
                                     </t>
-                                    <tr style="height:25px">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8"></div>
+                        <style>
+                                .table_custom_end {
+                                font-size: 14px;
+                                }
+                                .table_custom_end tr{
+                                line-height: 20px;
+                                }
+                            </style>
+                        <div class="col-4">
+                            <table class=" table_custom_end">
+                                <tbody>
+                                    <tr>
+                                        <td width="35%"  >
                                             <strong>Total
                                                 <span t-field="o.line_ids.currency_id"/>
                                             </strong>
                                         </td>
-                                        <td width="10%">
+                                        <td  width="35%">
                                             <strong>
                                                 <span>
                                                     <t t-esc="total" t-options='{"widget": "float", "precision": 2}'/>
@@ -177,7 +188,7 @@
                                                 </span>
                                             </strong>
                                         </td>
-                                        <td width="10%">
+                                        <td width="30%">
                                             <strong>
                                                 <span>
                                                     <t t-esc="total1" t-options='{"widget": "float", "precision": 2}'/>
@@ -201,6 +212,5 @@
                 </t>
             </t>
         </template>
-
     </data>
 </odoo>
