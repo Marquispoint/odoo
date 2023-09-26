@@ -107,7 +107,7 @@
                                 border: 1px solid gray;
                                 }
                             </style>
-                            <table
+                            <table width="100%"
                                     class="table_custom_main table-sm table-bordered border-dark">
 
                                 <tbody>
