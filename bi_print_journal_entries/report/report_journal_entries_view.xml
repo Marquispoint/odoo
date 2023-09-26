@@ -162,25 +162,23 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8"></div>
                         <style>
-                                .table_custom_end {
-                                font-size: 14px;
-                                }
-                                .table_custom_end tr{
-                                line-height: 20px;
-                                }
-                            </style>
-                        <div class="col-4">
-                            <table class=" table_custom_end">
+                            .table_custom_end {
+                            font-size: 13px;
+                            text-align:left
+                            }
+                        </style>
+                        <div class="col-12">
+                            <table width="100%" class="table_custom_end">
                                 <tbody>
                                     <tr>
-                                        <td width="35%"  >
+                                        <th width="70%"></th>
+                                        <td  width="10%">
                                             <strong>Total
                                                 <span t-field="o.line_ids.currency_id"/>
                                             </strong>
                                         </td>
-                                        <td  width="35%">
+                                        <td width="10%">
                                             <strong>
                                                 <span>
                                                     <t t-esc="total" t-options='{"widget": "float", "precision": 2}'/>
@@ -188,7 +186,7 @@
                                                 </span>
                                             </strong>
                                         </td>
-                                        <td width="30%">
+                                        <td width="10%">
                                             <strong>
                                                 <span>
                                                     <t t-esc="total1" t-options='{"widget": "float", "precision": 2}'/>
