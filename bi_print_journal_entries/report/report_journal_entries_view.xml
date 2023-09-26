@@ -48,13 +48,13 @@
                                         <td width="15%">
                                             <strong>Created By:</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="40%">
                                             <span t-field="o.create_uid.name"/>
                                         </td>
                                         <td width="15%">
                                             <strong>Printed By:</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="30%">
                                             <span t-field="o.user_id.name"/>
                                         </td>
                                     </tr>
@@ -62,13 +62,13 @@
                                         <td width="15%">
                                             <strong>Branch :</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="40%">
                                             <span t-field="o.branch_id"/>
                                         </td>
                                         <td width="15%">
                                             <strong>Accounting Date :</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="30%">
                                             <span t-field="o.date"/>
                                         </td>
                                     </tr>
@@ -76,7 +76,7 @@
                                         <td width="15%">
                                             <strong>Reference :</strong>
                                         </td>
-                                        <td width="55%">
+                                        <td width="35%">
                                             <p t-field="o.ref"/>
                                         </td>
                                         <td width="15%">
@@ -111,16 +111,16 @@
                                     class="table_custom_main table-sm table-bordered border-dark">
 
                                 <tbody>
-                                    <tr >
+                                    <tr>
                                         <th style="border: 1px solid gray;" width="20%">Account</th>
                                         <th style="border: 1px solid gray;" width="13%">Partner</th>
                                         <th style="border: 1px solid gray;" width="8%">Label</th>
                                         <th style="border: 1px solid gray;" width="8%">Branch</th>
                                         <th style="border: 1px solid gray;" width="14%">Analytic Tags</th>
-                                        <th style="border: 1px solid gray;" width="13%">Currency</th>
+                                        <th style="border: 1px solid gray;" width="8%">Currency</th>
+                                        <th style="border: 1px solid gray;" width="13%">Taxes</th>
                                         <th style="border: 1px solid gray;" width="8%">Debit</th>
                                         <th style="border: 1px solid gray;" width="8%">Credit</th>
-                                        <th style="border: 1px solid gray;" width="8%">Tax Grids</th>
                                     </tr>
                                     <t t-set="total" t-value="0.0"/>
                                     <t t-set="total1" t-value="0.00"/>
@@ -141,8 +141,11 @@
                                             <td width="14%">
                                                 <span t-field="line.analytic_tag_ids"/>
                                             </td>
-                                            <td width="7%">
+                                            <td width="8%">
                                                 <span t-field="line.currency_id"/>
+                                            </td>
+                                            <td width="13%">
+                                                <span t-field="line.tax_ids"/>
                                             </td>
                                             <td width="8%">
                                                 <span t-field="line.debit"/>
@@ -150,25 +153,34 @@
                                             <td width="8%">
                                                 <span t-field="line.credit"/>
                                             </td>
-                                            <td width="10%">
-                                                <span t-field="line.tax_tag_ids"/>
-                                            </td>
                                         </tr>
                                         <t t-set="total" t-value="total + line.debit"/>
                                         <t t-set="total1" t-value="total1 + line.credit"/>
                                     </t>
-                                    <tr style="height:25px">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8"></div>
+                        <style>
+                                .table_custom_end {
+                                font-size: 14px;
+                                }
+                                .table_custom_end tr{
+                                line-height: 20px;
+                                }
+                            </style>
+                        <div class="col-4">
+                            <table class=" table_custom_end">
+                                <tbody>
+                                    <tr>
+                                        <td width="35%"  >
                                             <strong>Total
                                                 <span t-field="o.line_ids.currency_id"/>
                                             </strong>
                                         </td>
-                                        <td width="10%">
+                                        <td  width="35%">
                                             <strong>
                                                 <span>
                                                     <t t-esc="total" t-options='{"widget": "float", "precision": 2}'/>
@@ -176,7 +188,7 @@
                                                 </span>
                                             </strong>
                                         </td>
-                                        <td width="10%">
+                                        <td width="30%">
                                             <strong>
                                                 <span>
                                                     <t t-esc="total1" t-options='{"widget": "float", "precision": 2}'/>
@@ -184,7 +196,6 @@
                                                 </span>
                                             </strong>
                                         </td>
-                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -201,6 +212,5 @@
                 </t>
             </t>
         </template>
-
     </data>
 </odoo>
