@@ -111,16 +111,16 @@
                                     class="table_custom_main table-sm table-bordered border-dark">
 
                                 <tbody>
-                                    <tr >
+                                    <tr>
                                         <th style="border: 1px solid gray;" width="20%">Account</th>
                                         <th style="border: 1px solid gray;" width="13%">Partner</th>
                                         <th style="border: 1px solid gray;" width="8%">Label</th>
                                         <th style="border: 1px solid gray;" width="8%">Branch</th>
                                         <th style="border: 1px solid gray;" width="14%">Analytic Tags</th>
-                                        <th style="border: 1px solid gray;" width="13%">Currency</th>
+                                        <th style="border: 1px solid gray;" width="8%">Currency</th>
+                                        <th style="border: 1px solid gray;" width="13%">Taxes</th>
                                         <th style="border: 1px solid gray;" width="8%">Debit</th>
                                         <th style="border: 1px solid gray;" width="8%">Credit</th>
-                                        <th style="border: 1px solid gray;" width="8%">Tax Grids</th>
                                     </tr>
                                     <t t-set="total" t-value="0.0"/>
                                     <t t-set="total1" t-value="0.00"/>
@@ -141,8 +141,11 @@
                                             <td width="14%">
                                                 <span t-field="line.analytic_tag_ids"/>
                                             </td>
-                                            <td width="7%">
+                                            <td width="8%">
                                                 <span t-field="line.currency_id"/>
+                                            </td>
+                                            <td width="13%">
+                                                <span t-field="line.tax_ids"/>
                                             </td>
                                             <td width="8%">
                                                 <span t-field="line.debit"/>
@@ -150,14 +153,12 @@
                                             <td width="8%">
                                                 <span t-field="line.credit"/>
                                             </td>
-                                            <td width="10%">
-                                                <span t-field="line.tax_tag_ids"/>
-                                            </td>
                                         </tr>
                                         <t t-set="total" t-value="total + line.debit"/>
                                         <t t-set="total1" t-value="total1 + line.credit"/>
                                     </t>
                                     <tr style="height:25px">
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -184,7 +185,6 @@
                                                 </span>
                                             </strong>
                                         </td>
-                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
