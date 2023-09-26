@@ -48,13 +48,13 @@
                                         <td width="15%">
                                             <strong>Created By:</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="40%">
                                             <span t-field="o.create_uid.name"/>
                                         </td>
                                         <td width="15%">
                                             <strong>Printed By:</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="30%">
                                             <span t-field="o.user_id.name"/>
                                         </td>
                                     </tr>
@@ -62,13 +62,13 @@
                                         <td width="15%">
                                             <strong>Branch :</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="40%">
                                             <span t-field="o.branch_id"/>
                                         </td>
                                         <td width="15%">
                                             <strong>Accounting Date :</strong>
                                         </td>
-                                        <td width="35%">
+                                        <td width="30%">
                                             <span t-field="o.date"/>
                                         </td>
                                     </tr>
@@ -76,7 +76,7 @@
                                         <td width="15%">
                                             <strong>Reference :</strong>
                                         </td>
-                                        <td width="55%">
+                                        <td width="35%">
                                             <p t-field="o.ref"/>
                                         </td>
                                         <td width="15%">
