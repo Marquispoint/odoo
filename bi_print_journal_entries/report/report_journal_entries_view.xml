@@ -2,64 +2,88 @@
 
 <odoo>
     <data>
-
         <template id="journal_entry_template_report_view">
             <t t-call="web.external_layout">
                 <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
                 <div class="page">
-                    <br/>
-                    <div class="oe_structure"/>
-                    <div>
-                        <h2 class="text-center mb32">
-                            <strong>Journal Entry</strong>
-                        </h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 style="color:black" class="text-left mb32">
+                                <t t-if="o.state == 'posted'">
+                                    <strong>
+                                        <span t-field="o.name"/>
+                                    </strong>
+
+                                </t>
+                                <t t-elif="o.state != 'posted'">
+                                    <strong>Draft</strong>
+                                </t>
+                            </h4>
+                        </div>
                     </div>
+                    <br/>
                     <br/>
                     <div class="row">
                         <div class="col-12">
-                            <table style="width:100%;background:white;border:1px solid #e1e1e1; font-size:13px;"
-                                   class="table">
-                                <tbody>
+                            <h2 class="text-center mb32">
+                                <strong>Journal Entry</strong>
+                            </h2>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col-12">
+                            <style>
+                                .table_custom {
+                                font-size: 12px;
+                                }
+                                .table_custom tr{
+                                line-height: 15px;
+                                }
+                            </style>
+                            <table class="table table-sm table_custom border table-borderless">
+                                <tbody style="border:1px solid white">
                                     <tr>
-                                        <td>
+                                        <td width="15%">
                                             <strong>Created By:</strong>
                                         </td>
-                                        <td>
-                                            <p t-field="o.create_uid.name"/>
+                                        <td width="35%">
+                                            <span t-field="o.create_uid.name"/>
                                         </td>
-                                        <td>
+                                        <td width="15%">
                                             <strong>Printed By:</strong>
                                         </td>
-                                        <td>
-                                            <p t-field="o.user_id.name"/>
+                                        <td width="35%">
+                                            <span t-field="o.user_id.name"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td width="15%">
                                             <strong>Branch :</strong>
                                         </td>
-                                        <td>
-                                            <p t-field="o.branch_id"/>
+                                        <td width="35%">
+                                            <span t-field="o.branch_id"/>
                                         </td>
-                                        <td>
+                                        <td width="15%">
                                             <strong>Accounting Date :</strong>
                                         </td>
-                                        <td>
-                                            <p t-field="o.date"/>
+                                        <td width="35%">
+                                            <span t-field="o.date"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td width="15%">
                                             <strong>Reference :</strong>
                                         </td>
-                                        <td>
+                                        <td width="55%">
                                             <p t-field="o.ref"/>
                                         </td>
-                                        <td>
+                                        <td width="15%">
                                             <strong>Journal :</strong>
                                         </td>
-                                        <td>
-                                            <p t-field="o.journal_id"/>
+                                        <td width="35%">
+                                            <span t-field="o.journal_id"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -67,31 +91,45 @@
                         </div>
                     </div>
                     <br/>
+                    <br/>
                     <div class="row">
                         <div class="col-12">
-                            <table class="table table-sm" width="100%" style="font-size:12px;">
-                                <thead style="color: black;">
-                                    <tr>
-                                        <th width="25%">Account</th>
-                                        <th width="8%">Partner</th>
-                                        <th width="8%">Label</th>
-                                        <th width="8%">Branch</th>
-                                        <th width="14%">Analytic Tags</th>
-                                        <th width="13%">Currency</th>
-                                        <th width="8%">Debit</th>
-                                        <th width="8%">Credit</th>
-                                        <th width="8%">Tax Grids</th>
-                                    </tr>
-                                </thead>
+                            <style>
+                                .table_custom_main {
+                                font-size: 14px;
+                                border-collapse: collapse; /* This is important for cell borders to collapse into one */
+                                border: 2px solid gray; /* Set the outer border of the table to black with 2px width */
+                                }
+                                .table_custom_main tr{
+                                line-height: 20px;
+                                }
+                                .table_custom_main tbody td {
+                                border: 1px solid gray;
+                                }
+                            </style>
+                            <table
+                                    class="table_custom_main table-sm table-bordered border-dark">
+
                                 <tbody>
+                                    <tr >
+                                        <th style="border: 1px solid gray;" width="20%">Account</th>
+                                        <th style="border: 1px solid gray;" width="13%">Partner</th>
+                                        <th style="border: 1px solid gray;" width="8%">Label</th>
+                                        <th style="border: 1px solid gray;" width="8%">Branch</th>
+                                        <th style="border: 1px solid gray;" width="14%">Analytic Tags</th>
+                                        <th style="border: 1px solid gray;" width="13%">Currency</th>
+                                        <th style="border: 1px solid gray;" width="8%">Debit</th>
+                                        <th style="border: 1px solid gray;" width="8%">Credit</th>
+                                        <th style="border: 1px solid gray;" width="8%">Tax Grids</th>
+                                    </tr>
                                     <t t-set="total" t-value="0.0"/>
-                                    <t t-set="total1" t-value="0.0"/>
+                                    <t t-set="total1" t-value="0.00"/>
                                     <t t-foreach="o.line_ids" t-as="line">
                                         <tr>
-                                            <td width="25%">
+                                            <td width="20%">
                                                 <span t-field="line.account_id"/>
                                             </td>
-                                            <td width="8%">
+                                            <td width="13%">
                                                 <span t-field="line.partner_id"/>
                                             </td>
                                             <td width="8%">
@@ -126,19 +164,23 @@
                                         <td></td>
                                         <td></td>
                                         <td>
-                                            <strong>Total  <span t-field="o.line_ids.currency_id"/>:</strong>
+                                            <strong>Total
+                                                <span t-field="o.line_ids.currency_id"/>
+                                            </strong>
                                         </td>
                                         <td width="10%">
                                             <strong>
                                                 <span>
-                                                    <t t-esc="total"/> <span t-field="o.line_ids.currency_id"/>
+                                                    <t t-esc="total" t-options='{"widget": "float", "precision": 2}'/>
+                                                    <span t-field="o.line_ids.currency_id"/>
                                                 </span>
                                             </strong>
                                         </td>
                                         <td width="10%">
                                             <strong>
                                                 <span>
-                                                    <t t-esc="total1"/> <span t-field="o.line_ids.currency_id"/>
+                                                    <t t-esc="total1" t-options='{"widget": "float", "precision": 2}'/>
+                                                    <span t-field="o.line_ids.currency_id"/>
                                                 </span>
                                             </strong>
                                         </td>
@@ -148,7 +190,6 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </t>
         </template>
