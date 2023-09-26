@@ -107,7 +107,7 @@
                                 border: 1px solid gray;
                                 }
                             </style>
-                            <table width="100%"
+                            <table
                                     class="table_custom_main table-sm table-bordered border-dark">
 
                                 <tbody>
@@ -157,47 +157,27 @@
                                         <t t-set="total" t-value="total + line.debit"/>
                                         <t t-set="total1" t-value="total1 + line.credit"/>
                                     </t>
+                                    <!--<tr style="border:1px white">
+                                        <td colspan="7">Total</td>
+                                        <td>990</td>
+                                        <td>990</td>
+                                    </tr>-->
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="row">
-                        <style>
-                            .table_custom_end {
-                            font-size: 13px;
-                            text-align:left
-                            }
-                        </style>
-                        <div class="col-12">
-                            <table width="100%" class="table_custom_end">
-                                <tbody>
-                                    <tr>
-                                        <th width="70%"></th>
-                                        <td  width="10%">
-                                            <strong>Total
-                                                <span t-field="o.line_ids.currency_id"/>
-                                            </strong>
-                                        </td>
-                                        <td width="10%">
-                                            <strong>
-                                                <span>
-                                                    <t t-esc="total" t-options='{"widget": "float", "precision": 2}'/>
-                                                    <span t-field="o.line_ids.currency_id"/>
-                                                </span>
-                                            </strong>
-                                        </td>
-                                        <td width="10%">
-                                            <strong>
-                                                <span>
-                                                    <t t-esc="total1" t-options='{"widget": "float", "precision": 2}'/>
-                                                    <span t-field="o.line_ids.currency_id"/>
-                                                </span>
-                                            </strong>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="col-12 text-right" style="font-size:13px; font:bold">
+                        <p style="display: inline-block; margin: 0 25px 0 0; padding: 0;font-weight: bold">Total
+                            <span t-field="o.line_ids.currency_id"/>
+                        </p>
+                        <p style="display: inline-block; margin: 0 5px 0 0; padding: 0;font-weight: bold">
+                            <t t-esc="total" t-options='{"widget": "float", "precision": 2}'/>
+                            <span t-field="o.line_ids.currency_id"/>
+                        </p>
+                        <p style="display: inline-block; margin: 0 0px 0 0; padding: 0;font-weight: bold">
+                            <t t-esc="total1" t-options='{"widget": "float", "precision": 2}'/>
+                            <span t-field="o.line_ids.currency_id"/>
+                        </p>
                     </div>
                 </div>
             </t>
