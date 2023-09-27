@@ -381,7 +381,7 @@ class PDCPayment(models.Model):
 class AccountPaymentInherit(models.Model):
     _inherit = 'account.payment'
 
-    pdc_ref = fields.Char(string='PDC Reference', tracking=True)
+    pdc_ref = fields.Char(string='Cheque Reference', tracking=True)
     # available_partner_bank_ids = fields.Many2many('res.bank')
 
 
