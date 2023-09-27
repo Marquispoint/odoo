@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_payment_report_customization_payment_report_customization,payment_report_customization.payment_report_customization,model_payment_report_customization_payment_report_customization,base.group_user,1,1,1,1

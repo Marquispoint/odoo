@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="account_payment_report_inherit_id" inherit_id="account.report_payment_receipt_document">
+            <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+                <t t-call="web.external_layout">
+                    <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-12" style="text-align:left">
+                                <h4>
+                                    <t t-esc="o.branch_id.name"/>
+                                </h4>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px" class="row">
+                            <div class="col-12" style="text-align:left">
+                                <h6>Payment Voucher</h6>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-2">NO</div>
+                                    <div class="col-5">
+                                        <strong>
+                                            <t t-esc="o.name"/>
+                                        </strong>
+                                    </div>
+                                    <div class="col-2">Dated</div>
+                                    <div class="col-3">
+                                        <strong>
+                                            <t t-esc="o.date"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div style="border-top:1px solid black;border-bottom:1px solid black;border-right:1px solid black;"
+                                         class="col-8">Particulars
+                                    </div>
+                                    <div class="col-4"
+                                         style="border-top:1px solid black;border-bottom:1px solid black; text-align:right">
+                                        Amount
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-8" style="border-right:1px solid black; height:500px">
+                                        <div style="height: 20px" class="row">
+                                            <div class="col-12" t-if="o.partner_type">
+                                                <t t-if="o.partner_type == 'customer'">
+                                                    <strong>
+                                                        <span>Customer:</span>
+                                                    </strong>
+                                                </t>
+                                                <t t-if="o.partner_type == 'supplier'">
+                                                    <strong>
+                                                        <span>Vendor:</span>
+                                                    </strong>
+                                                </t>
+                                            </div>
+                                        </div>
+                                        <div style="height: 20px" class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-10">
+                                                <p>
+                                                    <span t-esc="o.partner_id.name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                        </div>
+                                        <div class="row" style="height: 20px">
+                                            <div class="col-12">
+                                                <strong>
+                                                    <span>Cheque Reference:</span>
+                                                </strong>
+                                                <t t-esc="o.pdc_ref"/>
+                                            </div>
+                                        </div>
+                                        <div style="height:265px" class="row">
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <strong>
+                                                    <p>Through:</p>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-10">
+                                                <p>
+                                                    <span t-esc="o.branch_id.name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <strong>
+                                                    <p>On Account of :</p>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-10">
+                                                <p>
+                                                    <span t-esc="o.ref"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <strong>
+                                                    <p>Amount (in words) :</p>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-10">
+                                                <p>
+                                                    <span t-esc="o.compute_text()"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <br/>
+                                        <div class="row">
+                                            <div style="text-align:right" class="col-12">
+                                                <strong>
+                                                    <t t-esc="o.amount"/>
+                                                    <t t-esc="o.currency_id.name"/>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="height:425px;">
+                                        </div>
+                                        <div class="row">
+                                            <div style="border-top:1px solid black;border-bottom:1px solid black; text-align:left"
+                                                 class="col-12">
+                                                <strong>
+                                                    <t t-esc="o.amount"/>
+                                                    <t t-esc="o.currency_id.name"/>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div style="height:100px" class="row"></div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p>Received By :</p>
+                                    </div>
+                                    <div class="col-4"></div>
+                                    <div class="col-4">Authorised Signatory</div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div style="height:100px" class="row"></div>
+                        <!--                        <div class="row">-->
+                        <!--                            <div class="col-8">-->
+                        <!--                                <div class="row">-->
+                        <!--                                    <div class="col-4">-->
+                        <!--                                        <p>Received By :</p>-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="col-3"></div>-->
+                        <!--                                    <div class="col-5">Prepared By :-->
+                        <!--                                        <span t-esc="o.create_uid.name"/>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                            <div class="col-4"></div>-->
+                        <!--                        </div>-->
+                    </div>
+                </t>
+            </xpath>
+        </template>
+        <template id="report_payment_receipt_inherit_id" inherit_id="account.report_payment_receipt">
+            <xpath expr="//t[@t-call='web.html_container']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                        <t t-call="account.report_payment_receipt_document" t-lang="lang"/>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>
