@@ -91,14 +91,14 @@
                                         <div style="height:265px" class="row">
 
                                         </div>
-                                        <div style="height: 20px" class="row">
+                                        <div class="row">
                                             <div class="col-12">
                                                 <strong>
                                                     <p>Through:</p>
                                                 </strong>
                                             </div>
                                         </div>
-                                        <div style="height: 20px" class="row">
+                                        <div  class="row">
                                             <div class="col-2"></div>
                                             <div class="col-10">
                                                 <p>
@@ -106,14 +106,14 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <div style="height: 20px" class="row">
+                                        <div class="row">
                                             <div class="col-12">
                                                 <strong>
                                                     <p>On Account of :</p>
                                                 </strong>
                                             </div>
                                         </div>
-                                        <div style="height: 20px" class="row">
+                                        <div class="row">
                                             <div class="col-2"></div>
                                             <div class="col-10">
                                                 <p>
@@ -121,14 +121,14 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <div style="height: 20px" class="row">
+                                        <div  class="row">
                                             <div class="col-12">
                                                 <strong>
                                                     <p>Amount (in words) :</p>
                                                 </strong>
                                             </div>
                                         </div>
-                                        <div style="height: 20px" class="row">
+                                        <div  class="row">
                                             <div class="col-2"></div>
                                             <div class="col-10">
                                                 <p>
