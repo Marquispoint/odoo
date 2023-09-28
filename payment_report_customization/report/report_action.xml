@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="paymnent_paperformat_id" model="report.paperformat">
+        <record id="paymnent_paperformat" model="report.paperformat">
             <field name="name">A4</field>
             <field name="default" eval="True"/>
             <field name="format">A4</field>
@@ -16,16 +16,14 @@
             <field name="header_spacing">15</field>
             <field name="dpi">90</field>
         </record>
-        <record id="account.action_report_payment_receipt" model="ir.actions.report">
-            <field name="name">Payment Receipt</field>
-            <field name="model">account.payment</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">account.report_payment_receipt</field>
-            <field name="report_file">account.report_payment_receipt</field>
-            <field name="binding_model_id" ref="account.model_account_payment"/>
-            <field name="paperformat_id" ref="paymnent_paperformat_id"/>
-            <field name="binding_type">report</field>
-        </record>
-
+        <report
+                id="payment_report_id"
+                model="account.payment"
+                report_type="qweb-pdf"
+                string="Payment Receipt Custom"
+                name="payment_report_customization.account_payment_report_inherit"
+                file="payment_report_customization.account_payment_report_inherit"
+                paperformat="paymnent_paperformat"
+        />
     </data>
 </odoo>
