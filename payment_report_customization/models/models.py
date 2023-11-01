@@ -10,21 +10,16 @@ class AccountPayment(models.Model):
         return num2words(self.amount_total).upper()
 
     def get_dynamic_header(self):
-        if self.payment_type == 'inbound' and self.journal_id.name == 'Cash':
-            return '<h4>Cash Receipt Voucher</h4>'
-        elif self.payment_type == 'inbound' and self.journal_id.name == 'Bank':
-            return '<h4>Bank Receipt Voucher</h4>'
-        elif self.payment_type == 'outbound' and self.journal_id.name == 'Cash':
-            return '<h4>Cash Payment Voucher</h4>'
-        elif self.payment_type == 'outbound' and self.journal_id.name == 'Bank':
-            return '<h4>Bank Payment Voucher</h4>'
-        else:
-            return '<h4> </h6>'
-        # if self.payment_type == 'receive':
-        #     if self.journal_id and self.journal_id.type == 'cash':
-        #         return '<h6>Cash Receipt Voucher</h6>'
-        #     elif self.journal_id and self.journal_id.type == 'bank':
-        #         return '<h6>Bank Receipt Voucher</h6>'
-        #     else:
-        #         return '<h6>Nothing</h6>'
+        for rec in self:
+            if rec.payment_type == 'inbound' and rec.journal_id.type == 'cash':
+                return '<h4>Cash Receipt Voucher</h4>'
+            elif rec.payment_type == 'inbound' and rec.journal_id.type == 'bank':
+                return '<h4>Bank Receipt Voucher</h4>'
+            elif rec.payment_type == 'outbound' and rec.journal_id.type == 'cash':
+                return '<h4>Cash Payment Voucher</h4>'
+            elif rec.payment_type == 'outbound' and rec.journal_id.type == 'bank':
+                return '<h4>Bank Payment Voucher</h4>'
+            else:
+                return '<h4></h4>'
+
 
