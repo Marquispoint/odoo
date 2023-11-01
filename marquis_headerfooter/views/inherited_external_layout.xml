@@ -31,7 +31,7 @@
                 </div>
 
                 <div t-attf-class="footer" width="100%" style="font-size:13px;">
-                    <span>This is a computer-generated document. No signature is required</span>
+<!--                    <span>This is a computer-generated document. No signature is required</span>-->
                     <table class="table table-sm table-borderless text-center border-top border-bottom" width="100%"
                            style="padding:5px !important; margin:5px !important;">
                         <tr>
