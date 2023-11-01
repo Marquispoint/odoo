@@ -3,7 +3,7 @@
     <data>
         <template id="account_payment_report_inherit">
             <t t-call="web.html_container">
-                <t t-call="web.external_layout">
+                <t t-call="payment_report_customization.payment_report_layout">
                     <t t-foreach="docs" t-as="o">
                         <div class="page">
                             <div class="row">
@@ -13,15 +13,11 @@
                                     </h4>
                                 </div>
                             </div>
-                            <br/><br/>
+                            <br/>
+                            <br/>
                             <div style="margin-top:15px" class="row">
                                 <div class="col-12" style="text-align:left">
                                     <t t-raw="o.get_dynamic_header()"/>
-<!--                                    <h6>Payment Voucher</h6>-->
-<!--                                    <h6>Cash Receipt Voucher</h6>-->
-<!--                                    <h6>Bank Receipt Voucher</h6>-->
-<!--                                    <h6>Cash Payment Voucher</h6>-->
-<!--                                    <h6>Bank Payment Voucher</h6>-->
                                 </div>
                             </div>
                             <br/>
@@ -86,7 +82,8 @@
                                             </div>
                                             <div class="row">
                                             </div>
-                                            <br/><br/>
+                                            <br/>
+                                            <br/>
                                             <div class="row" style="height: 20px">
                                                 <div class="col-12">
                                                     <strong>
@@ -189,7 +186,7 @@
                             </div>
                         </div>
                         <t t-if="o.payment_type == 'inbound'">
-                            <div style="margin-top:130px;">
+                            <div style="margin-top:100px;">
                                 <p>This is a computer-generated document.No signature is required</p>
                             </div>
                         </t>
