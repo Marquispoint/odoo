@@ -17,5 +17,6 @@
         'report/report_action.xml',
         'views/views.xml',
         'views/templates.xml',
+        'views/payment_report_custom_header_footer_layout.xml',
     ],
 }
