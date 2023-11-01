@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="account_payment_sequence" model="ir.sequence">
+        <field name="name">Account Payment Sequence</field>
+        <field name="code">account.payment</field>
+        <field name="prefix">/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+
+
+
+    <record id="branch_res_branch_view_form_inherit_for_branch_code" model="ir.ui.view">
+            <field name="name">res.branch.form.view.inherit</field>
+            <field name="model">res.branch</field>
+            <field name="inherit_id" ref="branch.branch_res_branch_view_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//field[@name='telephone']" position="after">
+                        <field name="short_code"/>
+                    </xpath>
+           </field>
+        </record>
+
+</odoo>
