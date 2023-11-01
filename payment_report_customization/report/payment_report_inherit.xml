@@ -173,13 +173,6 @@
                             <div style="height:100px" class="row"></div>
                             <div class="row">
                                 <div class="col-8">
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-4">-->
-<!--                                            <p>Received By :</p>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-4"></div>-->
-<!--                                        <div class="col-4">Authorised Signatory</div>-->
-<!--                                    </div>-->
                                     <div class="row">
                                         <t t-if="o.payment_type != 'inbound'">
                                             <div class="col-4">
