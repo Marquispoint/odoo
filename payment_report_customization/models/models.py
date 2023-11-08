@@ -9,11 +9,10 @@ class AccountPayment(models.Model):
     def compute_text(self):
         for record in self:
             amount_without_commas = str(record.amount).replace(',', '')  # Remove commas from the amount
-            text = num2words(amount_without_commas, to='currency', lang='en')
+            text = num2words(amount_without_commas, lang='en')
             text_without_commas = text.replace(',', '')  # Remove commas from the words
-            abc = text_without_commas.upper()
+            abc = text_without_commas.upper().replace('POINT', 'AND')+' '+'FILS'+' '+'AED'
             return abc
-
     # @api.depends('amount', 'currency_id')
     # def compute_text(self):
     #     return num2words(self.amount_total).upper()

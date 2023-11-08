@@ -31,11 +31,11 @@
                                             </strong>
                                         </div>
                                         <div class="col-4">
-                                            <td>Dated: </td>
+                                            <td>Dated:&#160;&#160;&#160;</td>
                                             <td>
                                                 <strong>
                                                     <!--                                                <t t-esc="o.date"/>-->
-                                                    <t t-esc="o.date.strftime('%Y/%b/%d')"/>
+                                                    <t t-esc="o.date.strftime('%d/%b/%Y')"/>
                                                 </strong>
                                             </td>
                                         </div>
@@ -50,7 +50,7 @@
                                              class="col-8">Particulars
                                         </div>
                                         <div class="col-4"
-                                             style="border-top:1px solid black;border-bottom:1px solid black; text-align:right">
+                                             style="border-top:1px solid black;border-bottom:1px solid black; text-align:right; margin-right:10px;">
                                             Amount
                                         </div>
                                     </div>
@@ -98,7 +98,7 @@
                                                     <t t-esc="o.pdc_ref"/>
                                                 </div>
                                             </div>
-                                            <div style="height:255px" class="row">
+                                            <div style="height:245px" class="row">
 
                                             </div>
                                             <div class="row">
@@ -116,6 +116,7 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                            <br/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <strong>
@@ -131,6 +132,7 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                            <br/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <strong>

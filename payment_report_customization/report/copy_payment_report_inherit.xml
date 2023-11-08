@@ -31,11 +31,11 @@
                                             </strong>
                                         </div>
                                         <div class="col-4">
-                                            <td>Dated: </td>
+                                            <td>Dated:&#160;&#160;&#160;</td>
                                             <td>
                                                 <strong>
                                                     <!--                                                <t t-esc="o.date"/>-->
-                                                    <t t-esc="o.date.strftime('%Y/%b/%d')"/>
+                                                    <t t-esc="o.date.strftime('%d/%b/%Y')"/>
                                                 </strong>
                                             </td>
                                         </div>
@@ -113,8 +113,7 @@
                                                     <t t-esc="o.pdc_ref"/>
                                                 </div>
                                             </div>
-                                            <div style="height:255px" class="row">
-
+                                            <div style="height:160px" class="row">
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
@@ -131,6 +130,7 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                            <br/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <strong>
@@ -146,6 +146,7 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                            <br/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <strong>
