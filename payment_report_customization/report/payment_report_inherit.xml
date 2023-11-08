@@ -5,7 +5,7 @@
             <t t-call="web.html_container">
                 <t t-call="payment_report_customization.payment_report_layout">
                     <t t-foreach="docs" t-as="o">
-                        <div class="page">
+                        <div class="page" style="margin-left:10px;">
                             <div class="row">
                                 <div class="col-12" style="text-align:left">
                                     <h4>
@@ -24,17 +24,20 @@
                             <div class="row">
                                 <div class="col-8">
                                     <div class="row">
-                                        <div class="col-2">NO</div>
-                                        <div class="col-5">
+<!--                                        <div class="col-2">NO</div>-->
+                                        <div class="col-8">
                                             <strong>
                                                 <t t-esc="o.name"/>
                                             </strong>
                                         </div>
-                                        <div class="col-2">Dated</div>
-                                        <div class="col-3">
-                                            <strong>
-                                                <t t-esc="o.date"/>
-                                            </strong>
+                                        <div class="col-4">
+                                            <td>Dated: </td>
+                                            <td>
+                                                <strong>
+                                                    <!--                                                <t t-esc="o.date"/>-->
+                                                    <t t-esc="o.date.strftime('%Y/%b/%d')"/>
+                                                </strong>
+                                            </td>
                                         </div>
                                     </div>
                                 </div>
@@ -59,18 +62,21 @@
                                     <div class="row">
                                         <div class="col-8" style="border-right:1px solid black; height:500px">
                                             <div style="height: 20px" class="row">
-                                                <div class="col-12" t-if="o.partner_type">
-                                                    <t t-if="o.partner_type == 'customer'">
-                                                        <strong>
-                                                            <span>Customer:</span>
-                                                        </strong>
-                                                    </t>
-                                                    <t t-if="o.partner_type == 'supplier'">
-                                                        <strong>
-                                                            <span>Vendor:</span>
-                                                        </strong>
-                                                    </t>
+                                                <div class="col-12">
+                                                    <t t-raw="o.customer_supplier()"/>
                                                 </div>
+<!--                                                <div class="col-12" t-if="o.partner_type">-->
+<!--                                                    <t t-if="o.partner_type == 'customer'">-->
+<!--                                                        <strong>-->
+<!--                                                            <span>Customer:</span>-->
+<!--                                                        </strong>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="o.partner_type == 'supplier'">-->
+<!--                                                        <strong>-->
+<!--                                                            <span>Vendor:</span>-->
+<!--                                                        </strong>-->
+<!--                                                    </t>-->
+<!--                                                </div>-->
                                             </div>
                                             <div style="height: 20px" class="row">
                                                 <div class="col-2"></div>
@@ -146,7 +152,8 @@
                                             <div class="row">
                                                 <div style="text-align:right" class="col-12">
                                                     <strong>
-                                                        <t t-esc="o.amount"/>
+<!--                                                        <t t-esc="o.amount"/>-->
+                                                        <t t-esc="'{0:,.2f}'.format(o.amount)" />
                                                         <t t-esc="o.currency_id.name"/>
                                                     </strong>
                                                 </div>
@@ -157,7 +164,8 @@
                                                 <div style="border-top:1px solid black;border-bottom:1px solid black; text-align:left"
                                                      class="col-12">
                                                     <strong>
-                                                        <t t-esc="o.amount"/>
+<!--                                                        <t t-esc="o.amount"/>-->
+                                                        <t t-esc="'{0:,.2f}'.format(o.amount)" />
                                                         <t t-esc="o.currency_id.name"/>
                                                     </strong>
                                                 </div>
