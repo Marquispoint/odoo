@@ -20,9 +20,20 @@
                 id="payment_report_id"
                 model="account.payment"
                 report_type="qweb-pdf"
-                string="Payment Receipt Custom"
+                string="Payment Receipt Migration Data"
                 name="payment_report_customization.account_payment_report_inherit"
                 file="payment_report_customization.account_payment_report_inherit"
+                paperformat="paymnent_paperformat"
+        />
+
+<!--        Payment Receipt Migration Data    -->
+        <report
+                id="copy_payment_report_id"
+                model="account.payment"
+                report_type="qweb-pdf"
+                string="Payment Receipt New Data"
+                name="payment_report_customization.copy_account_payment_report_inherit"
+                file="payment_report_customization.copy_account_payment_report_inherit"
                 paperformat="paymnent_paperformat"
         />
     </data>

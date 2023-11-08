@@ -5,13 +5,11 @@ from num2words import num2words
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
-    from num2words import num2words
-
     @api.depends('amount', 'currency_id')
     def compute_text(self):
         for record in self:
             amount_without_commas = str(record.amount).replace(',', '')  # Remove commas from the amount
-            text = num2words(amount_without_commas, lang='en')
+            text = num2words(amount_without_commas, to='currency', lang='en')
             text_without_commas = text.replace(',', '')  # Remove commas from the words
             abc = text_without_commas.upper()
             return abc
