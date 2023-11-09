@@ -104,6 +104,7 @@
                                                 </div>
                                             </div>
                                             <br/>
+                                            <br/>
                                             <div class="row" style="height: 20px">
                                                 <div class="col-12">
                                                     <strong>
@@ -214,7 +215,7 @@
                             </div>
                         </div>
                         <t t-if="o.payment_type == 'inbound'">
-                            <div style="margin-top:100px;">
+                            <div style="margin-top:70px;">
                                 <p>This is a computer-generated document.No signature is required</p>
                             </div>
                         </t>
