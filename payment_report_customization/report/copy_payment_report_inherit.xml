@@ -25,13 +25,13 @@
                                 <div class="col-8">
                                     <div class="row">
                                         <!--                                        <div class="col-2">NO</div>-->
-                                        <div class="col-7">
+                                        <div class="col-8">
                                             <strong>
                                                 <t t-esc="o.name"/>
                                             </strong>
                                         </div>
-                                        <div class="col-5">
-                                            <td>Dated:&#160;&#160;&#160;</td>
+                                        <div class="col-4">
+                                            <td>Dated:</td>
                                             <td>
                                                 <strong>
                                                     <!--                                                <t t-esc="o.date"/>-->
