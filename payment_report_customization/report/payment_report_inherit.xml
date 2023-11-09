@@ -98,7 +98,7 @@
                                                     <t t-esc="o.pdc_ref"/>
                                                 </div>
                                             </div>
-                                            <div style="height:245px" class="row">
+                                            <div style="height:235px" class="row">
 
                                             </div>
                                             <div class="row">
