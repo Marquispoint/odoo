@@ -95,12 +95,18 @@
                                                     <strong>
                                                         <span>Cheque Reference:</span>
                                                     </strong>
-                                                    <t t-esc="o.pdc_ref"/>
+
                                                 </div>
                                             </div>
-                                            <div style="height:235px" class="row">
-
+                                            <div style="height:140px" class="row">
+                                                <div class="col-2"></div>
+                                                <div class="col-10">
+                                                    <p>
+                                                        <t t-esc="o.pdc_ref"/>
+                                                    </p>
+                                                </div>
                                             </div>
+
                                             <div class="row">
                                                 <div class="col-12">
                                                     <strong>
@@ -108,7 +114,7 @@
                                                     </strong>
                                                 </div>
                                             </div>
-                                            <div class="row" style="height:22px;">
+                                            <div class="row" style="height:57px;">
                                                 <div class="col-2"></div>
                                                 <div class="col-10">
                                                     <p>
@@ -116,7 +122,6 @@
                                                     </p>
                                                 </div>
                                             </div>
-<!--                                              -->
                                             <!--                                            <br/>-->
                                             <div class="row">
                                                 <div class="col-12">
@@ -125,7 +130,7 @@
                                                     </strong>
                                                 </div>
                                             </div>
-                                            <div class="row" style="height:22px;">
+                                            <div class="row" style="height:100px;">
                                                 <div class="col-2"></div>
                                                 <div class="col-10">
                                                     <p>
@@ -134,7 +139,6 @@
                                                 </div>
                                             </div>
                                             <!--                                            <br/>-->
-                                            <br/>
                                             <div class="row">
                                                 <div class="col-12">
                                                     <strong>
