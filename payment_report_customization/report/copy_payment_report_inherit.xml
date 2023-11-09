@@ -24,14 +24,14 @@
                             <div class="row">
                                 <div class="col-8">
                                     <div class="row">
-<!--                                        <div class="col-2">NO</div>-->
+                                        <!--                                        <div class="col-2">NO</div>-->
                                         <div class="col-8">
                                             <strong>
                                                 <t t-esc="o.name"/>
                                             </strong>
                                         </div>
                                         <div class="col-4">
-                                            <td>Dated:&#160;&#160;&#160;</td>
+                                            <td>Dated:&#160;</td>
                                             <td>
                                                 <strong>
                                                     <!--                                                <t t-esc="o.date"/>-->
@@ -65,18 +65,18 @@
                                                 <div class="col-12">
                                                     <t t-raw="o.customer_supplier()"/>
                                                 </div>
-<!--                                                <div class="col-12" t-if="o.partner_type">-->
-<!--                                                    <t t-if="o.partner_type == 'customer'">-->
-<!--                                                        <strong>-->
-<!--                                                            <span>Customer:</span>-->
-<!--                                                        </strong>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="o.partner_type == 'supplier'">-->
-<!--                                                        <strong>-->
-<!--                                                            <span>Vendor:</span>-->
-<!--                                                        </strong>-->
-<!--                                                    </t>-->
-<!--                                                </div>-->
+                                                <!--                                                <div class="col-12" t-if="o.partner_type">-->
+                                                <!--                                                    <t t-if="o.partner_type == 'customer'">-->
+                                                <!--                                                        <strong>-->
+                                                <!--                                                            <span>Customer:</span>-->
+                                                <!--                                                        </strong>-->
+                                                <!--                                                    </t>-->
+                                                <!--                                                    <t t-if="o.partner_type == 'supplier'">-->
+                                                <!--                                                        <strong>-->
+                                                <!--                                                            <span>Vendor:</span>-->
+                                                <!--                                                        </strong>-->
+                                                <!--                                                    </t>-->
+                                                <!--                                                </div>-->
                                             </div>
                                             <div style="height: 20px" class="row">
                                                 <div class="col-2"></div>
@@ -130,7 +130,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-<!--                                            <br/>-->
+                                            <!--                                            <br/>-->
                                             <div class="row">
                                                 <div class="col-12">
                                                     <strong>
@@ -167,8 +167,8 @@
                                             <div class="row">
                                                 <div style="text-align:right" class="col-12">
                                                     <strong>
-<!--                                                        <t t-esc="o.amount"/>-->
-                                                        <t t-esc="'{0:,.2f}'.format(o.amount)" />
+                                                        <!--                                                        <t t-esc="o.amount"/>-->
+                                                        <t t-esc="'{0:,.2f}'.format(o.amount)"/>
                                                         <t t-esc="o.currency_id.name"/>
                                                     </strong>
                                                 </div>
@@ -179,8 +179,8 @@
                                                 <div style="border-top:1px solid black;border-bottom:1px solid black; text-align:right"
                                                      class="col-12">
                                                     <strong>
-<!--                                                        <t t-esc="o.amount"/>-->
-                                                        <t t-esc="'{0:,.2f}'.format(o.amount)" />
+                                                        <!--                                                        <t t-esc="o.amount"/>-->
+                                                        <t t-esc="'{0:,.2f}'.format(o.amount)"/>
                                                         <t t-esc="o.currency_id.name"/>
                                                     </strong>
                                                 </div>
