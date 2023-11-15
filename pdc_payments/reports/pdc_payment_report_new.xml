@@ -26,7 +26,7 @@
                                     <div class="row">
                                         <div class="col-8">
                                             <strong>
-                                                <t t-esc="o.name"/>
+                                                <t t-esc="o.rec_seq"/>
                                             </strong>
                                         </div>
                                         <div class="col-4">
