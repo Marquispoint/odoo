@@ -186,6 +186,7 @@
                             <div style="height:100px" class="row">
                             </div>
                         </div>
+<!--                        comment  -->
                         <t t-if="o.pdc_type == 'received'">
                             <div style="margin-top:100px;">
                                 <p>This is a computer-generated document.No signature is required</p>
