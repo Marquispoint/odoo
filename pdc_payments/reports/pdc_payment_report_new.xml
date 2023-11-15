@@ -61,8 +61,7 @@
                                         <div class="col-8" style="border-right:1px solid black; height:500px">
                                             <div style="height: 20px" class="row">
                                                 <div class="col-12">
-                                                    <!--                                                    <t t-raw="o.customer_supplier()"/>-->
-                                                    <b>customer:</b>
+                                                    <t t-raw="o.customer_supplier()"/>
                                                 </div>
                                             </div>
                                             <div style="height: 20px" class="row">
