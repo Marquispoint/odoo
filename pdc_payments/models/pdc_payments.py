@@ -452,6 +452,11 @@ class AccountMove(models.Model):
                         if move.pdc_cleared_id.ids == [] and move.pdc_bounce_id.ids == []:
                             name = 'PDC-'+move.sequence_account
                             move.name = 'PDC-'+move.sequence_account
+                        else:
+                            name = move.sequence_account
+                            move.name = move.sequence_account
+
+
                 else:
                     name = move.sequence_account
                     if move.sequence_account != False:
