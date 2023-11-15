@@ -96,6 +96,7 @@ class PDCPayment(models.Model):
         for record in self:
             seq = self.env['account.move'].search([('pdc_registered_id', '=', record.id)], limit=1).name
             record.rec_seq = seq
+            # 
     
 
     def check_balance(self):
