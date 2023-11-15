@@ -24,7 +24,6 @@
                             <div class="row">
                                 <div class="col-8">
                                     <div class="row">
-                                        <!--                                        <div class="col-2">NO</div>-->
                                         <div class="col-8">
                                             <strong>
                                                 <t t-esc="o.name"/>
@@ -34,7 +33,7 @@
                                             <td>Dated:&#160;</td>
                                             <td>
                                                 <strong>
-                                                    <t t-esc="o.date_payment.strftime('%d/%b/%Y')"/>
+                                                    <t t-esc="o.date_registered.strftime('%d/%b/%Y')"/>
                                                 </strong>
                                             </td>
                                         </div>
@@ -62,8 +61,8 @@
                                         <div class="col-8" style="border-right:1px solid black; height:500px">
                                             <div style="height: 20px" class="row">
                                                 <div class="col-12">
-<!--                                                    <t t-raw="o.customer_supplier()"/>-->
-                                                    <b>Partner:</b>
+                                                    <!--                                                    <t t-raw="o.customer_supplier()"/>-->
+                                                    <b>customer:</b>
                                                 </div>
                                             </div>
                                             <div style="height: 20px" class="row">
@@ -89,7 +88,7 @@
                                                 <div class="col-2"></div>
                                                 <div class="col-10">
                                                     <p>
-                                                    <t t-esc="o.cheque_no"/>
+                                                        <t t-esc="o.cheque_no"/>
                                                     </p>
                                                 </div>
                                             </div>
