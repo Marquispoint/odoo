@@ -8,6 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 from datetime import datetime
 from odoo.tools import float_compare
 from odoo.tools.misc import formatLang, format_date, get_lang
+from num2words import num2words
 
 class PDCBank(models.Model):
     _name = 'pdc.commercial.bank'
