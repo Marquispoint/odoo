@@ -7,6 +7,7 @@ from datetime import timedelta
 from odoo.exceptions import UserError, ValidationError
 from datetime import datetime
 from odoo.tools import float_compare
+from num2words import num2words
 
 
 class PDCBank(models.Model):
@@ -56,6 +57,30 @@ class PDCPayment(models.Model):
     move_ids = fields.Many2many('account.move', string='Invoices/Bills Ref')
     cheque_no = fields.Char()
     branch_id = fields.Many2one('res.branch', string='Branch')
+
+    # This function will convert the payment_amount to words on report PDC Payment Receipt Report
+    @api.depends('payment_amount', 'currency_id')
+    def compute_text(self):
+        for record in self:
+            amount_without_commas = str(record.payment_amount).replace(',', '')  # Remove commas from the amount
+            text = num2words(amount_without_commas, lang='en')
+            text_without_commas = text.replace(',', '')  # Remove commas from the words
+            abc = text_without_commas.upper().replace('POINT', 'AND') + ' ' + 'FILS' + ' ' + 'AED'
+            return abc
+
+    # This function provide dynamic titles on report PDC Payment Receipt Report
+    def get_dynamic_header(self):
+        for rec in self:
+            if rec.pdc_type == 'received' and rec.journal_id.type == 'cash':
+                return '<h4>Cash Receipt Voucher</h4>'
+            elif rec.pdc_type == 'received' and rec.journal_id.type == 'bank':
+                return '<h4>Bank Receipt Voucher</h4>'
+            elif rec.pdc_type == 'sent' and rec.journal_id.type == 'cash':
+                return '<h4>Cash Payment Voucher</h4>'
+            elif rec.pdc_type == 'sent' and rec.journal_id.type == 'bank':
+                return '<h4>Bank Payment Voucher</h4>'
+            else:
+                return '<h4></h4>'
 
     def check_balance(self):
         partner_ledger = self.env['account.move.line'].search(
