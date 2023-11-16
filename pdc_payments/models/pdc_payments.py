@@ -89,8 +89,8 @@ class PDCPayment(models.Model):
                 return '<strong>Supplier:</strong>'
             else:
                 return '<strong>Customer:</strong>'
-# This will get the sequence from account.move
-   rec_seq = fields.Char(string="sequence", compute='_compute_xyz')
+    # This will get the sequence from account.move
+    rec_seq = fields.Char(string="sequence", compute='_compute_xyz')
 
     def _compute_xyz(self):
         for record in self:
