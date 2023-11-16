@@ -22,7 +22,7 @@ class PDCPayment(models.Model):
     _rec_name = 'name'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Name', tracking=True)
+    name = fields.Char(string='Name',default='Draft',compute='_get_jv_name', tracking=True)
     partner_id = fields.Many2one('res.partner', string='Partner', tracking=True)
     payment_amount = fields.Float(string='Payment Amount', tracking=True)
     # cheque_ref = fields.Many2one('pdc.commercial.bank', string='Commercial Bank Name', tracking=True)
@@ -59,6 +59,21 @@ class PDCPayment(models.Model):
     branch_id = fields.Many2one('res.branch', string='Branch')
 
     # This function will convert the payment_amount to words on report PDC Payment Receipt Report
+    def _get_jv_name(self):
+        for record in self:
+            jv =  self.env['account.move'].search([('pdc_registered_id', '=', record.id)])
+            if jv.state:
+                if jv.state =='posted':
+                    record.name = jv.name
+                else:
+                    record.name = 'Draft'
+            else:
+                record.name = 'Draft'
+
+        # if  self.env['account.move'].search_count([('pdc_registered_id', '=', self.id)]).state !='draft':
+        #     self.name =
+        # self.name = 'Draft'
+
     @api.depends('payment_amount', 'currency_id')
     def compute_text(self):
         for record in self:
@@ -111,10 +126,11 @@ class PDCPayment(models.Model):
 
     @api.model
     def create(self, vals):
-        sequence = self.env.ref('pdc_payments.pdc_payment_seq')
-        vals['name'] = sequence.next_by_id()
+        # sequence = self.env.ref('pdc_payments.pdc_payment_seq')
+        # vals['name'] = sequence.next_by_id()
         rec = super(PDCPayment, self).create(vals)
         rec.button_register()
+
         return rec
 
     def action_registered_jv(self):
