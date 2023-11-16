@@ -130,6 +130,7 @@ class PDCPayment(models.Model):
                     'state': 'draft',
                     'pdc_registered_id': self.id,
                     'branch_id':self.branch_id.id,
+                    'is_pdc_sequence':True,
                 }
                 debit_line = (0, 0, {
                     'name': 'PDC Registered',
@@ -159,6 +160,8 @@ class PDCPayment(models.Model):
                     'state': 'draft',
                     'pdc_registered_id': self.id,
                     'branch_id': self.branch_id.id,
+                    'is_pdc_sequence': True,
+
                 }
                 debit_line = (0, 0, {
                     'name': 'PDC Registered',
@@ -447,7 +450,6 @@ class AccountEdiDocument(models.Model):
     def action_export_xml(self):
         pass
 
-
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -458,26 +460,26 @@ class AccountMove(models.Model):
     pdc_count = fields.Integer(string="PDC", compute='_compute_pdc_count')
     is_pdc_created = fields.Boolean()
     sequence_account = fields.Char("Sequence")
-
-
+    is_pdc_sequence = fields.Boolean(default=False)
     @api.model_create_multi
     def create(self, vals_list):
         payment_done = super(AccountMove, self).create(vals_list)
         sequence = self.env.ref('pdc_payments.pdc_account_seq')
-        if payment_done.ref:
-            if 'PDC'in payment_done.ref:
-                if payment_done.pdc_cleared_id.ids == [] and payment_done.pdc_bounce_id.ids ==[]:
-                    payment_sequence = payment_done.journal_id.code + '-' + payment_done.branch_id.short_code + '/' + str(payment_done.date.year) + '/' + str(payment_done.date.month)
-                    payment_done.sequence_account = payment_sequence+sequence.next_by_id()
-                    payment_done.name = payment_done.sequence_account
-            if 'PDC' in payment_done.ref:
-                payment_sequence = payment_done.journal_id.code + '-' + payment_done.branch_id.short_code + '/' + str(payment_done.date.year) + '/' + str(payment_done.date.month)
-                payment_done.sequence_account = payment_sequence + sequence.next_by_id()
-                payment_done.name = payment_done.sequence_account
 
+        try:
+            payment_sequence = payment_done.journal_id.code + '-' + payment_done.branch_id.short_code + '/' + str(payment_done.date.year) + '/' + str(payment_done.date.month)
+            payment_done.sequence_account = payment_sequence + sequence.next_by_id()
+            payment_done.name = payment_done.sequence_account
+        except:
+            print("skdskh")
+            # if 'PDC' in payment_done.ref:
+            #     payment_sequence = payment_done.journal_id.code + '-' + payment_done.branch_id.short_code + '/' + str(payment_done.date.year) + '/' + str(payment_done.date.month)
+            #     payment_done.sequence_account = payment_sequence + sequence.next_by_id()
+            #     payment_done.name = payment_done.sequence_account
 
-                # payment_done.name = payment_done.sequence_account
+            # payment_done.name = payment_done.sequence_account
         return payment_done
+
     @api.depends('name', 'state')
     def name_get(self):
         result = []
@@ -489,20 +491,30 @@ class AccountMove(models.Model):
                 if move.partner_id.name:
                     name += ' - %s' % move.partner_id.name
             else:
-                if move.ref != False:
-                    if 'PDC' in move.ref:
-                        if move.pdc_cleared_id.ids == [] and move.pdc_bounce_id.ids == []:
-                            name = 'PDC-'+move.sequence_account
-                            move.name = 'PDC-'+move.sequence_account
-                        else:
-                            name = move.sequence_account
-                            move.name = move.sequence_account
-
-
+                if move.is_pdc_sequence:
+                    name = 'PDC-' + move.sequence_account
+                    move.name = 'PDC-' + move.sequence_account
                 else:
-                    name = move.sequence_account
                     if move.sequence_account != False:
+                        name = move.sequence_account
                         move.name = move.sequence_account
+                    else:
+                        name = move.name
+
+                # if move.ref != False:
+                #     if 'PDC' in move.ref:
+                #         if move.pdc_cleared_id.ids == [] and move.pdc_bounce_id.ids == []:
+                #             name = 'PDC-'+move.sequence_account
+                #             move.name = 'PDC-'+move.sequence_account
+                #         else:
+                #             name = move.sequence_account
+                #             move.name = move.sequence_account
+                #
+                #
+                # else:
+                #     name = move.sequence_account
+                #     if move.sequence_account != False:
+                #         move.name = move.sequence_account
             result.append((move.id, name))
         return result
 
