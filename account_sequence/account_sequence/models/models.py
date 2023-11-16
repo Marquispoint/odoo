@@ -12,7 +12,7 @@ class AccountPayment(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         payment_done = super(AccountPayment, self).create(vals_list)
-        sequence = self.env.ref('account_sequence.account_payment_sequence')
+        sequence = self.env.ref('pdc_payments.pdc_account_seq')
         payment_sequence = payment_done.journal_id.code + '-'+ payment_done.branch_id.short_code+ '/'+str(payment_done.date.year)+'/'+str(payment_done.date.month)
         payment_done.sequence_account = payment_sequence+sequence.next_by_id()
         return payment_done
