@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="copy_pdc_account_payment_report_inherit">
+            <t t-call="web.html_container">
+                <t t-call="pdc_payments.payment_report_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page" style="margin-left:10px;">
+                            <div class="row">
+                                <div class="col-12" style="text-align:left">
+                                    <h4>
+                                        <t t-esc="o.branch_id.name"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div style="margin-top:15px" class="row">
+                                <div class="col-12" style="text-align:left">
+                                    <t t-raw="o.get_dynamic_header()"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <strong>
+                                                <t t-esc="o.rec_seq"/>
+                                            </strong>
+                                        </div>
+                                        <div class="col-4">
+                                            <td>Dated:&#160;</td>
+                                            <td>
+                                                <strong>
+                                                    <t t-esc="o.date_registered.strftime('%d/%b/%Y')"/>
+                                                </strong>
+                                            </td>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div style="border-top:1px solid black;border-bottom:1px solid black;border-right:1px solid black;"
+                                             class="col-8">Particulars
+                                        </div>
+                                        <div class="col-4"
+                                             style="border-top:1px solid black;border-bottom:1px solid black; text-align:right; margin-right:10px;">
+                                            Amount
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-8" style="border-right:1px solid black; height:500px">
+                                            <div style="height: 20px" class="row">
+                                                <div class="col-12">
+                                                    <t t-raw="o.customer_supplier()"/>
+                                                </div>
+                                            </div>
+                                            <div style="height: 20px" class="row">
+                                                <div class="col-2"></div>
+                                                <div class="col-10">
+                                                    <p>
+                                                        <span t-esc="o.purchaser_id.name"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                            </div>
+                                            <br/>
+                                            <br/>
+                                            <div class="row" style="height: 20px">
+                                                <div class="col-12">
+                                                    <strong>Unit No#:</strong>
+                                                </div>
+                                            </div>
+                                            <div style="height: 20px" class="row">
+                                                <div class="col-2"></div>
+                                                <div class="col-10">
+                                                    <p>
+                                                        <span t-esc="o.partner_id.name"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <br/>
+                                            <div class="row" style="height: 20px">
+                                                <div class="col-12">
+                                                    <strong>
+                                                        <span>Cheque Reference:</span>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="height:22px;">
+                                                <div class="col-2"></div>
+                                                <div class="col-10">
+                                                    <p>
+                                                        <t t-esc="o.cheque_no"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div style="height:140px" class="row">
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <strong>
+                                                        <p>Through:</p>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="height:22px;">
+                                                <div class="col-2"></div>
+                                                <div class="col-10">
+                                                    <p>
+                                                        <span t-esc="o.branch_id.name"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <!--                                            <br/>-->
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <strong>
+                                                        <p>On Account of :</p>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="height:22px;">
+                                                <div class="col-2"></div>
+                                                <div class="col-10">
+                                                    <p>
+                                                        <span t-esc="o.memo"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <!--                                            <br/>-->
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <strong>
+                                                        <p>Amount (in words) :</p>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-2"></div>
+                                                <div class="col-10">
+                                                    <p>
+                                                        <span t-esc="o.compute_text()"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <br/>
+                                            <div class="row">
+                                                <div style="text-align:right" class="col-12">
+                                                    <strong>
+                                                        <t t-esc="'{0:,.2f}'.format(o.payment_amount)"/>
+                                                        <t t-esc="o.currency_id.name"/>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="height:425px;">
+                                            </div>
+                                            <div class="row">
+                                                <div style="border-top:1px solid black;border-bottom:1px solid black; text-align:right"
+                                                     class="col-12">
+                                                    <strong>
+                                                        <t t-esc="'{0:,.2f}'.format(o.payment_amount)"/>
+                                                        <t t-esc="o.currency_id.name"/>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+                            <div style="height:100px" class="row"></div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <t t-if="o.pdc_type != 'received'">
+                                            <div class="col-4">
+                                                <p>Received By :</p>
+                                            </div>
+                                            <div class="col-4"></div>
+                                            <div class="col-4">Authorised Signatory</div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="col-4"/>
+                            </div>
+                            <div style="height:100px" class="row">
+                            </div>
+                        </div>
+<!--                         comment -->
+                        <t t-if="o.pdc_type == 'received'">
+                            <div style="margin-top:100px;">
+                                <p>This is a computer-generated document.No signature is required</p>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
