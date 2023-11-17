@@ -11,7 +11,8 @@ class AccountPayment(models.Model):
             amount_without_commas = str(record.amount).replace(',', '')  # Remove commas from the amount
             text = num2words(amount_without_commas, lang='en')
             text_without_commas = text.replace(',', '')  # Remove commas from the words
-            abc = text_without_commas.upper().replace('POINT', 'AND')+' '+'FILS'+' '+'AED'
+            abc = 'AED' + ' ' + text_without_commas.upper().replace('POINT', 'AND') + ' ' + 'FILS'
+            # abc = text_without_commas.upper().replace('POINT', 'AND')+' '+'FILS'+' '+'AED'
             return abc
     # @api.depends('amount', 'currency_id')
     # def compute_text(self):
