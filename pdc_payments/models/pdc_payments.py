@@ -7,7 +7,8 @@ from datetime import timedelta
 from odoo.exceptions import UserError, ValidationError
 from datetime import datetime
 from odoo.tools import float_compare
-
+from odoo.tools.misc import formatLang, format_date, get_lang
+from num2words import num2words
 
 class PDCBank(models.Model):
     _name = 'pdc.commercial.bank'
@@ -21,7 +22,7 @@ class PDCPayment(models.Model):
     _rec_name = 'name'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Name', tracking=True)
+    name = fields.Char(string='Name',default='Draft',compute='_get_jv_name', tracking=True)
     partner_id = fields.Many2one('res.partner', string='Partner', tracking=True)
     payment_amount = fields.Float(string='Payment Amount', tracking=True)
     # cheque_ref = fields.Many2one('pdc.commercial.bank', string='Commercial Bank Name', tracking=True)
@@ -57,6 +58,63 @@ class PDCPayment(models.Model):
     cheque_no = fields.Char()
     branch_id = fields.Many2one('res.branch', string='Branch')
 
+    # This function will convert the payment_amount to words on report PDC Payment Receipt Report
+    def _get_jv_name(self):
+        for record in self:
+            jv =  self.env['account.move'].search([('pdc_registered_id', '=', record.id)])
+            if jv.state:
+                if jv.state =='posted':
+                    record.name = jv.name
+                else:
+                    record.name = 'Draft'
+            else:
+                record.name = 'Draft'
+
+        # if  self.env['account.move'].search_count([('pdc_registered_id', '=', self.id)]).state !='draft':
+        #     self.name =
+        # self.name = 'Draft'
+
+    @api.depends('payment_amount', 'currency_id')
+    def compute_text(self):
+        for record in self:
+            amount_without_commas = str(record.payment_amount).replace(',', '')  # Remove commas from the amount
+            text = num2words(amount_without_commas, lang='en')
+            text_without_commas = text.replace(',', '')  # Remove commas from the words
+            abc = 'AED' + ' ' + text_without_commas.upper().replace('POINT', 'AND') + ' ' + 'FILS'
+            # abc = text_without_commas.upper().replace('POINT', 'AND') + ' ' + 'FILS' + ' ' + 'AED'
+            return abc
+
+    # This function provide dynamic titles on report PDC Payment Receipt Report
+    def get_dynamic_header(self):
+        for rec in self:
+            if rec.pdc_type == 'received' and rec.journal_id.type == 'cash':
+                return '<h4>Cash Receipt Voucher</h4>'
+            elif rec.pdc_type == 'received' and rec.journal_id.type == 'bank':
+                return '<h4>Bank Receipt Voucher</h4>'
+            elif rec.pdc_type == 'sent' and rec.journal_id.type == 'cash':
+                return '<h4>Cash Payment Voucher</h4>'
+            elif rec.pdc_type == 'sent' and rec.journal_id.type == 'bank':
+                return '<h4>Bank Payment Voucher</h4>'
+            else:
+                return '<h4></h4>'
+
+    #This function will return Customer or supllier base on condition
+    def customer_supplier(self):
+        for rec in self:
+            if rec.pdc_type == 'sent' and rec.journal_id.type == 'bank':
+                return '<strong>Supplier:</strong>'
+            else:
+                return '<strong>Customer:</strong>'
+    # This will get the sequence from account.move
+    rec_seq = fields.Char(string="sequence", compute='_compute_xyz')
+
+    def _compute_xyz(self):
+        for record in self:
+            seq = self.env['account.move'].search([('pdc_registered_id', '=', record.id)], limit=1).name
+            record.rec_seq = seq
+            # 
+    
+
     def check_balance(self):
         partner_ledger = self.env['account.move.line'].search(
             [('partner_id', '=', self.partner_id.id),
@@ -69,10 +127,11 @@ class PDCPayment(models.Model):
 
     @api.model
     def create(self, vals):
-        sequence = self.env.ref('pdc_payments.pdc_payment_seq')
-        vals['name'] = sequence.next_by_id()
+        # sequence = self.env.ref('pdc_payments.pdc_payment_seq')
+        # vals['name'] = sequence.next_by_id()
         rec = super(PDCPayment, self).create(vals)
         rec.button_register()
+
         return rec
 
     def action_registered_jv(self):
@@ -87,6 +146,8 @@ class PDCPayment(models.Model):
                     'date': record.date_registered,
                     'state': 'draft',
                     'pdc_registered_id': self.id,
+                    'branch_id':self.branch_id.id,
+                    'is_pdc_sequence':True,
                 }
                 debit_line = (0, 0, {
                     'name': 'PDC Registered',
@@ -115,6 +176,9 @@ class PDCPayment(models.Model):
                     'date': record.date_registered,
                     'state': 'draft',
                     'pdc_registered_id': self.id,
+                    'branch_id': self.branch_id.id,
+                    'is_pdc_sequence': True,
+
                 }
                 debit_line = (0, 0, {
                     'name': 'PDC Registered',
@@ -139,164 +203,176 @@ class PDCPayment(models.Model):
     def action_bounce_jv(self):
         lines = []
         for record in self:
-            if record.pdc_type == 'received':
-                if not record.date_bounced:
-                    record.date_bounced = datetime.today().date()
-                move_dict = {
-                    'ref': record.name,
-                    'move_type': 'entry',
-                    'journal_id': record.journal_id.id,
-                    'partner_id': record.partner_id.id,
-                    'date': record.date_bounced,
-                    'state': 'draft',
-                    'pdc_bounce_id': self.id,
-                }
-                debit_line = (0, 0, {
-                    'name': 'PDC Bounced',
-                    'debit': record.payment_amount,
-                    'credit': 0.0,
-                    'partner_id': record.partner_id.id,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_receivable')),
-                })
-                lines.append(debit_line)
-                credit_line = (0, 0, {
-                    'name': 'PDC Bounced',
-                    'debit': 0.0,
-                    'partner_id': record.partner_id.id,
-                    'credit': record.payment_amount,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
-                })
+            if self.env['account.move'].search([('pdc_registered_id','=',record.id)],limit=1).state != 'draft':
+                if record.pdc_type == 'received':
+                    if not record.date_bounced:
+                        record.date_bounced = datetime.today().date()
+                    move_dict = {
+                        'ref': record.name,
+                        'move_type': 'entry',
+                        'journal_id': record.journal_id.id,
+                        'partner_id': record.partner_id.id,
+                        'date': record.date_bounced,
+                        'state': 'draft',
+                        'pdc_bounce_id': self.id,
+                        'branch_id': self.branch_id.id,
+
+                    }
+                    debit_line = (0, 0, {
+                        'name': 'PDC Bounced',
+                        'debit': record.payment_amount,
+                        'credit': 0.0,
+                        'partner_id': record.partner_id.id,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_receivable')),
+                    })
+                    lines.append(debit_line)
+                    credit_line = (0, 0, {
+                        'name': 'PDC Bounced',
+                        'debit': 0.0,
+                        'partner_id': record.partner_id.id,
+                        'credit': record.payment_amount,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
+                    })
+                else:
+                    if not record.date_bounced:
+                        record.date_bounced = datetime.today().date()
+                    move_dict = {
+                        'ref': record.name,
+                        'move_type': 'entry',
+                        'journal_id': record.journal_id.id,
+                        'partner_id': record.partner_id.id,
+                        'date': record.date_bounced,
+                        'state': 'draft',
+                        'pdc_bounce_id': self.id,
+                        'branch_id': self.branch_id.id,
+
+                    }
+                    debit_line = (0, 0, {
+                        'name': 'PDC Bounced',
+                        'debit': 0.0,
+                        'credit': record.payment_amount,
+                        'partner_id': record.partner_id.id,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_payable')),
+                    })
+                    lines.append(debit_line)
+                    credit_line = (0, 0, {
+                        'name': 'PDC Bounced',
+                        'debit': record.payment_amount,
+                        'partner_id': record.partner_id.id,
+                        'credit': 0.0,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
+                    })
+                lines.append(credit_line)
+                move_dict['line_ids'] = lines
+                move = self.env['account.move'].create(move_dict)
             else:
-                if not record.date_bounced:
-                    record.date_bounced = datetime.today().date()
-                move_dict = {
-                    'ref': record.name,
-                    'move_type': 'entry',
-                    'journal_id': record.journal_id.id,
-                    'partner_id': record.partner_id.id,
-                    'date': record.date_bounced,
-                    'state': 'draft',
-                    'pdc_bounce_id': self.id,
-                }
-                debit_line = (0, 0, {
-                    'name': 'PDC Bounced',
-                    'debit': 0.0,
-                    'credit': record.payment_amount,
-                    'partner_id': record.partner_id.id,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_payable')),
-                })
-                lines.append(debit_line)
-                credit_line = (0, 0, {
-                    'name': 'PDC Bounced',
-                    'debit': record.payment_amount,
-                    'partner_id': record.partner_id.id,
-                    'credit': 0.0,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
-                })
-            lines.append(credit_line)
-            move_dict['line_ids'] = lines
-            move = self.env['account.move'].create(move_dict)
+
+                raise ValidationError('You First need to Post the Registered payment')
+
 
     def action_cleared_jv(self):
         lines = []
         for record in self:
-            if record.pdc_type == 'received':
-                if not record.date_cleared:
-                    record.date_cleared = datetime.today().date()
-                move_dict = {
-                    'ref': record.name,
-                    'move_type': 'entry',
-                    'journal_id': record.journal_id.id,
-                    'partner_id': record.partner_id.id,
-                    'date': record.date_cleared,
-                    'state': 'draft',
-                    'branch_id': record.branch_id.id,
-                    'pdc_cleared_id': self.id,
-                }
-                debit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': 0.0,
-                    'credit': record.payment_amount,
-                    'partner_id': record.partner_id.id,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
-                })
-                lines.append(debit_line)
-                credit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': record.payment_amount,
-                    'partner_id': record.partner_id.id,
-                    'credit': 0.0,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_receivable')),
-                })
-                lines.append(credit_line)
-                debit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': record.payment_amount,
-                    'credit': 0.0,
-                    'partner_id': record.partner_id.id,
-                    'account_id': record.destination_account_id.id,
-                })
-                lines.append(debit_line)
-                credit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': 0.0,
-                    'partner_id': record.partner_id.id,
-                    'credit': record.payment_amount,
-                    'account_id': record.partner_id.property_account_receivable_id.id,
-                })
-                lines.append(credit_line)
-                move_dict['line_ids'] = lines
-                move = self.env['account.move'].create(move_dict)
-                move.action_post()
+            if self.env['account.move'].search([('pdc_registered_id','=',record.id)],limit=1).state != 'draft':
+                if record.pdc_type == 'received':
+                    if not record.date_cleared:
+                        record.date_cleared = datetime.today().date()
+                    move_dict = {
+                        'ref': record.name,
+                        'move_type': 'entry',
+                        'journal_id': record.journal_id.id,
+                        'partner_id': record.partner_id.id,
+                        'date': record.date_cleared,
+                        'state': 'draft',
+                        'branch_id': self.branch_id.id,
+                        'pdc_cleared_id': self.id,
+                    }
+                    debit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': 0.0,
+                        'credit': record.payment_amount,
+                        'partner_id': record.partner_id.id,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
+                    })
+                    lines.append(debit_line)
+                    credit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': record.payment_amount,
+                        'partner_id': record.partner_id.id,
+                        'credit': 0.0,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_receivable')),
+                    })
+                    lines.append(credit_line)
+                    debit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': record.payment_amount,
+                        'credit': 0.0,
+                        'partner_id': record.partner_id.id,
+                        'account_id': record.destination_account_id.id,
+                    })
+                    lines.append(debit_line)
+                    credit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': 0.0,
+                        'partner_id': record.partner_id.id,
+                        'credit': record.payment_amount,
+                        'account_id': record.partner_id.property_account_receivable_id.id,
+                    })
+                    lines.append(credit_line)
+                    move_dict['line_ids'] = lines
+                    move = self.env['account.move'].create(move_dict)
+                    move.action_post()
+                else:
+                    if not record.date_cleared:
+                        record.date_cleared = datetime.today().date()
+                    move_dict = {
+                        'ref': record.name,
+                        'move_type': 'entry',
+                        'journal_id': record.journal_id.id,
+                        'partner_id': record.partner_id.id,
+                        'date': record.date_cleared,
+                        'state': 'draft',
+                        'branch_id': self.branch_id.id,
+                        'pdc_cleared_id': self.id,
+                    }
+                    debit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': record.payment_amount,
+                        'credit': 0.0,
+                        'partner_id': record.partner_id.id,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
+                    })
+                    lines.append(debit_line)
+                    credit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': 0.0,
+                        'partner_id': record.partner_id.id,
+                        'credit': record.payment_amount,
+                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_payable')),
+                    })
+                    lines.append(credit_line)
+                    debit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': 0.0,
+                        'credit': record.payment_amount,
+                        'partner_id': record.partner_id.id,
+                        'account_id': record.destination_account_id.id,
+                    })
+                    lines.append(debit_line)
+                    credit_line = (0, 0, {
+                        'name': 'PDC Cleared',
+                        'debit': record.payment_amount,
+                        'partner_id': record.partner_id.id,
+                        'credit': 0.0,
+                        'account_id': record.partner_id.property_account_payable_id.id,
+                    })
+                    lines.append(credit_line)
+                    move_dict['line_ids'] = lines
+                    move = self.env['account.move'].create(move_dict)
+                    move.action_post()
+                self.date_cleared = datetime.today().date()
             else:
-                if not record.date_cleared:
-                    record.date_cleared = datetime.today().date()
-                move_dict = {
-                    'ref': record.name,
-                    'move_type': 'entry',
-                    'journal_id': record.journal_id.id,
-                    'partner_id': record.partner_id.id,
-                    'date': record.date_cleared,
-                    'state': 'draft',
-                    'branch_id': record.branch_id.id,
-                    'pdc_cleared_id': self.id,
-                }
-                debit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': record.payment_amount,
-                    'credit': 0.0,
-                    'partner_id': record.partner_id.id,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
-                })
-                lines.append(debit_line)
-                credit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': 0.0,
-                    'partner_id': record.partner_id.id,
-                    'credit': record.payment_amount,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_payable')),
-                })
-                lines.append(credit_line)
-                debit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': 0.0,
-                    'credit': record.payment_amount,
-                    'partner_id': record.partner_id.id,
-                    'account_id': record.destination_account_id.id,
-                })
-                lines.append(debit_line)
-                credit_line = (0, 0, {
-                    'name': 'PDC Cleared',
-                    'debit': record.payment_amount,
-                    'partner_id': record.partner_id.id,
-                    'credit': 0.0,
-                    'account_id': record.partner_id.property_account_payable_id.id,
-                })
-                lines.append(credit_line)
-                move_dict['line_ids'] = lines
-                move = self.env['account.move'].create(move_dict)
-                move.action_post()
-        self.date_cleared = datetime.today().date()
+                raise ValidationError('You First need to Post the Registered payment')
 
     def button_register(self):
         self.action_registered_jv()
@@ -391,7 +467,6 @@ class AccountEdiDocument(models.Model):
     def action_export_xml(self):
         pass
 
-
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -401,6 +476,64 @@ class AccountMove(models.Model):
 
     pdc_count = fields.Integer(string="PDC", compute='_compute_pdc_count')
     is_pdc_created = fields.Boolean()
+    sequence_account = fields.Char("Sequence")
+    is_pdc_sequence = fields.Boolean(default=False)
+    @api.model_create_multi
+    def create(self, vals_list):
+        payment_done = super(AccountMove, self).create(vals_list)
+        sequence = self.env.ref('pdc_payments.pdc_account_seq')
+
+        try:
+            payment_sequence = payment_done.journal_id.code + '-' + payment_done.branch_id.short_code + '/' + str(payment_done.date.year) + '/' + str(payment_done.date.month)
+            payment_done.sequence_account = payment_sequence + sequence.next_by_id()
+            payment_done.name = payment_done.sequence_account
+        except:
+            print("skdskh")
+            # if 'PDC' in payment_done.ref:
+            #     payment_sequence = payment_done.journal_id.code + '-' + payment_done.branch_id.short_code + '/' + str(payment_done.date.year) + '/' + str(payment_done.date.month)
+            #     payment_done.sequence_account = payment_sequence + sequence.next_by_id()
+            #     payment_done.name = payment_done.sequence_account
+
+            # payment_done.name = payment_done.sequence_account
+        return payment_done
+
+    @api.depends('name', 'state')
+    def name_get(self):
+        result = []
+        for move in self:
+            if self._context.get('name_groupby'):
+                name = '**%s**, %s' % (format_date(self.env, move.date), move._get_move_display_name())
+                if move.ref:
+                    name += '     (%s)' % move.ref
+                if move.partner_id.name:
+                    name += ' - %s' % move.partner_id.name
+            else:
+                if move.is_pdc_sequence:
+                    name = 'PDC-' + move.sequence_account
+                    move.name = 'PDC-' + move.sequence_account
+                else:
+                    if move.sequence_account != False:
+                        name = move.sequence_account
+                        move.name = move.sequence_account
+                    else:
+                        name = move.name
+
+                # if move.ref != False:
+                #     if 'PDC' in move.ref:
+                #         if move.pdc_cleared_id.ids == [] and move.pdc_bounce_id.ids == []:
+                #             name = 'PDC-'+move.sequence_account
+                #             move.name = 'PDC-'+move.sequence_account
+                #         else:
+                #             name = move.sequence_account
+                #             move.name = move.sequence_account
+                #
+                #
+                # else:
+                #     name = move.sequence_account
+                #     if move.sequence_account != False:
+                #         move.name = move.sequence_account
+            result.append((move.id, name))
+        return result
 
     def action_pdc_payment_wizard(self):
         return {
@@ -472,3 +605,9 @@ class AccountMove(models.Model):
     def _compute_pdc_count(self):
         records = self.env['pdc.payment'].search_count([('move_ids', 'in', [self.id])])
         self.pdc_count = records
+
+
+
+
+
+
