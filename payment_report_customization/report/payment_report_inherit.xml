@@ -7,6 +7,7 @@
                     <t t-foreach="docs" t-as="o">
                         <div class="page" style="margin-left:10px;">
                             <div class="row">
+<!--                                 comment added -->
                                 <div class="col-12" style="text-align:left">
                                     <h4>
                                         <t t-esc="o.branch_id.name"/>
