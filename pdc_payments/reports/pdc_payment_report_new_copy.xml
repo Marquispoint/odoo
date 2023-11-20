@@ -198,13 +198,13 @@
                                 </div>
                                 <div class="col-4"/>
                             </div>
-                            <div style="height:100px" class="row">
+                            <div style="height:110px" class="row">
                             </div>
                         </div>
 <!--                         comment -->
                         <t t-if="o.pdc_type == 'received'">
                             <div style="margin-top:100px;">
-                                <p>This is a computer-generated document.No signature is required</p>
+                                <p>This is a computer-generated document. No signature & Stamp is required</p>
                             </div>
                         </t>
                     </t>
