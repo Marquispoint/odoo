@@ -216,8 +216,8 @@
                             </div>
                         </div>
                         <t t-if="o.payment_type == 'inbound'">
-                            <div style="margin-top:100px;">
-                                <p>This is a computer generated document. No signature and Stamp is required</p>
+                            <div style="margin-top:0px;">
+                                <p>Authorized By:</p>
                             </div>
                         </t>
                     </t>
