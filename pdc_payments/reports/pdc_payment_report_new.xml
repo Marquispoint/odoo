@@ -188,8 +188,8 @@
                         </div>
 <!--                        comment  -->
                         <t t-if="o.pdc_type == 'received'">
-                            <div style="margin-top:150px;">
-                                <p>This is a computer generated document. No signature and Stamp is required</p>
+                            <div style="margin-top:0px;">
+                                <p>Authorized By:</p>
                             </div>
                         </t>
                     </t>
