@@ -295,7 +295,7 @@ class PDCPayment(models.Model):
                         'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
                     })
                     
-                    lines.append(credit_line)
+                    lines.append(debit_line)
                     credit_line = (0, 0, {
                         'name': 'PDC Cleared',
                         'debit': record.payment_amount,
@@ -329,7 +329,7 @@ class PDCPayment(models.Model):
                         'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
                     
                     })
-                    lines.append(credit_line)
+                    lines.append(debit_line)
                     credit_line = (0, 0, {
                         'name': 'PDC Cleared',
                         'debit': 0.0,
