@@ -162,7 +162,7 @@ class PDCPayment(models.Model):
                     'debit': 0.0,
                     'partner_id': record.partner_id.id,
                     'credit': record.payment_amount,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_receivable')),
+                    'account_id': record.partner_id.property_account_receivable_id.id,
                 })
                 lines.append(credit_line)
                 move_dict['line_ids'] = lines
@@ -193,7 +193,7 @@ class PDCPayment(models.Model):
                     'debit': record.payment_amount,
                     'partner_id': record.partner_id.id,
                     'credit': 0.0,
-                    'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_payable')),
+                    'account_id': record.partner_id.property_account_payable_id.id,
                 })
                 lines.append(credit_line)
                 move_dict['line_ids'] = lines
@@ -223,7 +223,7 @@ class PDCPayment(models.Model):
                         'debit': record.payment_amount,
                         'credit': 0.0,
                         'partner_id': record.partner_id.id,
-                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_receivable')),
+                        'account_id': record.partner_id.property_account_receivable_id.id,
                     })
                     lines.append(debit_line)
                     credit_line = (0, 0, {
@@ -260,7 +260,7 @@ class PDCPayment(models.Model):
                         'debit': record.payment_amount,
                         'partner_id': record.partner_id.id,
                         'credit': 0.0,
-                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
+                        'account_id': record.partner_id.property_account_payable_id.id,
                     })
                 lines.append(credit_line)
                 move_dict['line_ids'] = lines
@@ -294,14 +294,7 @@ class PDCPayment(models.Model):
                         'partner_id': record.partner_id.id,
                         'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_customer')),
                     })
-                    lines.append(debit_line)
-                    credit_line = (0, 0, {
-                        'name': 'PDC Cleared',
-                        'debit': record.payment_amount,
-                        'partner_id': record.partner_id.id,
-                        'credit': 0.0,
-                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_receivable')),
-                    })
+                    
                     lines.append(credit_line)
                     debit_line = (0, 0, {
                         'name': 'PDC Cleared',
@@ -309,14 +302,7 @@ class PDCPayment(models.Model):
                         'credit': 0.0,
                         'partner_id': record.partner_id.id,
                         'account_id': record.destination_account_id.id,
-                    })
-                    lines.append(debit_line)
-                    credit_line = (0, 0, {
-                        'name': 'PDC Cleared',
-                        'debit': 0.0,
-                        'partner_id': record.partner_id.id,
-                        'credit': record.payment_amount,
-                        'account_id': record.partner_id.property_account_receivable_id.id,
+                    
                     })
                     lines.append(credit_line)
                     move_dict['line_ids'] = lines
@@ -341,14 +327,7 @@ class PDCPayment(models.Model):
                         'credit': 0.0,
                         'partner_id': record.partner_id.id,
                         'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_bnk_vendor')),
-                    })
-                    lines.append(debit_line)
-                    credit_line = (0, 0, {
-                        'name': 'PDC Cleared',
-                        'debit': 0.0,
-                        'partner_id': record.partner_id.id,
-                        'credit': record.payment_amount,
-                        'account_id': int(self.env['ir.config_parameter'].get_param('pdc_payments.pdc_payable')),
+                    
                     })
                     lines.append(credit_line)
                     debit_line = (0, 0, {
@@ -357,14 +336,7 @@ class PDCPayment(models.Model):
                         'credit': record.payment_amount,
                         'partner_id': record.partner_id.id,
                         'account_id': record.destination_account_id.id,
-                    })
-                    lines.append(debit_line)
-                    credit_line = (0, 0, {
-                        'name': 'PDC Cleared',
-                        'debit': record.payment_amount,
-                        'partner_id': record.partner_id.id,
-                        'credit': 0.0,
-                        'account_id': record.partner_id.property_account_payable_id.id,
+                    
                     })
                     lines.append(credit_line)
                     move_dict['line_ids'] = lines
