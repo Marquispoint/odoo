@@ -296,7 +296,7 @@ class PDCPayment(models.Model):
                     })
                     
                     lines.append(credit_line)
-                    debit_line = (0, 0, {
+                    credit_line = (0, 0, {
                         'name': 'PDC Cleared',
                         'debit': record.payment_amount,
                         'credit': 0.0,
@@ -330,7 +330,7 @@ class PDCPayment(models.Model):
                     
                     })
                     lines.append(credit_line)
-                    debit_line = (0, 0, {
+                    credit_line = (0, 0, {
                         'name': 'PDC Cleared',
                         'debit': 0.0,
                         'credit': record.payment_amount,
