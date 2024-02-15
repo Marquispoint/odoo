@@ -18,7 +18,8 @@ class AccountPayment(models.Model):
         return payment_done
     @api.depends('move_id.name')
     def name_get(self):
-        self.name = self.sequence_account
+        for rec in self:
+            rec.name = rec.sequence_account
         return [(payment.id, payment.move_id.name != '/' and payment.sequence_account or _('Draft Payment')) for payment in self]
 
 
